@@ -1,0 +1,97 @@
+{
+    "$schema": "https://schemas.wp.org/wp/6.7/theme.json",
+    "version": 3,
+    "settings": {
+        "appearanceTools": true,
+        "color": {
+            "defaultDuotone": false,
+            "defaultGradients": false,
+            "defaultPalette": false,
+            "palette": [
+                { "color": "#F06B6B", "name": "Primary (Salmon)", "slug": "primary" },
+                { "color": "#1A1A1A", "name": "Secondary", "slug": "secondary" },
+                { "color": "#FFEB3B", "name": "Highlight", "slug": "highlight" },
+                { "color": "#FAFAFA", "name": "Background", "slug": "background" },
+                { "color": "#FFFFFF", "name": "Surface", "slug": "surface" },
+                { "color": "#E0E0E0", "name": "Border", "slug": "border" },
+                { "color": "#999999", "name": "Muted", "slug": "muted" }
+            ]
+        },
+        "typography": {
+            "defaultFontSizes": false,
+            "fontFamilies": [
+                {
+                    "fontFamily": "\"Lora\", Georgia, \"Times New Roman\", serif",
+                    "slug": "heading",
+                    "name": "Heading"
+                },
+                {
+                    "fontFamily": "Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", sans-serif",
+                    "slug": "body",
+                    "name": "Body"
+                },
+                {
+                    "fontFamily": "\"JetBrains Mono\", \"SF Mono\", Monaco, \"Cascadia Code\", Consolas, \"Courier New\", monospace",
+                    "slug": "meta",
+                    "name": "Meta"
+                }
+            ],
+            "fontSizes": [
+                { "size": "0.75rem", "slug": "small", "name": "Small" },
+                { "size": "1rem", "slug": "medium", "name": "Medium" },
+                { "size": "1.25rem", "slug": "large", "name": "Large" },
+                { "size": "1.75rem", "slug": "x-large", "name": "X-Large" },
+                { "size": "2.25rem", "slug": "xx-large", "name": "XX-Large" }
+            ]
+        },
+        "layout": {
+            "contentSize": "720px",
+            "wideSize": "1100px"
+        },
+        "spacing": {
+            "units": ["px", "rem", "%"]
+        }
+    },
+    "styles": {
+        "color": {
+            "background": "var(--wp--preset--color--background)",
+            "text": "var(--wp--preset--color--secondary)"
+        },
+        "typography": {
+            "fontFamily": "var(--wp--preset--font-family--body)",
+            "fontSize": "var(--wp--preset--font-size--medium)",
+            "lineHeight": "1.7"
+        },
+        "elements": {
+            "heading": {
+                "typography": {
+                    "fontFamily": "var(--wp--preset--font-family--heading)",
+                    "fontWeight": "700",
+                    "lineHeight": "1.2"
+                },
+                "color": {
+                    "text": "var(--wp--preset--color--secondary)"
+                }
+            },
+            "link": {
+                "color": {
+                    "text": "var(--wp--preset--color--secondary)"
+                },
+                ":hover": {
+                    "color": {
+                        "text": "var(--wp--preset--color--primary)"
+                    }
+                }
+            }
+        },
+        "blocks": {}
+    },
+    "templateParts": [
+        { "name": "header", "title": "Header", "area": "header" },
+        { "name": "footer", "title": "Footer", "area": "footer" },
+        { "name": "sidebar", "title": "Sidebar" }
+    ],
+    "customTemplates": [
+        { "name": "archive-all", "title": "Full Archive", "postTypes": ["page"] }
+    ]
+}
