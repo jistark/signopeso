@@ -11,6 +11,7 @@
                 { "color": "#F06B6B", "name": "Primary (Salmon)", "slug": "primary" },
                 { "color": "#1A1A1A", "name": "Secondary", "slug": "secondary" },
                 { "color": "#FFEB3B", "name": "Highlight", "slug": "highlight" },
+                { "color": "#FFF9C4", "name": "Highlight Pale", "slug": "highlight-pale" },
                 { "color": "#FAFAFA", "name": "Background", "slug": "background" },
                 { "color": "#FFFFFF", "name": "Surface", "slug": "surface" },
                 { "color": "#E0E0E0", "name": "Border", "slug": "border" },
@@ -41,7 +42,8 @@
                 { "size": "1rem", "slug": "medium", "name": "Medium" },
                 { "size": "1.25rem", "slug": "large", "name": "Large" },
                 { "size": "1.75rem", "slug": "x-large", "name": "X-Large" },
-                { "size": "2.25rem", "slug": "xx-large", "name": "XX-Large" }
+                { "size": "2.25rem", "slug": "xx-large", "name": "XX-Large" },
+                { "size": "2.75rem", "slug": "xxx-large", "name": "XXX-Large" }
             ]
         },
         "layout": {
@@ -66,8 +68,8 @@
             "heading": {
                 "typography": {
                     "fontFamily": "var(--wp--preset--font-family--heading)",
-                    "fontWeight": "700",
-                    "lineHeight": "1.2"
+                    "fontWeight": "800",
+                    "lineHeight": "1.15"
                 },
                 "color": {
                     "text": "var(--wp--preset--color--secondary)"
@@ -80,6 +82,9 @@
                 ":hover": {
                     "color": {
                         "text": "var(--wp--preset--color--primary)"
+                    },
+                    "typography": {
+                        "textDecoration": "none"
                     }
                 }
             }
