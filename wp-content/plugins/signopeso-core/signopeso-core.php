@@ -25,6 +25,7 @@ require_once SP_PLUGIN_DIR . 'includes/ad-slots.php';
 require_once SP_PLUGIN_DIR . 'includes/popular-posts.php';
 require_once SP_PLUGIN_DIR . 'includes/rest-api.php';
 require_once SP_PLUGIN_DIR . 'includes/newsletter/settings.php';
+require_once SP_PLUGIN_DIR . 'includes/newsletter/cron.php';
 
 /**
  * Register all SignoPeso blocks.
@@ -37,6 +38,7 @@ function sp_register_blocks() {
         'ad-slot',
         'popular-posts',
         'newsletter-form',
+        'full-archive',
     );
 
     foreach ( $blocks as $block ) {
