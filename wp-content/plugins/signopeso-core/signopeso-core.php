@@ -21,6 +21,7 @@ define( 'SP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 require_once SP_PLUGIN_DIR . 'includes/post-formats.php';
 require_once SP_PLUGIN_DIR . 'includes/rewrite-rules.php';
 require_once SP_PLUGIN_DIR . 'includes/source-embed.php';
+require_once SP_PLUGIN_DIR . 'includes/ad-slots.php';
 
 /**
  * Register all SignoPeso blocks.
@@ -30,6 +31,7 @@ function sp_register_blocks() {
         'source-card',
         'post-card',
         'date-stream',
+        'ad-slot',
     );
 
     foreach ( $blocks as $block ) {

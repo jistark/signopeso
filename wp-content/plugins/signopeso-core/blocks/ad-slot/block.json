@@ -1,0 +1,16 @@
+{
+    "apiVersion": 3,
+    "name": "sp/ad-slot",
+    "title": "Ad Slot",
+    "category": "signopeso",
+    "description": "Renders an ad slot by position.",
+    "textdomain": "signopeso",
+    "attributes": {
+        "position": {
+            "type": "string",
+            "default": "sidebar"
+        }
+    },
+    "supports": { "html": false },
+    "render": "file:./render.php"
+}
