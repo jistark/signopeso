@@ -1,0 +1,22 @@
+{
+    "apiVersion": 3,
+    "name": "sp/date-stream",
+    "title": "Date Stream",
+    "category": "signopeso",
+    "description": "Chronological post stream grouped by date with format-aware cards.",
+    "textdomain": "signopeso",
+    "attributes": {
+        "postsPerPage": {
+            "type": "number",
+            "default": 10
+        },
+        "inheritQuery": {
+            "type": "boolean",
+            "default": false
+        }
+    },
+    "supports": {
+        "html": false
+    },
+    "render": "file:./render.php"
+}

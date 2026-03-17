@@ -29,6 +29,7 @@ function sp_register_blocks() {
     $blocks = array(
         'source-card',
         'post-card',
+        'date-stream',
     );
 
     foreach ( $blocks as $block ) {
