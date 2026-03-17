@@ -28,6 +28,7 @@ require_once SP_PLUGIN_DIR . 'includes/source-embed.php';
 function sp_register_blocks() {
     $blocks = array(
         'source-card',
+        'post-card',
     );
 
     foreach ( $blocks as $block ) {

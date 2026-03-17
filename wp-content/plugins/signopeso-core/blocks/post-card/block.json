@@ -1,0 +1,13 @@
+{
+    "apiVersion": 3,
+    "name": "sp/post-card",
+    "title": "Post Card",
+    "category": "signopeso",
+    "description": "Format-aware post card. Renders differently based on sp_formato taxonomy.",
+    "textdomain": "signopeso",
+    "usesContext": ["postId"],
+    "supports": {
+        "html": false
+    },
+    "render": "file:./render.php"
+}
