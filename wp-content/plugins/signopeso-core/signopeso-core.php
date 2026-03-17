@@ -39,6 +39,7 @@ function sp_register_blocks() {
         'popular-posts',
         'newsletter-form',
         'full-archive',
+        'recirculation',
     );
 
     foreach ( $blocks as $block ) {

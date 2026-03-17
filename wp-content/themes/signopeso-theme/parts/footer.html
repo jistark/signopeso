@@ -1,11 +1,17 @@
-<!-- wp:group {"style":{"spacing":{"padding":{"top":"24px","bottom":"24px","left":"24px","right":"24px"}},"border":{"top":{"color":"var(--wp--preset--color--border)","width":"1px"}}},"layout":{"type":"constrained","contentSize":"1100px"}} -->
-<div class="wp-block-group" style="border-top-color:var(--wp--preset--color--border);border-top-width:1px;padding-top:24px;padding-right:24px;padding-bottom:24px;padding-left:24px">
+<!-- wp:group {"className":"sp-footer","style":{"spacing":{"padding":{"top":"20px","bottom":"20px","left":"24px","right":"24px"}},"border":{"top":{"color":"var(--wp--preset--color--primary)","width":"3px"}}},"layout":{"type":"constrained","contentSize":"720px"}} -->
+<div class="wp-block-group sp-footer" style="border-top-color:var(--wp--preset--color--primary);border-top-width:3px;padding-top:20px;padding-right:24px;padding-bottom:20px;padding-left:24px">
 
-    <!-- wp:group {"layout":{"type":"flex","justifyContent":"center","flexWrap":"wrap"}} -->
+    <!-- wp:group {"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap","verticalAlignment":"center"}} -->
     <div class="wp-block-group">
-        <!-- wp:paragraph {"style":{"typography":{"fontSize":"0.8rem"}},"textColor":"muted"} -->
-        <p class="has-muted-color has-text-color" style="font-size:0.8rem"><strong>#$</strong> · <a href="/acerca">Acerca</a> · <a href="/publicidad">Publicidad</a> · <a href="/feed/">RSS</a> · CC BY-NC-SA</p>
+
+        <!-- wp:paragraph {"style":{"typography":{"fontWeight":"900","fontSize":"1.25rem","letterSpacing":"-0.5px"}},"fontFamily":"heading"} -->
+        <p style="font-size:1.25rem;font-weight:900;letter-spacing:-0.5px"><span style="color:var(--wp--preset--color--primary)">#</span><span style="color:var(--wp--preset--color--secondary)">$</span></p>
         <!-- /wp:paragraph -->
+
+        <!-- wp:paragraph {"style":{"typography":{"fontSize":"0.7rem"}},"textColor":"muted","fontFamily":"meta"} -->
+        <p class="has-muted-color has-text-color" style="font-size:0.7rem"><a href="/acerca">Acerca</a> · <a href="/publicidad">Publicidad</a> · <a href="/feed/">RSS</a> · CC BY-NC-SA</p>
+        <!-- /wp:paragraph -->
+
     </div>
     <!-- /wp:group -->
 

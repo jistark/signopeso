@@ -544,6 +544,44 @@
     font-weight: 500;
 }
 
+/* === Recirculation === */
+.sp-recirculation {
+    border-top: 1px solid var(--wp--preset--color--border);
+    margin-top: 40px;
+}
+
+.sp-recirculation__inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 24px 40px;
+}
+
+.sp-recirculation__heading {
+    font-family: var(--wp--preset--font-family--heading);
+    font-size: 1rem;
+    font-weight: 900;
+    color: var(--wp--preset--color--secondary);
+    border-bottom: 1px solid var(--wp--preset--color--secondary);
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+    letter-spacing: -0.3px;
+}
+
+/* === Footer === */
+.sp-footer {
+    border-top: 3px solid var(--wp--preset--color--primary);
+}
+
+.sp-footer a {
+    color: var(--wp--preset--color--muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.sp-footer a:hover {
+    color: var(--wp--preset--color--primary);
+}
+
 /* === Ad Slot === */
 .sp-ad-slot {
     display: flex;
