@@ -20,3 +20,4 @@ define( 'SP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 // Core includes.
 require_once SP_PLUGIN_DIR . 'includes/post-formats.php';
 require_once SP_PLUGIN_DIR . 'includes/rewrite-rules.php';
+require_once SP_PLUGIN_DIR . 'includes/source-embed.php';
