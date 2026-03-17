@@ -23,6 +23,8 @@ require_once SP_PLUGIN_DIR . 'includes/rewrite-rules.php';
 require_once SP_PLUGIN_DIR . 'includes/source-embed.php';
 require_once SP_PLUGIN_DIR . 'includes/ad-slots.php';
 require_once SP_PLUGIN_DIR . 'includes/popular-posts.php';
+require_once SP_PLUGIN_DIR . 'includes/rest-api.php';
+require_once SP_PLUGIN_DIR . 'includes/newsletter/settings.php';
 
 /**
  * Register all SignoPeso blocks.
@@ -34,6 +36,7 @@ function sp_register_blocks() {
         'date-stream',
         'ad-slot',
         'popular-posts',
+        'newsletter-form',
     );
 
     foreach ( $blocks as $block ) {

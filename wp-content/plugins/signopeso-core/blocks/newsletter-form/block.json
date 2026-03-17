@@ -1,0 +1,16 @@
+{
+    "apiVersion": 3,
+    "name": "sp/newsletter-form",
+    "title": "Newsletter Form",
+    "category": "signopeso",
+    "description": "Email subscription form for the newsletter.",
+    "textdomain": "signopeso",
+    "attributes": {
+        "heading": { "type": "string", "default": "Economía + tech, en tu inbox." },
+        "ctaText": { "type": "string", "default": "Suscríbete" },
+        "placeholder": { "type": "string", "default": "tu@email.com" }
+    },
+    "supports": { "html": false },
+    "viewScript": "file:./view.js",
+    "render": "file:./render.php"
+}
