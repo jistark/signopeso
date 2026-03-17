@@ -222,3 +222,156 @@
         flex-basis: 100% !important;
     }
 }
+
+/* === Newsletter Form === */
+.sp-newsletter-form {
+    background: var(--wp--preset--color--primary);
+    border-radius: 6px;
+    padding: 16px;
+    border: none;
+}
+
+.sp-newsletter-form__heading {
+    color: var(--wp--preset--color--surface);
+    font-size: 0.9rem;
+    margin: 0 0 8px;
+}
+
+.sp-newsletter-form__form {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.sp-newsletter-form__input {
+    padding: 8px 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    background: rgba(255,255,255,0.9);
+}
+
+.sp-newsletter-form__button {
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    background: var(--wp--preset--color--secondary);
+    color: var(--wp--preset--color--surface);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.sp-newsletter-form__button:hover {
+    opacity: 0.9;
+}
+
+.sp-newsletter-form__message {
+    color: var(--wp--preset--color--surface);
+    font-size: 0.85rem;
+    margin-top: 8px;
+}
+
+/* === Popular Posts === */
+.sp-popular-posts__heading {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--wp--preset--color--muted);
+    margin: 0 0 10px;
+    font-weight: 700;
+}
+
+.sp-popular-posts__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sp-popular-posts__item {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--wp--preset--color--border);
+    font-size: 0.9rem;
+}
+
+.sp-popular-posts__item:last-child {
+    border-bottom: none;
+}
+
+.sp-popular-posts__item a {
+    color: var(--wp--preset--color--secondary);
+    text-decoration: none;
+}
+
+.sp-popular-posts__item a:hover {
+    color: var(--wp--preset--color--primary);
+}
+
+/* === Ad Slot === */
+.sp-ad-slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+}
+
+/* === Full Archive === */
+.sp-full-archive__year {
+    margin-bottom: 16px;
+}
+
+.sp-full-archive__year-heading {
+    font-family: var(--wp--preset--font-family--heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 8px 0;
+}
+
+.sp-full-archive__month-heading {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--wp--preset--color--muted);
+    margin: 16px 0 8px;
+}
+
+.sp-full-archive__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sp-full-archive__list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--wp--preset--color--border);
+    font-size: 0.9rem;
+}
+
+.sp-full-archive__list li a {
+    flex: 1;
+    color: var(--wp--preset--color--secondary);
+    text-decoration: none;
+}
+
+.sp-full-archive__list li a:hover {
+    color: var(--wp--preset--color--primary);
+}
+
+.sp-full-archive__date {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.7rem;
+    color: var(--wp--preset--color--muted);
+    white-space: nowrap;
+}
+
+/* === Highlight (yellow) === */
+mark, .sp-highlight {
+    background: var(--wp--preset--color--highlight);
+    padding: 0 3px;
+}
