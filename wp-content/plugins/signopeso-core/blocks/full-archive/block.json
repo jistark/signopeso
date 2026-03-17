@@ -1,0 +1,10 @@
+{
+    "apiVersion": 3,
+    "name": "sp/full-archive",
+    "title": "Full Archive",
+    "category": "signopeso",
+    "description": "Year/month grouped post archive.",
+    "textdomain": "signopeso",
+    "supports": { "html": false },
+    "render": "file:./render.php"
+}
