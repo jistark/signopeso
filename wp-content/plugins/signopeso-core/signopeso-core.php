@@ -21,3 +21,29 @@ define( 'SP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 require_once SP_PLUGIN_DIR . 'includes/post-formats.php';
 require_once SP_PLUGIN_DIR . 'includes/rewrite-rules.php';
 require_once SP_PLUGIN_DIR . 'includes/source-embed.php';
+
+/**
+ * Register all SignoPeso blocks.
+ */
+function sp_register_blocks() {
+    $blocks = array(
+        'source-card',
+    );
+
+    foreach ( $blocks as $block ) {
+        register_block_type( SP_PLUGIN_DIR . 'blocks/' . $block );
+    }
+}
+add_action( 'init', 'sp_register_blocks' );
+
+/**
+ * Register custom block category.
+ */
+function sp_block_categories( $categories ) {
+    array_unshift( $categories, array(
+        'slug'  => 'signopeso',
+        'title' => 'SignoPeso',
+    ) );
+    return $categories;
+}
+add_filter( 'block_categories_all', 'sp_block_categories' );

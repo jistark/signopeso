@@ -1,0 +1,13 @@
+{
+    "apiVersion": 3,
+    "name": "sp/source-card",
+    "title": "Source Card",
+    "category": "signopeso",
+    "description": "Renders an OG preview card for the post's source URL.",
+    "textdomain": "signopeso",
+    "supports": {
+        "html": false,
+        "align": false
+    },
+    "render": "file:./render.php"
+}
