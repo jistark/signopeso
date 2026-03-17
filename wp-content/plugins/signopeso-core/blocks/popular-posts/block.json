@@ -1,0 +1,14 @@
+{
+    "apiVersion": 3,
+    "name": "sp/popular-posts",
+    "title": "Popular Posts",
+    "category": "signopeso",
+    "description": "Shows most popular posts from Jetpack Stats.",
+    "textdomain": "signopeso",
+    "attributes": {
+        "period": { "type": "string", "default": "7" },
+        "count": { "type": "number", "default": 5 }
+    },
+    "supports": { "html": false },
+    "render": "file:./render.php"
+}
