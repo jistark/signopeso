@@ -4,18 +4,6 @@
     transition: color 0.15s ease;
 }
 
-@media (max-width: 768px) {
-    .sp-header-masthead .wp-block-group {
-        gap: 8px;
-    }
-    .sp-header-masthead p {
-        font-size: 2rem !important;
-    }
-    .sp-header-nav .wp-block-navigation {
-        font-size: 0.75rem;
-    }
-}
-
 /* === Post Card — Shared === */
 .sp-post-card__header {
     display: flex;
@@ -659,6 +647,8 @@ mark, .sp-highlight {
 }
 
 /* === Responsive === */
+
+/* Tablet: stack columns */
 @media (max-width: 1024px) {
     .wp-block-columns {
         flex-direction: column;
@@ -668,41 +658,73 @@ mark, .sp-highlight {
     }
 }
 
+/* Mobile */
 @media (max-width: 768px) {
+    /* Header */
+    .sp-header-masthead .wp-block-group {
+        gap: 8px;
+    }
+    .sp-header-nav .wp-block-navigation {
+        font-size: 0.7rem;
+        gap: 12px;
+    }
+
+    /* River: expanded cards */
     .sp-post-card--expanded .sp-post-card__title {
         font-size: 1.5rem;
         line-height: 1.05;
     }
+    .sp-post-card--expanded .sp-post-card__badge {
+        font-size: 0.5rem;
+    }
+    .sp-post-card--expanded .sp-post-card__excerpt {
+        font-size: 0.9rem;
+    }
 
-    .sp-single__content {
+    /* River: compact cards */
+    .sp-post-card--compact {
+        padding: 12px 16px;
+    }
+    .sp-post-card--compact .sp-post-card__title {
         font-size: 1rem;
     }
 
+    /* Single post */
+    .sp-single__content {
+        font-size: 1rem;
+    }
     .sp-single .wp-block-post-title {
         font-size: 1.75rem !important;
         line-height: 1.02 !important;
     }
 
-    .sp-post-card--compact {
-        padding: 12px 16px;
-    }
-
-    .sp-post-card--compact .sp-post-card__title {
-        font-size: 1rem;
-    }
-
+    /* Sidebar */
     .sp-sidebar {
         margin-top: 32px;
     }
+
+    /* Recirculation */
+    .sp-recirculation__inner {
+        padding: 24px 16px 32px;
+    }
+
+    /* Footer */
+    .sp-footer .wp-block-group {
+        gap: 8px;
+    }
 }
 
-/* Touch: yellow feedback on tap */
+/* Touch devices: yellow feedback on tap */
 @media (hover: none) {
     .sp-post-card--compact:active {
         background: var(--wp--preset--color--highlight-pale);
     }
 
     .sp-popular-posts__item:active {
+        background: var(--wp--preset--color--highlight-pale);
+    }
+
+    .sp-full-archive__list li:active {
         background: var(--wp--preset--color--highlight-pale);
     }
 }
