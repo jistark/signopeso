@@ -26,3 +26,16 @@ function signopeso_set_locale( $locale ) {
 if ( 'es_CL' !== get_locale() && 'es_ES' !== get_locale() ) {
     add_filter( 'locale', 'signopeso_set_locale' );
 }
+
+/**
+ * Enqueue theme stylesheet.
+ */
+function signopeso_enqueue_styles() {
+    wp_enqueue_style(
+        'signopeso-styles',
+        get_theme_file_uri( 'assets/css/signopeso.css' ),
+        array(),
+        defined( 'SP_VERSION' ) ? SP_VERSION : '1.0.0'
+    );
+}
+add_action( 'wp_enqueue_scripts', 'signopeso_enqueue_styles' );
