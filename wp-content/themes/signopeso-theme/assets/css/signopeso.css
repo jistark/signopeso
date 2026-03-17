@@ -460,6 +460,90 @@
     color: var(--wp--preset--color--primary);
 }
 
+/* === Single Post === */
+.sp-single__header {
+    margin-bottom: 16px;
+}
+
+.sp-single__badge a {
+    display: inline-block;
+    font-family: var(--wp--preset--font-family--meta);
+    color: var(--wp--preset--color--secondary);
+    background: var(--wp--preset--color--highlight);
+    padding: 3px 8px;
+    text-decoration: none;
+    margin-bottom: 16px;
+}
+
+.sp-single__title {
+    font-family: var(--wp--preset--font-family--heading);
+}
+
+.sp-single__deck {
+    color: #555;
+}
+
+.sp-single__category-line {
+    border-bottom: 1px solid var(--wp--preset--color--border);
+    padding-bottom: 12px;
+}
+
+.sp-single__category-line a {
+    text-decoration: none;
+}
+
+/* Body text: Inter 18px, comfortable reading */
+.sp-single__content {
+    font-size: 1.125rem;
+    line-height: 1.75;
+}
+
+.sp-single__content p {
+    margin-bottom: 1.5rem;
+}
+
+.sp-single__content h2 {
+    font-family: var(--wp--preset--font-family--heading);
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    letter-spacing: -0.3px;
+}
+
+.sp-single__content h3 {
+    font-family: var(--wp--preset--font-family--heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.sp-single__content blockquote {
+    border-left: 3px solid var(--wp--preset--color--primary);
+    padding-left: 20px;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: #555;
+}
+
+.sp-single__content a {
+    color: var(--wp--preset--color--primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.sp-single__tags {
+    padding-top: 16px;
+    border-top: 1px solid var(--wp--preset--color--border);
+}
+
+.sp-single__tags a {
+    color: var(--wp--preset--color--secondary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
 /* === Ad Slot === */
 .sp-ad-slot {
     display: flex;
@@ -550,6 +634,15 @@ mark, .sp-highlight {
     .sp-post-card--expanded .sp-post-card__title {
         font-size: 1.5rem;
         line-height: 1.05;
+    }
+
+    .sp-single__content {
+        font-size: 1rem;
+    }
+
+    .sp-single .wp-block-post-title {
+        font-size: 1.75rem !important;
+        line-height: 1.02 !important;
     }
 
     .sp-post-card--compact {
