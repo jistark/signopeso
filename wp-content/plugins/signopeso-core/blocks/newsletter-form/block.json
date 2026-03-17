@@ -6,7 +6,8 @@
     "description": "Email subscription form for the newsletter.",
     "textdomain": "signopeso",
     "attributes": {
-        "heading": { "type": "string", "default": "Economía + tech, en tu inbox." },
+        "heading": { "type": "string", "default": "Suscríbete" },
+        "subheading": { "type": "string", "default": "" },
         "ctaText": { "type": "string", "default": "Suscríbete" },
         "placeholder": { "type": "string", "default": "tu@email.com" }
     },
