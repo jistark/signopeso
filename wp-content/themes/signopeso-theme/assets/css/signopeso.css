@@ -1,3 +1,22 @@
+/* === Header === */
+.sp-header-masthead a,
+.sp-header-nav a {
+    transition: color 0.15s ease;
+}
+
+/* Mobile: compact masthead */
+@media (max-width: 768px) {
+    .sp-header-masthead .wp-block-group {
+        gap: 8px;
+    }
+    .sp-header-masthead p {
+        font-size: 2rem !important;
+    }
+    .sp-header-nav .wp-block-navigation {
+        font-size: 0.75rem;
+    }
+}
+
 /* === Section Boxes === */
 .sp-post-card {
     background: var(--wp--preset--color--surface);
