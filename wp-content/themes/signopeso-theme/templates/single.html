@@ -1,0 +1,40 @@
+<!-- wp:template-part {"slug":"header","area":"header"} /-->
+
+<!-- wp:group {"layout":{"type":"constrained","contentSize":"720px"},"style":{"spacing":{"padding":{"top":"32px","bottom":"32px","left":"24px","right":"24px"}}}} -->
+<div class="wp-block-group" style="padding-top:32px;padding-right:24px;padding-bottom:32px;padding-left:24px">
+
+    <!-- wp:group {"style":{"spacing":{"blockGap":"8px","margin":{"bottom":"24px"}}},"className":"sp-single-meta"} -->
+    <div class="wp-block-group sp-single-meta" style="margin-bottom:24px">
+        <!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap"},"style":{"spacing":{"blockGap":"12px"}},"fontSize":"small"} -->
+        <div class="wp-block-group">
+            <!-- wp:post-date {"format":"j M Y","style":{"typography":{"textTransform":"uppercase","letterSpacing":"1px","fontFamily":"var(--wp--preset--font-family--meta)"}},"textColor":"muted","fontSize":"small"} /-->
+            <!-- wp:post-terms {"term":"sp_formato","style":{"typography":{"textTransform":"uppercase","letterSpacing":"0.5px"}},"fontSize":"small"} /-->
+        </div>
+        <!-- /wp:group -->
+    </div>
+    <!-- /wp:group -->
+
+    <!-- wp:post-title {"level":1,"style":{"typography":{"fontSize":"2.25rem","fontWeight":"800","letterSpacing":"-0.5px","lineHeight":"1.15"}},"fontFamily":"heading"} /-->
+
+    <!-- wp:group {"style":{"spacing":{"margin":{"top":"12px","bottom":"32px"}}},"fontSize":"small","textColor":"muted"} -->
+    <div class="wp-block-group" style="margin-top:12px;margin-bottom:32px">
+        <!-- wp:paragraph {"fontSize":"small","textColor":"muted"} -->
+        <p class="has-muted-color has-text-color has-small-font-size">Por <strong><!-- wp:post-author-name {"isLink":false} /--></strong></p>
+        <!-- /wp:paragraph -->
+    </div>
+    <!-- /wp:group -->
+
+    <!-- wp:post-content {"layout":{"type":"constrained"}} /-->
+
+    <!-- wp:sp/source-card /-->
+
+    <!-- wp:post-terms {"term":"post_tag","prefix":"Etiquetas: ","style":{"spacing":{"margin":{"top":"32px"}}},"fontSize":"small","textColor":"muted"} /-->
+
+    <!-- wp:sp/ad-slot {"position":"single-below-content"} /-->
+
+    <!-- wp:comments /-->
+
+</div>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","area":"footer"} /-->
