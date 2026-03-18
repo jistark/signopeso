@@ -1,10 +1,262 @@
-/* === Header === */
+/* ================================================================
+   SignoPeso Theme CSS — v2
+   Class naming convention: BEM-ish, sp- prefix
+   CSS custom properties: WordPress preset tokens
+   ================================================================ */
+
+/* ================================================================
+   SECTION LABEL — Esquire-style serif small-caps
+   Used for: date headers, "También Hoy", "Populares", cluster
+   labels, sidebar headings, footer column heads
+   ================================================================ */
+.sp-section-label {
+    font-family: var(--wp--preset--font-family--heading);
+    font-variant: small-caps;
+    text-transform: lowercase;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--wp--preset--color--secondary);
+}
+
+.sp-section-label--sal {
+    color: var(--wp--preset--color--primary);
+}
+
+/* ================================================================
+   HEADER
+   ================================================================ */
 .sp-header-masthead a,
 .sp-header-nav a {
     transition: color 0.15s ease;
 }
 
-/* === Post Card — Shared === */
+/* ================================================================
+   PORTADA — Featured post + secondary list grid
+   ================================================================ */
+.sp-portada {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px 0;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 32px;
+}
+
+/* Lead (primary featured post) */
+.sp-portada-lead__img {
+    width: 100%;
+    aspect-ratio: 2/1;
+    overflow: hidden;
+    margin-bottom: 18px;
+    background: var(--wp--preset--color--border);
+}
+
+.sp-portada-lead__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.sp-portada-lead__over {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.sp-portada-lead__author {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sp-portada-lead__time {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.7rem;
+    color: var(--wp--preset--color--muted);
+}
+
+.sp-portada-lead__cat-badge {
+    display: inline-block;
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    background: var(--wp--preset--color--highlight);
+    padding: 4px 10px;
+    margin-bottom: 12px;
+    text-decoration: none;
+    color: var(--wp--preset--color--secondary);
+}
+
+.sp-portada-lead__cat-badge:hover {
+    background: var(--wp--preset--color--secondary);
+    color: var(--wp--preset--color--highlight);
+}
+
+.sp-portada-lead__title {
+    font-family: var(--wp--preset--font-family--heading);
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -1.5px;
+    margin-bottom: 14px;
+}
+
+.sp-portada-lead__title a {
+    text-decoration: none;
+    color: var(--wp--preset--color--secondary);
+}
+
+.sp-portada-lead__title a:hover {
+    color: var(--wp--preset--color--primary);
+}
+
+.sp-portada-lead__deck {
+    font-size: 1.05rem;
+    color: #555;
+    line-height: 1.55;
+    max-width: 600px;
+}
+
+/* Secondary list */
+.sp-portada-sec {
+    padding-top: 4px;
+}
+
+.sp-portada-sec__label {
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--wp--preset--color--primary);
+}
+
+.sp-portada-sec__item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--wp--preset--color--border);
+}
+
+.sp-portada-sec__item:last-child {
+    border-bottom: none;
+}
+
+.sp-portada-sec__item-over {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.sp-portada-sec__cat-pill {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--wp--preset--color--muted);
+}
+
+.sp-portada-sec__time {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.6rem;
+    color: var(--wp--preset--color--muted);
+}
+
+.sp-portada-sec__title {
+    font-family: var(--wp--preset--font-family--heading);
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.3px;
+}
+
+.sp-portada-sec__title a {
+    text-decoration: none;
+    color: var(--wp--preset--color--secondary);
+}
+
+.sp-portada-sec__title a:hover {
+    color: var(--wp--preset--color--primary);
+}
+
+.sp-portada-sec__item-img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    margin-bottom: 8px;
+    background: var(--wp--preset--color--border);
+}
+
+.sp-portada-sec__item-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.sp-portada-sec__source {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.6rem;
+    color: var(--wp--preset--color--primary);
+    margin-top: 3px;
+}
+
+/* ================================================================
+   POPULAR STRIP — horizontal ranked list below portada
+   ================================================================ */
+.sp-popular-strip {
+    max-width: 1100px;
+    margin: 28px auto 0;
+    padding: 0 24px;
+}
+
+.sp-popular-strip__inner {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    padding: 14px 0;
+    border-top: 1px solid var(--wp--preset--color--border);
+    border-bottom: 1px solid var(--wp--preset--color--border);
+}
+
+.sp-popular-strip__items {
+    display: flex;
+    gap: 20px;
+    overflow: hidden;
+}
+
+.sp-popular-strip__item {
+    font-size: 0.85rem;
+    white-space: nowrap;
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+}
+
+.sp-popular-strip__rank {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--wp--preset--color--primary);
+}
+
+.sp-popular-strip__item a {
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--wp--preset--color--secondary);
+}
+
+.sp-popular-strip__item a:hover {
+    color: var(--wp--preset--color--primary);
+}
+
+/* ================================================================
+   POST CARD — Shared
+   ================================================================ */
 .sp-post-card__header {
     display: flex;
     justify-content: space-between;
@@ -13,8 +265,11 @@
 }
 
 .sp-post-card__author {
-    font-size: 0.8rem;
-    font-weight: 700;
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     color: var(--wp--preset--color--secondary);
 }
 
@@ -29,52 +284,72 @@
     text-decoration: none;
 }
 
-/* === Post Card — Expanded (Largo, Cobertura) === */
+/* ================================================================
+   POST CARD — Expanded (Largo, Cobertura)
+   Mapped from .exp* in mockup
+   ================================================================ */
 .sp-post-card--expanded {
+    padding: 0 0 22px;
+    margin-bottom: 22px;
     background: transparent;
     border: none;
-    padding: 0 0 24px;
-    margin-bottom: 0;
     border-bottom: 1px solid var(--wp--preset--color--border);
+}
+
+.sp-post-card--expanded .sp-post-card__header {
+    margin-bottom: 8px;
+}
+
+.sp-post-card--expanded .sp-post-card__badge {
+    display: inline-block;
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    background: var(--wp--preset--color--highlight);
+    padding: 3px 8px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: var(--wp--preset--color--secondary);
+}
+
+.sp-post-card--expanded .sp-post-card__badge:hover {
+    background: var(--wp--preset--color--secondary);
+    color: var(--wp--preset--color--highlight);
+}
+
+.sp-post-card--expanded .sp-post-card__image {
+    width: 100%;
+    aspect-ratio: 21/9;
+    overflow: hidden;
+    margin-bottom: 14px;
+    background: var(--wp--preset--color--border);
+}
+
+.sp-post-card--expanded .sp-post-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.sp-post-card--expanded .sp-post-card__title {
+    font-family: var(--wp--preset--font-family--heading);
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.7px;
+    margin: 0 0 10px;
 }
 
 .sp-post-card--expanded:hover .sp-post-card__title a {
     color: var(--wp--preset--color--primary);
 }
 
-.sp-post-card--expanded + .sp-post-card {
-    margin-top: 20px;
-}
-
-.sp-post-card--expanded .sp-post-card__header {
-    margin-bottom: 12px;
-}
-
-.sp-post-card--expanded .sp-post-card__badge {
-    display: inline-block;
-    font-family: var(--wp--preset--font-family--meta);
-    font-size: 0.55rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    font-weight: 700;
-    color: var(--wp--preset--color--secondary);
-    background: var(--wp--preset--color--highlight);
-    padding: 3px 8px;
-    margin-bottom: 12px;
-}
-
-.sp-post-card--expanded .sp-post-card__title {
-    font-family: var(--wp--preset--font-family--heading);
-    font-size: 2rem;
-    font-weight: 900;
-    letter-spacing: -0.8px;
-    line-height: 0.97;
-    margin: 0 0 16px;
-}
-
 .sp-post-card--expanded .sp-post-card__excerpt {
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 0.95rem;
+    line-height: 1.55;
     color: #555;
     margin-bottom: 0;
 }
@@ -83,9 +358,23 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 16px;
-    padding-top: 12px;
+    margin-top: 12px;
+    padding-top: 10px;
     border-top: 1px solid var(--wp--preset--color--border);
+}
+
+.sp-post-card--expanded .sp-post-card__read-more {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.65rem;
+    color: var(--wp--preset--color--primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+}
+
+.sp-post-card--expanded .sp-post-card__read-more:hover {
+    color: var(--wp--preset--color--secondary);
 }
 
 .sp-post-card--expanded .sp-post-card__category {
@@ -108,10 +397,154 @@
 }
 
 .sp-post-card--expanded .sp-post-card__source:hover {
-    color: var(--wp--preset--color--highlight);
+    color: var(--wp--preset--color--secondary);
 }
 
-/* === Post Card — Compact (Corto, Enlace) === */
+/* ================================================================
+   POST CARD — Cobertura live indicator
+   ================================================================ */
+@keyframes sp-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.sp-post-card__live-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--wp--preset--color--primary);
+    border-radius: 50%;
+    animation: sp-pulse 1.5s ease infinite;
+}
+
+.sp-post-card__live {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--wp--preset--color--primary);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* ================================================================
+   POST CARD — Corto
+   Mapped from .cpt* in mockup
+   ================================================================ */
+.sp-post-card--corto {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--wp--preset--color--border);
+}
+
+.sp-post-card--corto .sp-post-card__over {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 3px;
+}
+
+.sp-post-card--corto .sp-post-card__cat {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--wp--preset--color--muted);
+}
+
+.sp-post-card--corto .sp-post-card__time {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.6rem;
+    color: var(--wp--preset--color--muted);
+    margin-left: auto;
+}
+
+.sp-post-card--corto .sp-post-card__title {
+    font-family: var(--wp--preset--font-family--heading);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.2px;
+    margin: 0;
+}
+
+.sp-post-card--corto .sp-post-card__title a {
+    text-decoration: none;
+    color: var(--wp--preset--color--secondary);
+}
+
+.sp-post-card--corto .sp-post-card__title a:hover {
+    color: var(--wp--preset--color--primary);
+}
+
+/* ================================================================
+   POST CARD — Enlace
+   Mapped from .enl* in mockup
+   ================================================================ */
+.sp-post-card--enlace {
+    background: var(--wp--preset--color--surface);
+    border: 1px solid var(--wp--preset--color--border);
+    padding: 16px 18px;
+    margin: 14px 0;
+    transition: border-color 0.12s ease;
+}
+
+.sp-post-card--enlace:hover {
+    border-color: var(--wp--preset--color--highlight);
+}
+
+.sp-post-card--enlace .sp-post-card__over {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.sp-post-card--enlace .sp-post-card__cat {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--wp--preset--color--muted);
+}
+
+.sp-post-card--enlace .sp-post-card__domain {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--wp--preset--color--primary);
+}
+
+.sp-post-card--enlace .sp-post-card__time {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.6rem;
+    color: var(--wp--preset--color--muted);
+    margin-left: auto;
+}
+
+.sp-post-card--enlace .sp-post-card__title {
+    font-family: var(--wp--preset--font-family--heading);
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.2px;
+    margin-bottom: 10px;
+}
+
+.sp-post-card--enlace .sp-post-card__title a {
+    text-decoration: none;
+    color: var(--wp--preset--color--secondary);
+}
+
+.sp-post-card--enlace .sp-post-card__title a:hover {
+    color: var(--wp--preset--color--primary);
+}
+
+/* Legacy compact support (kept for backward compat) */
 .sp-post-card--compact {
     background: var(--wp--preset--color--surface);
     border: 1px solid var(--wp--preset--color--border);
@@ -160,12 +593,13 @@
     color: var(--wp--preset--color--muted);
 }
 
-/* === Source Card === */
+/* ================================================================
+   SOURCE CARD
+   Mapped from .src-card* in mockup
+   ================================================================ */
 .sp-source-card {
     border: 1px solid var(--wp--preset--color--border);
-    border-radius: 4px;
     overflow: hidden;
-    margin: 8px 0 0;
     transition: border-color 0.15s ease;
 }
 
@@ -173,6 +607,104 @@
     border-color: var(--wp--preset--color--highlight);
 }
 
+.sp-source-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+/* Large variant (full-width image on top) */
+.sp-source-card__img-lg {
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: var(--wp--preset--color--border);
+}
+
+.sp-source-card__img-lg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.sp-source-card__body {
+    padding: 12px 14px;
+}
+
+.sp-source-card__og-title {
+    font-family: var(--wp--preset--font-family--heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 4px;
+    letter-spacing: -0.2px;
+    color: var(--wp--preset--color--secondary);
+}
+
+.sp-source-card__og-author {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.6rem;
+    color: var(--wp--preset--color--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.sp-source-card__og-excerpt {
+    font-size: 0.82rem;
+    color: #555;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.sp-source-card__og-url {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.6rem;
+    color: var(--wp--preset--color--muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sp-source-card__go {
+    color: var(--wp--preset--color--primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Small variant (thumbnail right) */
+.sp-source-card--sm a {
+    display: flex;
+    gap: 14px;
+}
+
+.sp-source-card--sm .sp-source-card__body {
+    padding: 10px 0 10px 14px;
+    flex: 1;
+    min-width: 0;
+}
+
+.sp-source-card--sm .sp-source-card__img-sm {
+    width: 100px;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: var(--wp--preset--color--border);
+}
+
+.sp-source-card--sm .sp-source-card__img-sm img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Legacy source card layout (kept for backward compat) */
 .sp-source-card__link {
     display: flex;
     gap: 12px;
@@ -190,7 +722,6 @@
     flex-shrink: 0;
     width: 50px;
     height: 50px;
-    border-radius: 3px;
     overflow: hidden;
 }
 
@@ -230,18 +761,120 @@
     color: var(--wp--preset--color--muted);
 }
 
-/* === Date Stream === */
-.sp-date-stream__date {
+/* ================================================================
+   CLUSTER — Category-grouped multi-source post
+   Mapped from .clust* in mockup
+   ================================================================ */
+.sp-cluster {
+    margin-bottom: 24px;
+}
+
+.sp-cluster__head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--wp--preset--color--primary);
+}
+
+.sp-cluster__lead-over {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.sp-cluster__lead-author {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sp-cluster__lead-time {
     font-family: var(--wp--preset--font-family--meta);
     font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--wp--preset--color--primary);
-    border-bottom: 2px solid var(--wp--preset--color--primary);
-    padding-bottom: 8px;
-    margin-bottom: 20px;
-    margin-top: 32px;
+    color: var(--wp--preset--color--muted);
+}
+
+.sp-cluster__lead-title {
+    font-family: var(--wp--preset--font-family--heading);
+    font-size: 1.35rem;
     font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+}
+
+.sp-cluster__lead-title a {
+    text-decoration: none;
+    color: var(--wp--preset--color--secondary);
+}
+
+.sp-cluster__lead-title a:hover {
+    color: var(--wp--preset--color--primary);
+}
+
+.sp-cluster__lead-deck {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+.sp-cluster__sources {
+    margin-top: 12px;
+    padding: 12px 0 12px 16px;
+    border-left: 3px solid var(--wp--preset--color--highlight);
+    background: linear-gradient(90deg, var(--wp--preset--color--highlight-pale) 0%, transparent 100%);
+}
+
+.sp-cluster__src-item {
+    padding: 5px 0;
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    font-size: 0.85rem;
+}
+
+.sp-cluster__src-item + .sp-cluster__src-item {
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.sp-cluster__src-domain {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--wp--preset--color--secondary);
+    min-width: 65px;
+    flex-shrink: 0;
+}
+
+.sp-cluster__src-text {
+    color: #555;
+}
+
+.sp-cluster__src-text a {
+    text-decoration: none;
+    color: #555;
+}
+
+.sp-cluster__src-text a:hover {
+    color: var(--wp--preset--color--primary);
+}
+
+.sp-cluster__border {
+    border-bottom: 1px solid var(--wp--preset--color--border);
+    margin-top: 14px;
+}
+
+/* ================================================================
+   DATE STREAM — date headers + post stream
+   ================================================================ */
+.sp-date-stream__date {
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--wp--preset--color--primary);
+    margin: 28px 0 16px;
 }
 
 .sp-date-stream__group:first-child .sp-date-stream__date {
@@ -277,7 +910,13 @@
     border-color: var(--wp--preset--color--secondary);
 }
 
-/* === Sidebar === */
+/* ================================================================
+   SIDEBAR
+   ================================================================ */
+.sp-sidebar > * + * {
+    margin-top: 20px;
+}
+
 .sp-sidebar > * {
     background: var(--wp--preset--color--surface);
     border: 1px solid var(--wp--preset--color--border);
@@ -287,6 +926,7 @@
 
 .sp-sidebar > .sp-newsletter-form {
     border: none;
+    padding: 0;
 }
 
 .sp-sidebar > .sp-curated-links {
@@ -295,16 +935,99 @@
     padding: 0;
 }
 
-/* Sidebar search: input only, no button */
+/* Sidebar search: full-width, no button */
 .sp-sidebar__search .wp-block-search__button {
     display: none;
 }
 
 .sp-sidebar__search .wp-block-search__input {
     width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--wp--preset--color--border);
+    font-size: 0.85rem;
+    font-family: var(--wp--preset--font-family--body);
+    background: var(--wp--preset--color--surface);
+    outline: none;
+    transition: border-color 0.15s ease;
 }
 
-/* === Newsletter Form === */
+.sp-sidebar__search .wp-block-search__input::placeholder {
+    color: var(--wp--preset--color--muted);
+}
+
+.sp-sidebar__search .wp-block-search__input:focus {
+    border-color: var(--wp--preset--color--primary);
+}
+
+/* Sidebar box (shared wrapper) */
+.sp-sidebar__box {
+    background: var(--wp--preset--color--surface);
+    border: 1px solid var(--wp--preset--color--border);
+    padding: 18px;
+}
+
+.sp-sidebar__box-head {
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--wp--preset--color--border);
+}
+
+/* ================================================================
+   SIDEBAR — Formatos widget
+   Mapped from .sb-fmt* in mockup
+   ================================================================ */
+.sp-formatos__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.85rem;
+}
+
+.sp-formatos__item:last-child {
+    border-bottom: none;
+}
+
+.sp-formatos__swatch {
+    width: 24px;
+    height: 3px;
+    flex-shrink: 0;
+}
+
+.sp-formatos__swatch--corto {
+    background: var(--wp--preset--color--border);
+}
+
+.sp-formatos__swatch--enlace {
+    background: var(--wp--preset--color--primary);
+}
+
+.sp-formatos__swatch--largo {
+    background: var(--wp--preset--color--secondary);
+}
+
+.sp-formatos__swatch--cobertura {
+    background: var(--wp--preset--color--primary);
+}
+
+.sp-formatos__name {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 70px;
+    color: var(--wp--preset--color--secondary);
+}
+
+.sp-formatos__desc {
+    color: #555;
+}
+
+/* ================================================================
+   NEWSLETTER FORM
+   ================================================================ */
 .sp-newsletter-form {
     background: var(--wp--preset--color--highlight);
     border-radius: 0;
@@ -315,17 +1038,18 @@
 .sp-newsletter-form__heading {
     color: var(--wp--preset--color--secondary);
     font-family: var(--wp--preset--font-family--heading);
-    font-size: 1.1rem;
-    font-weight: 900;
+    font-size: 1.05rem;
+    font-weight: 700;
     margin: 0 0 4px;
     line-height: 1.3;
     letter-spacing: -0.3px;
 }
 
 .sp-newsletter-form__subheading {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: #555;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    line-height: 1.4;
 }
 
 .sp-newsletter-form__form {
@@ -335,11 +1059,13 @@
 }
 
 .sp-newsletter-form__input {
+    width: 100%;
     padding: 10px 12px;
     border: none;
     border-radius: 0;
     font-size: 0.85rem;
-    background: rgba(255,255,255,0.9);
+    font-family: var(--wp--preset--font-family--body);
+    background: rgba(255, 255, 255, 0.92);
     transition: border-color 0.15s ease;
 }
 
@@ -349,6 +1075,7 @@
 }
 
 .sp-newsletter-form__button {
+    width: 100%;
     padding: 10px;
     border: none;
     border-radius: 0;
@@ -370,7 +1097,9 @@
     margin-top: 8px;
 }
 
-/* === Popular Posts === */
+/* ================================================================
+   POPULAR POSTS — Sidebar ranked list
+   ================================================================ */
 .sp-popular-posts__heading {
     font-family: var(--wp--preset--font-family--heading);
     font-size: 1rem;
@@ -415,7 +1144,9 @@
     line-height: 1.3;
 }
 
-/* === Curated Links === */
+/* ================================================================
+   CURATED LINKS
+   ================================================================ */
 .sp-curated-links__heading {
     font-family: var(--wp--preset--font-family--heading);
     font-size: 1rem;
@@ -433,9 +1164,10 @@
 
 .sp-curated-links__list li {
     padding: 6px 0;
-    border-bottom: 1px solid var(--wp--preset--color--border);
-    font-size: 0.85rem;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.9rem;
     color: var(--wp--preset--color--muted);
+    line-height: 1.4;
 }
 
 .sp-curated-links__list li:last-child {
@@ -452,7 +1184,9 @@
     color: var(--wp--preset--color--primary);
 }
 
-/* === Single Post === */
+/* ================================================================
+   SINGLE POST
+   ================================================================ */
 .sp-single__header {
     margin-bottom: 16px;
 }
@@ -536,7 +1270,9 @@
     font-weight: 500;
 }
 
-/* === Recirculation === */
+/* ================================================================
+   RECIRCULATION
+   ================================================================ */
 .sp-recirculation {
     background: var(--wp--preset--color--background);
     border-top: 3px solid var(--wp--preset--color--primary);
@@ -560,11 +1296,149 @@
     letter-spacing: -0.3px;
 }
 
-/* === Footer === */
+/* ================================================================
+   FOOTER — v2 dark background
+   Mapped from .footer-* in mockup
+   ================================================================ */
 .sp-footer {
     border-top: 3px solid var(--wp--preset--color--primary);
+    background: var(--wp--preset--color--secondary);
+    color: var(--wp--preset--color--surface);
 }
 
+.sp-footer__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px;
+}
+
+.sp-footer__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #333;
+    gap: 40px;
+}
+
+.sp-footer__logo {
+    font-family: var(--wp--preset--font-family--heading);
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin-bottom: 6px;
+    text-decoration: none;
+}
+
+.sp-footer__logo-hash {
+    color: var(--wp--preset--color--primary);
+}
+
+.sp-footer__logo-sign {
+    color: var(--wp--preset--color--surface);
+}
+
+.sp-footer__tagline {
+    font-size: 0.82rem;
+    color: var(--wp--preset--color--muted);
+    max-width: 260px;
+    line-height: 1.5;
+}
+
+.sp-footer__links-grid {
+    display: flex;
+    gap: 48px;
+}
+
+.sp-footer__col-head {
+    margin-bottom: 10px;
+    color: var(--wp--preset--color--muted);
+}
+
+.sp-footer__col-head .sp-section-label {
+    color: var(--wp--preset--color--muted);
+    font-size: 0.85rem;
+}
+
+.sp-footer__col a {
+    display: block;
+    font-size: 0.85rem;
+    color: #ccc;
+    text-decoration: none;
+    padding: 3px 0;
+    transition: color 0.15s ease;
+}
+
+.sp-footer__col a:hover {
+    color: var(--wp--preset--color--primary);
+}
+
+/* Footer newsletter CTA block */
+.sp-footer__nl {
+    background: var(--wp--preset--color--highlight);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+    max-width: 300px;
+}
+
+.sp-footer__nl-text {
+    font-family: var(--wp--preset--font-family--heading);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--wp--preset--color--secondary);
+    line-height: 1.3;
+    flex: 1;
+}
+
+.sp-footer__nl-btn {
+    background: var(--wp--preset--color--secondary);
+    color: var(--wp--preset--color--surface);
+    border: none;
+    padding: 8px 14px;
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.sp-footer__nl-btn:hover {
+    background: var(--wp--preset--color--primary);
+    color: var(--wp--preset--color--surface);
+}
+
+.sp-footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+}
+
+.sp-footer__copy {
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.65rem;
+    color: #666;
+}
+
+.sp-footer__copy a {
+    color: #666;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.sp-footer__copy a:hover {
+    color: var(--wp--preset--color--primary);
+}
+
+/* Legacy footer (kept for backward compat) */
 .sp-footer a {
     color: var(--wp--preset--color--muted);
     text-decoration: none;
@@ -575,15 +1449,26 @@
     color: var(--wp--preset--color--primary);
 }
 
-/* === Ad Slot === */
+/* ================================================================
+   AD SLOT
+   ================================================================ */
 .sp-ad-slot {
+    background: var(--wp--preset--color--surface);
+    border: 1px solid var(--wp--preset--color--border);
+    min-height: 250px;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 60px;
+    font-family: var(--wp--preset--font-family--meta);
+    font-size: 0.65rem;
+    color: var(--wp--preset--color--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
 }
 
-/* === Full Archive === */
+/* ================================================================
+   FULL ARCHIVE
+   ================================================================ */
 .sp-full-archive__year {
     margin-bottom: 16px;
 }
@@ -644,22 +1529,39 @@
     white-space: nowrap;
 }
 
-/* === Highlight (yellow) === */
+/* ================================================================
+   HIGHLIGHT (yellow)
+   ================================================================ */
 mark, .sp-highlight {
     background: var(--wp--preset--color--highlight);
     padding: 1px 4px;
     border-radius: 2px;
 }
 
-/* === Responsive === */
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
 
-/* Tablet: stack columns */
+/* Tablet: stack portada + columns */
 @media (max-width: 1024px) {
+    .sp-portada {
+        grid-template-columns: 1fr;
+    }
+
     .wp-block-columns {
         flex-direction: column;
     }
+
     .wp-block-column {
         flex-basis: 100% !important;
+    }
+
+    .sp-footer__top {
+        flex-direction: column;
+    }
+
+    .sp-footer__nl {
+        max-width: 100%;
     }
 }
 
@@ -668,28 +1570,51 @@ mark, .sp-highlight {
     /* Header */
     .sp-header-masthead .wp-block-group {
         gap: 8px;
+        flex-direction: column;
+        align-items: flex-start;
     }
+
     .sp-header-nav .wp-block-navigation {
         font-size: 0.7rem;
         gap: 12px;
     }
 
-    /* River: expanded cards */
+    /* Section labels */
+    .sp-section-label {
+        font-size: 0.9rem;
+    }
+
+    /* Portada lead */
+    .sp-portada-lead__title {
+        font-size: 1.8rem;
+    }
+
+    /* Popular strip */
+    .sp-popular-strip__inner {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+    }
+
+    /* Expanded cards */
     .sp-post-card--expanded .sp-post-card__title {
-        font-size: 1.5rem;
+        font-size: 1.35rem;
         line-height: 1.05;
     }
+
     .sp-post-card--expanded .sp-post-card__badge {
         font-size: 0.5rem;
     }
+
     .sp-post-card--expanded .sp-post-card__excerpt {
         font-size: 0.9rem;
     }
 
-    /* River: compact cards */
+    /* Compact cards (legacy) */
     .sp-post-card--compact {
         padding: 12px 16px;
     }
+
     .sp-post-card--compact .sp-post-card__title {
         font-size: 1rem;
     }
@@ -698,6 +1623,7 @@ mark, .sp-highlight {
     .sp-single__content {
         font-size: 1rem;
     }
+
     .sp-single .wp-block-post-title {
         font-size: 1.75rem !important;
         line-height: 1.02 !important;
@@ -714,6 +1640,11 @@ mark, .sp-highlight {
     }
 
     /* Footer */
+    .sp-footer__links-grid {
+        flex-wrap: wrap;
+        gap: 24px;
+    }
+
     .sp-footer .wp-block-group {
         gap: 8px;
     }
@@ -721,7 +1652,8 @@ mark, .sp-highlight {
 
 /* Touch devices: yellow feedback on tap */
 @media (hover: none) {
-    .sp-post-card--compact:active {
+    .sp-post-card--compact:active,
+    .sp-post-card--corto:active {
         background: var(--wp--preset--color--highlight-pale);
     }
 
