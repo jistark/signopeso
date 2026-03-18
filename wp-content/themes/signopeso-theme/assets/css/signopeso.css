@@ -1059,7 +1059,11 @@
 
 .sp-single__badge a {
     display: inline-block;
-    font-family: var(--wp--preset--font-family--meta);
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     color: var(--wp--preset--color--secondary);
     background: var(--wp--preset--color--highlight);
     padding: 3px 8px;
