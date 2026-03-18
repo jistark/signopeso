@@ -762,6 +762,12 @@
 /* ================================================================
    SIDEBAR
    ================================================================ */
+.sp-sidebar {
+    position: sticky;
+    top: 24px;
+    align-self: flex-start;
+}
+
 .sp-sidebar > * + * {
     margin-top: 20px;
 }
@@ -1303,15 +1309,15 @@
    AD SLOT
    ================================================================ */
 .sp-ad-slot {
-    background: var(--wp--preset--color--surface);
-    border: 1px solid var(--wp--preset--color--border);
-    min-height: 250px;
+    background: transparent;
+    border: 1px dashed #E0E0E0;
+    min-height: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: var(--wp--preset--font-family--meta);
-    font-size: 0.65rem;
-    color: var(--wp--preset--color--muted);
+    font-size: 0.7rem;
+    color: #CCC;
     text-transform: uppercase;
     letter-spacing: 1.5px;
 }
