@@ -274,6 +274,10 @@
     text-decoration: none;
 }
 
+.sp-post-card__title a:hover {
+    color: var(--wp--preset--color--primary);
+}
+
 /* ================================================================
    POST CARD — Expanded (Largo, Cobertura)
    Mapped from .exp* in mockup
@@ -452,7 +456,7 @@
     border: 1px solid #EBEBEB;
     padding: 16px;
     margin: 24px 0;
-    transition: border-color 0.12s ease;
+    transition: border-color 0.15s ease;
 }
 
 .sp-post-card--enlace:hover {
@@ -728,6 +732,12 @@
 
 .sp-date-stream__group:first-child .sp-date-stream__date {
     margin-top: 0;
+}
+
+.sp-date-stream__group + .sp-date-stream__group {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 2px solid var(--wp--preset--color--border);
 }
 
 .sp-date-stream__pagination {
@@ -1452,9 +1462,18 @@ mark, .sp-highlight {
         align-items: flex-start;
     }
 
-    /* Expanded cards */
+    /* Expanded cards — vertical layout on mobile */
+    .sp-post-card__body-row {
+        flex-direction: column;
+    }
+
+    .sp-post-card__thumb {
+        width: 100%;
+        aspect-ratio: 3 / 2;
+    }
+
     .sp-post-card--expanded .sp-post-card__title {
-        font-size: 1.35rem;
+        font-size: 1.2rem;
         line-height: 1.05;
     }
 
