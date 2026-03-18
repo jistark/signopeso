@@ -38,6 +38,10 @@
     border-bottom: 1px solid var(--wp--preset--color--border);
 }
 
+.sp-post-card--expanded:hover .sp-post-card__title a {
+    color: var(--wp--preset--color--primary);
+}
+
 .sp-post-card--expanded + .sp-post-card {
     margin-top: 20px;
 }
@@ -232,8 +236,8 @@
     font-size: 0.65rem;
     text-transform: uppercase;
     letter-spacing: 2px;
-    color: var(--wp--preset--color--muted);
-    border-bottom: 1px solid var(--wp--preset--color--secondary);
+    color: var(--wp--preset--color--primary);
+    border-bottom: 2px solid var(--wp--preset--color--primary);
     padding-bottom: 8px;
     margin-bottom: 20px;
     margin-top: 32px;
@@ -534,14 +538,15 @@
 
 /* === Recirculation === */
 .sp-recirculation {
-    border-top: 1px solid var(--wp--preset--color--border);
+    background: var(--wp--preset--color--background);
+    border-top: 3px solid var(--wp--preset--color--primary);
     margin-top: 40px;
 }
 
 .sp-recirculation__inner {
-    max-width: 720px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 32px 24px 40px;
+    padding: 40px 24px 48px;
 }
 
 .sp-recirculation__heading {
