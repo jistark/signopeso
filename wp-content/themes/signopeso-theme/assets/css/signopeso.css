@@ -388,7 +388,7 @@
    Mapped from .cpt* in mockup
    ================================================================ */
 .sp-post-card--corto {
-    padding: 10px 0;
+    padding: 16px 0;
     border-bottom: 1px solid var(--wp--preset--color--border);
 }
 
@@ -400,11 +400,11 @@
 }
 
 .sp-post-card--corto .sp-post-card__cat {
-    font-family: var(--wp--preset--font-family--meta);
-    font-size: 0.6rem;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 0.65rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.05em;
     color: var(--wp--preset--color--muted);
 }
 
@@ -418,7 +418,7 @@
 .sp-post-card--corto .sp-post-card__title {
     font-family: var(--wp--preset--font-family--heading);
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1.25;
     letter-spacing: -0.2px;
     margin: 0;
@@ -433,15 +433,25 @@
     color: var(--wp--preset--color--primary);
 }
 
+.sp-post-card__teaser {
+    font-size: 0.85rem;
+    color: var(--wp--preset--color--muted);
+    margin-top: 4px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 /* ================================================================
    POST CARD — Enlace
    Mapped from .enl* in mockup
    ================================================================ */
 .sp-post-card--enlace {
     background: var(--wp--preset--color--surface);
-    border: 1px solid var(--wp--preset--color--border);
-    padding: 16px 18px;
-    margin: 14px 0;
+    border: 1px solid #EBEBEB;
+    padding: 16px;
+    margin: 24px 0;
     transition: border-color 0.12s ease;
 }
 
@@ -457,11 +467,11 @@
 }
 
 .sp-post-card--enlace .sp-post-card__cat {
-    font-family: var(--wp--preset--font-family--meta);
-    font-size: 0.6rem;
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 0.65rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.05em;
     color: var(--wp--preset--color--muted);
 }
 

@@ -40,6 +40,11 @@ if ( 'corto' === $formato ) :
             <?php echo esc_html( get_the_title( $post_id ) ); ?>
         </a>
     </h3>
+    <?php
+    $corto_excerpt = get_the_excerpt( $post_id );
+    if ( $corto_excerpt ) : ?>
+        <p class="sp-post-card__teaser"><?php echo esc_html( wp_trim_words( $corto_excerpt, 12, '…' ) ); ?></p>
+    <?php endif; ?>
 </article>
 
 <?php
