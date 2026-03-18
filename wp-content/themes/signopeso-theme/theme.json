@@ -94,7 +94,7 @@
     "templateParts": [
         { "name": "header", "title": "Header", "area": "header" },
         { "name": "footer", "title": "Footer", "area": "footer" },
-        { "name": "sidebar", "title": "Sidebar" }
+        { "name": "sidebar", "title": "Sidebar", "area": "uncategorized" }
     ],
     "customTemplates": [
         { "name": "archive-all", "title": "Full Archive", "postTypes": ["page"] }
