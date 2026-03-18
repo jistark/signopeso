@@ -29,6 +29,7 @@ A comprehensive UI/UX refinement of the SignoPeso homepage v2. Not a redesign �
 
 ### Removed modules
 - **"Cómo Leernos"** — removed from sidebar. Served its educational purpose; now occupies premium space without adding value.
+- **"Qué Estamos Leyendo"** — removed from sidebar now. Will be rebuilt as a standalone feature with more prominence in a separate project.
 - **Popular strip (`sp/popular-strip`)** — removed from homepage. Doesn't fit the Axios-like curation model. The block remains available for other templates but is no longer in `index.html`.
 
 ---
@@ -112,7 +113,7 @@ Stays compact but gains enough visual weight to feel like content, not metadata.
 | Title weight | Newsreader 600 | **Newsreader 700** — more punch |
 | Title size | 1rem | 1rem (unchanged) |
 | Teaser line | None | **Optional 1-line teaser**: Inter 0.85rem muted, max 80 chars (`line-clamp: 1`). Uses post excerpt if available; omitted if empty. |
-| Padding | 10px 0 | **12px 0** (aligns to 8px grid) |
+| Padding | 10px 0 | **16px 0** (aligns to 8px grid) |
 
 ### Enlace
 
@@ -206,7 +207,7 @@ The source card gets radically compressed so the curator's editorial voice (the 
 | Element | Current | New |
 |---|---|---|
 | Category pills | Datatype (monospace) | **Inter 600 uppercase 0.65rem, tracking 0.05em** — distinguishes labels from timestamps |
-| Datatype usage | Everywhere (timestamps, authors, categories, rankings, domains) | **Reserved for metadata only**: timestamps, domains, "↗", pagination numbers. Categories move to Inter. |
+| Datatype usage | Everywhere (timestamps, authors, categories, rankings, domains) | **Reserved for metadata only**: timestamps, author names, domains, "↗", pagination numbers. Categories move to Inter. Author names stay Datatype — they are metadata. |
 | Title line-heights | Inconsistent across cards | **Consistent**: 0.90 for portada lead, 0.95 for largo, 1.25 for corto/enlace |
 
 ### Color discipline
@@ -268,7 +269,7 @@ The source card gets radically compressed so the curator's editorial voice (the 
 
 ## Success Criteria
 
-1. **Density**: Homepage shows ~40% more content above the fold vs current
+1. **Density**: Homepage shows noticeably more content above the fold vs current (portada 3:2 + compressed cards)
 2. **Hierarchy**: A reader can identify the most important story and scan secondary headlines in <3 seconds
 3. **Rhythm**: Scrolling through the river feels like a deliberate editorial cadence, not a random pile of cards
 4. **Cohesion**: The page reads as one designed surface from header to footer
