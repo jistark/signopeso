@@ -46,7 +46,7 @@
 /* Lead (primary featured post) */
 .sp-portada-lead__img {
     width: 100%;
-    aspect-ratio: 2/1;
+    aspect-ratio: 3 / 2;
     overflow: hidden;
     margin-bottom: 18px;
     background: var(--wp--preset--color--border);
@@ -101,9 +101,9 @@
 
 .sp-portada-lead__title {
     font-family: var(--wp--preset--font-family--heading);
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: 700;
-    line-height: 0.92;
+    line-height: 0.90;
     letter-spacing: -1.5px;
     margin-bottom: 14px;
 }
@@ -118,10 +118,14 @@
 }
 
 .sp-portada-lead__deck {
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     color: #555;
     line-height: 1.55;
     max-width: 600px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 /* Secondary list */
@@ -168,7 +172,7 @@
 
 .sp-portada-sec__title {
     font-family: var(--wp--preset--font-family--heading);
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 600;
     line-height: 1.15;
     letter-spacing: -0.3px;
@@ -183,20 +187,6 @@
     color: var(--wp--preset--color--primary);
 }
 
-.sp-portada-sec__item-img {
-    width: 100%;
-    aspect-ratio: 16/9;
-    overflow: hidden;
-    margin-bottom: 8px;
-    background: var(--wp--preset--color--border);
-}
-
-.sp-portada-sec__item-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
 
 .sp-portada-sec__source {
     font-family: var(--wp--preset--font-family--meta);

@@ -65,17 +65,11 @@ $lead_excerpt = get_the_excerpt( $lead );
             $sec_cats    = get_the_category( $sec_post->ID );
             $sec_cat     = ! empty( $sec_cats ) ? $sec_cats[0] : null;
             $sec_time    = get_post_time( 'H:i', false, $sec_post->ID );
-            $sec_thumb   = ( $i === 0 ) ? get_the_post_thumbnail_url( $sec_post->ID, 'medium_large' ) : false;
             $sec_source  = sp_get_source_data( $sec_post->ID );
             $sec_formats = wp_get_object_terms( $sec_post->ID, 'sp_formato', array( 'fields' => 'slugs' ) );
             $sec_formato = ! empty( $sec_formats ) ? $sec_formats[0] : 'corto';
         ?>
             <div class="sp-portada-sec__item">
-                <?php if ( $sec_thumb ) : ?>
-                    <div class="sp-portada-sec__item-img">
-                        <img src="<?php echo esc_url( $sec_thumb ); ?>" alt="" loading="lazy">
-                    </div>
-                <?php endif; ?>
 
                 <div class="sp-portada-sec__item-over">
                     <span class="sp-portada-sec__cat-pill"><?php echo esc_html( $sec_cat ? $sec_cat->name : '' ); ?></span>
