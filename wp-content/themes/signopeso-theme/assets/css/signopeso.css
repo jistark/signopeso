@@ -887,7 +887,7 @@
 .sp-newsletter-form__heading {
     color: var(--wp--preset--color--secondary);
     font-family: var(--wp--preset--font-family--heading);
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     font-weight: 700;
     margin: 0 0 4px;
     line-height: 1.3;
@@ -897,19 +897,19 @@
 .sp-newsletter-form__subheading {
     font-size: 0.85rem;
     color: #555;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     line-height: 1.4;
 }
 
 .sp-newsletter-form__form {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 8px;
 }
 
 .sp-newsletter-form__input {
-    width: 100%;
-    padding: 10px 12px;
+    flex: 1;
+    padding: 8px 12px;
     border: none;
     border-radius: 0;
     font-size: 0.85rem;
@@ -924,16 +924,17 @@
 }
 
 .sp-newsletter-form__button {
-    width: 100%;
-    padding: 10px;
+    width: auto;
+    padding: 8px 16px;
     border: none;
     border-radius: 0;
     background: var(--wp--preset--color--secondary);
     color: var(--wp--preset--color--surface);
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     cursor: pointer;
     transition: background 0.15s ease;
+    white-space: nowrap;
 }
 
 .sp-newsletter-form__button:hover {
