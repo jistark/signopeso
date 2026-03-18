@@ -26,8 +26,8 @@ Two deliverables, strict separation:
 | Block | Purpose |
 |---|---|
 | `sp/portada` | Editorial lead zone — auto-selects featured story (sticky → largo/cobertura → latest) + "También Hoy" secondary headlines |
-| `sp/popular-strip` | Horizontal popular posts divider with salmón-numbered rankings (01-05) |
-| `sp/source-card` | OG preview card for source URL (dual layout: high-res image top / low-res image right) |
+| `sp/popular-strip` | Horizontal popular posts divider with salmón-numbered rankings (01-05). Not used in homepage. |
+| `sp/source-card` | Compact OG citation card for source URL (80px thumb + title + domain) |
 | `sp/post-card` | Format-driven post card — category is always the visible label, format drives visual treatment |
 | `sp/date-stream` | Date-grouped post stream with `inheritQuery` for archives. Excludes portada lead via `$GLOBALS['sp_portada_lead_id']`. |
 | `sp/ad-slot` | Renders configured ad code by position |
@@ -37,9 +37,9 @@ Two deliverables, strict separation:
 | `sp/recirculation` | Post-article recommendations using actual `sp/post-card` via `WP_Block` |
 
 ### Post Card Rendering (v2 — format-driven, category-labeled)
-- **Corto**: Dense, tweet-like. Borderless. Category pill + timestamp + title only. No author, no image.
-- **Enlace**: Boxed card. Category + `↗ domain` + timestamp. Source OG card below (high-res or low-res layout). Yellow border on hover.
-- **Largo**: Expanded, borderless. Author + timestamp, yellow category badge, optional 21:9 featured image, excerpt, "Sigue leyendo →".
+- **Corto**: Dense, tweet-like. Borderless. Category pill + timestamp + title + optional 1-line teaser. No author, no image.
+- **Enlace**: Boxed card. Category + `↗ domain` + timestamp. Compact source card below (80px thumb + title + domain). Yellow border on hover.
+- **Largo**: Horizontal layout, borderless. Author + timestamp, yellow category badge. Text left (title + excerpt + "Sigue leyendo →") + optional 3:2 thumbnail right.
 - **Cobertura**: Same as Largo but with pulsing salmón dot + "En vivo — se actualiza" in footer.
 
 ### Key Includes
@@ -71,11 +71,12 @@ Two deliverables, strict separation:
 - Background `#FAFAFA`, Surface `#FFFFFF`, Border `#E0E0E0`, Muted `#999999`
 
 **Typography:**
-- Newsreader 700 — display headlines (3rem portada lead, 1.75rem expanded cards, line-height ~0.92-0.95)
+- Newsreader 700 — display headlines (2.5rem portada lead, 1.4rem expanded cards, line-height ~0.90-0.95)
 - Newsreader 600 — secondary headlines (1.05rem compact/enlace cards)
 - Newsreader 700 small-caps — section labels (date headers, "También Hoy", "Populares", sidebar headings, footer column heads)
 - Inter — body text (18px/1.75 single, 1rem river)
-- Datatype (variable mono) — author names, timestamps, category pills, domain attributions, rankings, pagination
+- Inter 600 — category pills (corto/enlace cards), expanded card badges
+- Datatype (variable mono) — author names, timestamps, domain attributions, rankings, pagination
 
 **Visual patterns (Sherwood DNA):**
 - Dark masthead + salmón nav strip (header)
@@ -87,7 +88,7 @@ Two deliverables, strict separation:
 - Square corners throughout (border-radius: 0)
 
 ### Templates
-- `index.html` — Portada (lead + "También Hoy") → popular strip → river (2/3) + sidebar (1/3) → dark footer
+- `index.html` — Portada (lead + "También Hoy") → river (2/3) + sidebar (1/3) → dark footer
 - `single.html` — Centered 720px, author/time/badge/title/deck/category/body, recirculation below
 - `page.html` — Centered 720px
 - `archive.html` — Uses `sp/date-stream` with `inheritQuery`
@@ -95,8 +96,8 @@ Two deliverables, strict separation:
 - `page-archive-all.html` — Custom template for Archivos page
 
 ### Template Parts
-- `header.html` — Dark masthead (#$) + salmón nav strip (categories)
-- `sidebar.html` — Search, newsletter (yellow), "Cómo Leernos" format explainer, curated links (with Techmeme), ad slot
+- `header.html` — Dark masthead (#$ logo) + salmón nav strip (categories). No secondary nav.
+- `sidebar.html` — Search, newsletter (yellow, horizontal), ad slot. Sticky on scroll.
 - `footer.html` — Dark #1A1A1A multi-column: brand+tagline, link columns (Secciones + #$P), newsletter CTA (yellow), copyright + "Santiago, Chile"
 
 ### URL Structure
@@ -121,3 +122,4 @@ Two deliverables, strict separation:
 - Implementation plan (v1.0.0): `docs/superpowers/plans/2026-03-17-signopeso-implementation.md`
 - UX refresh plan (completed): `docs/superpowers/plans/2026-03-17-signopeso-ux-refresh.md`
 - Homepage v2 plan: `docs/superpowers/plans/2026-03-17-signopeso-homepage-v2.md`
+- UI polish plan: `docs/superpowers/plans/2026-03-18-signopeso-ui-polish.md`
