@@ -32,6 +32,13 @@ if ( $inherit_query ) {
         $query_args['year']     = get_query_var( 'year' );
         $query_args['monthnum'] = get_query_var( 'monthnum' );
     }
+    // Support search queries.
+    if ( is_search() ) {
+        $query_args['s'] = get_search_query();
+        if ( ! empty( $_GET['orderby'] ) && in_array( $_GET['orderby'], array( 'date', 'relevance' ), true ) ) {
+            $query_args['orderby'] = sanitize_text_field( $_GET['orderby'] );
+        }
+    }
 }
 
 // Exclude portada lead post if set (merge with any existing exclusions).
