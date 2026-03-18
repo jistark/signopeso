@@ -41,6 +41,7 @@ function sp_register_blocks() {
         'newsletter-form',
         'full-archive',
         'recirculation',
+        'recirculation-lite',
         'portada',
         'popular-strip',
         'search-header',
