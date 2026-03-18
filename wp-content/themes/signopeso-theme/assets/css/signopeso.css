@@ -1167,6 +1167,18 @@
 }
 
 /* ================================================================
+   RECIRCULATION LITE — lightweight version for 404 / non-post pages
+   ================================================================ */
+.sp-recirculation-lite {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--wp--preset--color--border);
+}
+.sp-recirculation-lite .sp-section-label {
+    margin-bottom: 16px;
+}
+
+/* ================================================================
    FOOTER — v2 dark background
    Mapped from .footer-* in mockup
    ================================================================ */
