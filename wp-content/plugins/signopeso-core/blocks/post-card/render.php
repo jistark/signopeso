@@ -103,29 +103,30 @@ elseif ( 'enlace' === $formato ) :
 elseif ( 'largo' === $formato ) :
     $thumb_url = get_the_post_thumbnail_url( $post_id, 'large' );
 ?>
+<?php /* ── Largo ──────────────────────────────────── */ ?>
 <article class="sp-post-card sp-post-card--expanded sp-post-card--largo">
     <div class="sp-post-card__header">
         <span class="sp-post-card__author"><?php echo esc_html( $author ); ?></span>
         <span class="sp-post-card__time"><?php echo esc_html( $post_time_display ); ?></span>
     </div>
-    <?php if ( $cat_name ) : ?>
-        <a href="<?php echo esc_url( $cat_link ); ?>" class="sp-post-card__badge"><?php echo esc_html( $cat_name ); ?></a>
-    <?php endif; ?>
-    <?php if ( $thumb_url ) : ?>
-        <div class="sp-post-card__img">
-            <img src="<?php echo esc_url( $thumb_url ); ?>" alt="" loading="lazy">
+    <a href="<?php echo esc_url( $cat_link ); ?>" class="sp-post-card__badge"><?php echo esc_html( $cat_name ); ?></a>
+    <div class="sp-post-card__body-row">
+        <div class="sp-post-card__text">
+            <h3 class="sp-post-card__title">
+                <a href="<?php echo esc_url( get_permalink( $post_id ) ); ?>"><?php echo esc_html( get_the_title( $post_id ) ); ?></a>
+            </h3>
+            <?php $excerpt = get_the_excerpt( $post_id ); if ( $excerpt ) : ?>
+                <div class="sp-post-card__excerpt"><?php echo esc_html( $excerpt ); ?></div>
+            <?php endif; ?>
+            <div class="sp-post-card__footer">
+                <a href="<?php echo esc_url( get_permalink( $post_id ) ); ?>" class="sp-post-card__read">Sigue leyendo &rarr;</a>
+            </div>
         </div>
-    <?php endif; ?>
-    <h3 class="sp-post-card__title">
-        <a href="<?php echo esc_url( $permalink ); ?>">
-            <?php echo esc_html( get_the_title( $post_id ) ); ?>
-        </a>
-    </h3>
-    <div class="sp-post-card__excerpt">
-        <?php echo wp_kses_post( get_the_excerpt( $post_id ) ); ?>
-    </div>
-    <div class="sp-post-card__footer">
-        <a href="<?php echo esc_url( $permalink ); ?>" class="sp-post-card__read">Sigue leyendo &rarr;</a>
+        <?php if ( $thumb_url ) : ?>
+            <div class="sp-post-card__thumb">
+                <img src="<?php echo esc_url( $thumb_url ); ?>" alt="" loading="lazy">
+            </div>
+        <?php endif; ?>
     </div>
 </article>
 
@@ -136,32 +137,33 @@ elseif ( 'largo' === $formato ) :
 elseif ( 'cobertura' === $formato ) :
     $thumb_url = get_the_post_thumbnail_url( $post_id, 'large' );
 ?>
+<?php /* ── Cobertura ──────────────────────────────── */ ?>
 <article class="sp-post-card sp-post-card--expanded sp-post-card--cobertura">
     <div class="sp-post-card__header">
         <span class="sp-post-card__author"><?php echo esc_html( $author ); ?></span>
         <span class="sp-post-card__time"><?php echo esc_html( $post_time_display ); ?></span>
     </div>
-    <?php if ( $cat_name ) : ?>
-        <a href="<?php echo esc_url( $cat_link ); ?>" class="sp-post-card__badge"><?php echo esc_html( $cat_name ); ?></a>
-    <?php endif; ?>
-    <?php if ( $thumb_url ) : ?>
-        <div class="sp-post-card__img">
-            <img src="<?php echo esc_url( $thumb_url ); ?>" alt="" loading="lazy">
+    <a href="<?php echo esc_url( $cat_link ); ?>" class="sp-post-card__badge"><?php echo esc_html( $cat_name ); ?></a>
+    <div class="sp-post-card__body-row">
+        <div class="sp-post-card__text">
+            <h3 class="sp-post-card__title">
+                <a href="<?php echo esc_url( get_permalink( $post_id ) ); ?>"><?php echo esc_html( get_the_title( $post_id ) ); ?></a>
+            </h3>
+            <?php $excerpt = get_the_excerpt( $post_id ); if ( $excerpt ) : ?>
+                <div class="sp-post-card__excerpt"><?php echo esc_html( $excerpt ); ?></div>
+            <?php endif; ?>
+            <div class="sp-post-card__footer">
+                <span class="sp-post-card__live">
+                    <span class="sp-post-card__live-dot"></span> En vivo &mdash; se actualiza
+                </span>
+                <a href="<?php echo esc_url( get_permalink( $post_id ) ); ?>" class="sp-post-card__read">Sigue leyendo &rarr;</a>
+            </div>
         </div>
-    <?php endif; ?>
-    <h3 class="sp-post-card__title">
-        <a href="<?php echo esc_url( $permalink ); ?>">
-            <?php echo esc_html( get_the_title( $post_id ) ); ?>
-        </a>
-    </h3>
-    <div class="sp-post-card__excerpt">
-        <?php echo wp_kses_post( get_the_excerpt( $post_id ) ); ?>
-    </div>
-    <div class="sp-post-card__footer">
-        <span class="sp-post-card__live">
-            <span class="sp-post-card__live-dot"></span> En vivo &mdash; se actualiza
-        </span>
-        <a href="<?php echo esc_url( $permalink ); ?>" class="sp-post-card__read">Sigue leyendo &rarr;</a>
+        <?php if ( $thumb_url ) : ?>
+            <div class="sp-post-card__thumb">
+                <img src="<?php echo esc_url( $thumb_url ); ?>" alt="" loading="lazy">
+            </div>
+        <?php endif; ?>
     </div>
 </article>
 
