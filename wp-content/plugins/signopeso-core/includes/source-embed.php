@@ -162,6 +162,21 @@ function sp_parse_og_tags( $html ) {
 }
 
 /**
+ * Check if a post's source OG image is high resolution (width >= 600px).
+ *
+ * @param int $post_id Post ID.
+ * @return bool True if image width >= 600px.
+ */
+function sp_source_card_is_highres( $post_id ) {
+    $image_id = get_post_meta( $post_id, '_sp_source_og_image_id', true );
+    if ( ! $image_id ) {
+        return false;
+    }
+    $meta = wp_get_attachment_metadata( $image_id );
+    return $meta && isset( $meta['width'] ) && $meta['width'] >= 600;
+}
+
+/**
  * Get source data for a post (used by blocks).
  */
 function sp_get_source_data( $post_id ) {
