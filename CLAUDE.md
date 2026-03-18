@@ -35,6 +35,8 @@ Two deliverables, strict separation:
 | `sp/newsletter-form` | Subscription form → REST API → Resend (supports subheading) |
 | `sp/full-archive` | Year/month collapsible post archive |
 | `sp/recirculation` | Post-article recommendations using actual `sp/post-card` via `WP_Block` |
+| `sp/search-header` | Search results header: count + query echo + relevance/date sort toggle |
+| `sp/recirculation-lite` | Lightweight recent posts for non-post pages (e.g., 404). No post context required. |
 
 ### Post Card Rendering (v2 — format-driven, category-labeled)
 - **Corto**: Dense, tweet-like. Borderless. Category pill + timestamp + title + optional 1-line teaser. No author, no image.
@@ -92,7 +94,8 @@ Two deliverables, strict separation:
 - `single.html` — Centered 720px, author/time/badge/title/deck/category/body, recirculation below
 - `page.html` — Centered 720px
 - `archive.html` — Uses `sp/date-stream` with `inheritQuery`
-- `404.html` — Minimal with search
+- `search.html` — Search results: search-header (count + sort) + date-stream with inheritQuery
+- `404.html` — "Sin señal" heading, search, recent posts via recirculation-lite
 - `page-archive-all.html` — Custom template for Archivos page
 
 ### Template Parts
@@ -123,3 +126,5 @@ Two deliverables, strict separation:
 - UX refresh plan (completed): `docs/superpowers/plans/2026-03-17-signopeso-ux-refresh.md`
 - Homepage v2 plan: `docs/superpowers/plans/2026-03-17-signopeso-homepage-v2.md`
 - UI polish plan: `docs/superpowers/plans/2026-03-18-signopeso-ui-polish.md`
+- Template polish design spec: `docs/superpowers/specs/2026-03-18-signopeso-template-polish-design.md`
+- Template polish plan: `docs/superpowers/plans/2026-03-18-signopeso-template-polish.md`
