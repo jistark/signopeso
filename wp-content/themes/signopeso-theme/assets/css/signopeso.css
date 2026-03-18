@@ -584,171 +584,56 @@
 }
 
 /* ================================================================
-   SOURCE CARD
-   Mapped from .src-card* in mockup
+   SOURCE CARD — compact OG citation
    ================================================================ */
 .sp-source-card {
-    border: 1px solid var(--wp--preset--color--border);
+    border: 1px solid #F0F0F0;
+    background: #FAFAFA;
+    margin-top: 12px;
     overflow: hidden;
-    transition: border-color 0.15s ease;
 }
-
-.sp-source-card:hover {
-    border-color: var(--wp--preset--color--highlight);
-}
-
 .sp-source-card a {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
-
-/* Large variant (full-width image on top) */
-.sp-source-card__img-lg {
-    width: 100%;
-    aspect-ratio: 16/9;
-    overflow: hidden;
-    background: var(--wp--preset--color--border);
-}
-
-.sp-source-card__img-lg img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.sp-source-card__body {
-    padding: 12px 14px;
-}
-
-.sp-source-card__og-title {
-    font-family: var(--wp--preset--font-family--heading);
-    font-size: 0.95rem;
-    font-weight: 600;
-    line-height: 1.2;
-    margin-bottom: 4px;
-    letter-spacing: -0.2px;
-    color: var(--wp--preset--color--secondary);
-}
-
-.sp-source-card__og-author {
-    font-family: var(--wp--preset--font-family--meta);
-    font-size: 0.6rem;
-    color: var(--wp--preset--color--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 4px;
-}
-
-.sp-source-card__og-excerpt {
-    font-size: 0.82rem;
-    color: #555;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    margin-bottom: 6px;
-}
-
-.sp-source-card__og-url {
-    font-family: var(--wp--preset--font-family--meta);
-    font-size: 0.6rem;
-    color: var(--wp--preset--color--muted);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.sp-source-card__go {
-    color: var(--wp--preset--color--primary);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-/* Small variant (thumbnail right) */
-.sp-source-card--sm a {
-    display: flex;
-    gap: 14px;
-}
-
-.sp-source-card--sm .sp-source-card__body {
-    padding: 10px 0 10px 14px;
-    flex: 1;
-    min-width: 0;
-}
-
-.sp-source-card--sm .sp-source-card__img-sm {
-    width: 100px;
-    flex-shrink: 0;
-    overflow: hidden;
-    background: var(--wp--preset--color--border);
-}
-
-.sp-source-card--sm .sp-source-card__img-sm img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-/* Legacy source card layout (kept for backward compat) */
-.sp-source-card__link {
     display: flex;
     gap: 12px;
-    padding: 10px;
+    align-items: center;
+    padding: 10px 12px;
     text-decoration: none;
     color: inherit;
-    transition: background 0.15s ease;
 }
-
-.sp-source-card__link:hover {
-    background: var(--wp--preset--color--highlight-pale);
-}
-
-.sp-source-card__image {
+.sp-source-card__thumb {
+    width: 80px;
+    height: 80px;
     flex-shrink: 0;
-    width: 50px;
-    height: 50px;
     overflow: hidden;
 }
-
-.sp-source-card__image img {
+.sp-source-card__thumb img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-
-.sp-source-card__info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    min-width: 0;
-}
-
-.sp-source-card__title {
-    font-size: 0.85rem;
+.sp-source-card__og-title {
+    font-size: 0.9rem;
     font-weight: 600;
+    line-height: 1.25;
+    margin-bottom: 4px;
     color: var(--wp--preset--color--secondary);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
-
-.sp-source-card__desc {
-    font-size: 0.8rem;
-    color: var(--wp--preset--color--muted);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
 .sp-source-card__domain {
-    font-family: var(--wp--preset--font-family--meta);
     font-size: 0.65rem;
-    color: var(--wp--preset--color--muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--wp--preset--color--primary);
+}
+.sp-source-link {
+    margin-top: 8px;
+    font-size: 0.75rem;
+}
+.sp-source-link a {
+    color: var(--wp--preset--color--primary);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
 }
 
 /* ================================================================
