@@ -43,6 +43,7 @@ function sp_register_blocks() {
         'recirculation',
         'portada',
         'popular-strip',
+        'search-header',
     );
 
     foreach ( $blocks as $block ) {
