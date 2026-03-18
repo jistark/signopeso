@@ -1189,7 +1189,7 @@
 }
 
 .sp-footer__tagline {
-    font-size: 0.82rem;
+    font-size: 0.75rem;
     color: var(--wp--preset--color--muted);
     max-width: 260px;
     line-height: 1.5;
