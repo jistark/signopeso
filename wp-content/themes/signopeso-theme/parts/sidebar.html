@@ -1,16 +1,31 @@
-<!-- wp:group {"style":{"spacing":{"blockGap":"24px"}},"className":"sp-sidebar"} -->
+<!-- wp:group {"style":{"spacing":{"blockGap":"20px"}},"className":"sp-sidebar"} -->
 <div class="wp-block-group sp-sidebar">
 
     <!-- wp:search {"label":"Buscar","showLabel":false,"placeholder":"Busca en #$P","buttonText":"","style":{"border":{"radius":"0px","width":"1px"}},"borderColor":"border","fontSize":"small","className":"sp-sidebar__search"} /-->
 
-    <!-- wp:sp/popular-posts {"period":"7","count":5} /-->
+    <!-- wp:sp/newsletter-form {"ctaText":"Suscríbete","placeholder":"tu@email.com","heading":"Suscríbete a #$P","subheading":"Corto y digerible, para el resto de nosotros."} /-->
 
-    <!-- wp:sp/newsletter-form {"ctaText":"Suscríbete","placeholder":"tu@email.com","heading":"Suscríbete","subheading":"Corto y digerible, para el resto de nosotros."} /-->
+    <!-- wp:group {"className":"sp-formatos-box","style":{"border":{"width":"1px"},"spacing":{"padding":{"top":"18px","bottom":"18px","left":"18px","right":"18px"}}},"borderColor":"border","backgroundColor":"surface"} -->
+    <div class="wp-block-group sp-formatos-box" style="border-width:1px;padding:18px">
+        <!-- wp:heading {"level":4,"className":"sp-section-label"} -->
+        <h4 class="wp-block-heading sp-section-label">cómo leernos</h4>
+        <!-- /wp:heading -->
+
+        <!-- wp:html -->
+        <div class="sp-formatos">
+            <div class="sp-formatos__item"><div class="sp-formatos__swatch sp-formatos__swatch--corto"></div><span class="sp-formatos__name">Corto</span><span class="sp-formatos__desc">Directo al punto</span></div>
+            <div class="sp-formatos__item"><div class="sp-formatos__swatch sp-formatos__swatch--enlace"></div><span class="sp-formatos__name">Enlace</span><span class="sp-formatos__desc">Lo mejor de otra fuente</span></div>
+            <div class="sp-formatos__item"><div class="sp-formatos__swatch sp-formatos__swatch--largo"></div><span class="sp-formatos__name">Largo</span><span class="sp-formatos__desc">Análisis a fondo</span></div>
+            <div class="sp-formatos__item"><div class="sp-formatos__swatch sp-formatos__swatch--cobertura"></div><span class="sp-formatos__name">Cobertura</span><span class="sp-formatos__desc">En vivo, se actualiza</span></div>
+        </div>
+        <!-- /wp:html -->
+    </div>
+    <!-- /wp:group -->
 
     <!-- wp:group {"className":"sp-curated-links"} -->
     <div class="wp-block-group sp-curated-links">
-        <!-- wp:heading {"level":4,"className":"sp-curated-links__heading"} -->
-        <h4 class="wp-block-heading sp-curated-links__heading">Qué Estamos Leyendo</h4>
+        <!-- wp:heading {"level":4,"className":"sp-section-label"} -->
+        <h4 class="wp-block-heading sp-section-label">qué estamos leyendo</h4>
         <!-- /wp:heading -->
 
         <!-- wp:list {"className":"sp-curated-links__list"} -->
@@ -18,6 +33,7 @@
             <li><a href="https://www.ben-evans.com/?utm_source=signopeso&amp;utm_medium=referral" target="_blank" rel="noopener">Benedict Evans</a> — Tech + estrategia</li>
             <li><a href="https://www.platformer.news/?utm_source=signopeso&amp;utm_medium=referral" target="_blank" rel="noopener">Platformer</a> — Big Tech + moderación</li>
             <li><a href="https://www.df.cl/?utm_source=signopeso&amp;utm_medium=referral" target="_blank" rel="noopener">Diario Financiero</a> — Economía Chile</li>
+            <li><a href="https://www.techmeme.com/?utm_source=signopeso&amp;utm_medium=referral" target="_blank" rel="noopener">Techmeme</a> — Tech aggregation</li>
         </ul>
         <!-- /wp:list -->
     </div>

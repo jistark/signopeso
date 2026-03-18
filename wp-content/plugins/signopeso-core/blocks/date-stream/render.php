@@ -34,6 +34,12 @@ if ( $inherit_query ) {
     }
 }
 
+// Exclude portada lead post if set (merge with any existing exclusions).
+if ( ! empty( $GLOBALS['sp_portada_lead_id'] ) ) {
+    $existing = $query_args['post__not_in'] ?? array();
+    $query_args['post__not_in'] = array_unique( array_merge( $existing, array( (int) $GLOBALS['sp_portada_lead_id'] ) ) );
+}
+
 $query = new WP_Query( $query_args );
 
 if ( ! $query->have_posts() ) {
@@ -56,8 +62,8 @@ while ( $query->have_posts() ) {
         }
         $current_date = $post_date;
         printf(
-            '<div class="sp-date-stream__group"><h2 class="sp-date-stream__date">%s</h2>',
-            esc_html( ucfirst( $post_date ) )
+            '<div class="sp-date-stream__group"><h2 class="sp-date-stream__date"><span class="sp-section-label sp-section-label--sal">%s</span></h2>',
+            esc_html( mb_strtolower( ucfirst( $post_date ) ) )
         );
     }
 
