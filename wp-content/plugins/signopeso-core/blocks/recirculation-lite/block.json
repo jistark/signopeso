@@ -1,0 +1,12 @@
+{
+    "apiVersion": 3,
+    "name": "sp/recirculation-lite",
+    "title": "Recirculation Lite",
+    "category": "signopeso",
+    "description": "Lightweight recent posts for pages without post context (e.g., 404).",
+    "textdomain": "signopeso-core",
+    "supports": {
+        "html": false
+    },
+    "render": "file:./render.php"
+}
