@@ -8,9 +8,9 @@ if ( ! is_search() ) {
 }
 
 $search_query = get_search_query();
-$found_posts  = $GLOBALS['wp_query']->found_posts ?? 0;
+$found_posts  = (int) ( $GLOBALS['wp_query']->found_posts ?? 0 );
 $current_sort = isset( $_GET['orderby'] ) && in_array( $_GET['orderby'], array( 'date', 'relevance' ), true )
-    ? sanitize_text_field( $_GET['orderby'] )
+    ? sanitize_text_field( wp_unslash( $_GET['orderby'] ) )
     : 'relevance';
 
 $base_url = home_url( '/' );

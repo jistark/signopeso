@@ -132,10 +132,15 @@ class URLScraper {
                 $content = $this->extract_text_from_node($content_node);
                 $content = $this->clean_content($content);
 
-                // Apply recipe text patterns.
+                // Apply recipe text patterns (validate regex to prevent ReDoS).
                 if (!empty($recipe['strip_text'])) {
                     foreach ($recipe['strip_text'] as $pattern) {
-                        $content = @preg_replace('/' . $pattern . '/iu', '', $content);
+                        if ( @preg_match( '/' . $pattern . '/iu', '' ) !== false ) {
+                            $content = @preg_replace( '/' . $pattern . '/iu', '', $content );
+                            if ( preg_last_error() !== PREG_NO_ERROR ) {
+                                break;
+                            }
+                        }
                     }
                     $content = $this->clean_content($content);
                 }

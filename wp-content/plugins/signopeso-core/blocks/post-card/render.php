@@ -8,7 +8,10 @@ if ( ! $post_id ) {
     return;
 }
 
-$post    = get_post( $post_id );
+$post = get_post( $post_id );
+if ( ! $post ) {
+    return;
+}
 $formats = wp_get_object_terms( $post_id, 'sp_formato', array( 'fields' => 'slugs' ) );
 $formato = ! empty( $formats ) && ! is_wp_error( $formats ) ? $formats[0] : 'corto';
 

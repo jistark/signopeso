@@ -36,7 +36,7 @@ if ( $inherit_query ) {
     if ( is_search() ) {
         $query_args['s'] = get_search_query();
         if ( ! empty( $_GET['orderby'] ) && in_array( $_GET['orderby'], array( 'date', 'relevance' ), true ) ) {
-            $query_args['orderby'] = sanitize_text_field( $_GET['orderby'] );
+            $query_args['orderby'] = sanitize_text_field( wp_unslash( $_GET['orderby'] ) );
         }
     }
 }
@@ -54,9 +54,7 @@ if ( ! $query->have_posts() ) {
     return;
 }
 
-// Track current date using Y-m-d for relative comparison and full string for grouping.
-$current_date_ymd     = '';
-$current_date_display = '';
+$current_date_ymd = '';
 
 $today     = wp_date( 'Y-m-d' );
 $yesterday = wp_date( 'Y-m-d', strtotime( '-1 day' ) );
@@ -75,8 +73,7 @@ while ( $query->have_posts() ) {
             echo '</div><!-- /.sp-date-stream__group -->';
         }
 
-        $current_date_ymd     = $post_date_ymd;
-        $current_date_display = $post_date_ymd; // Kept for legacy compat; grouping is by Y-m-d.
+        $current_date_ymd = $post_date_ymd;
 
         $full_date = mb_strtolower( date_i18n( 'l j \d\e F', get_the_time( 'U' ) ) );
 
@@ -121,16 +118,18 @@ if ( $current_date_ymd ) {
 
 // Infinite scroll loader (replaces pagination).
 $total_pages = $query->max_num_pages;
+$lead_id     = ! empty( $GLOBALS['sp_portada_lead_id'] ) ? (int) $GLOBALS['sp_portada_lead_id'] : 0;
 if ( $total_pages > 1 && $paged < $total_pages ) {
     printf(
-        '<div class="sp2-loader" data-next-page="%d" data-max-pages="%d" data-per-page="%d">
-            <div class="sp2-loader__circle">
-                <span class="sp2-loader__symbol">$</span>
+        '<div class="sp-loader sp2-loader" data-next-page="%d" data-max-pages="%d" data-per-page="%d" data-exclude="%d">
+            <div class="sp-loader__circle sp2-loader__circle">
+                <span class="sp-loader__symbol sp2-loader__symbol">$</span>
             </div>
         </div>',
         $paged + 1,
         $total_pages,
-        $posts_per_page
+        $posts_per_page,
+        $lead_id
     );
 }
 

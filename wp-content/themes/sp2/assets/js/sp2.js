@@ -250,13 +250,13 @@ document.addEventListener('click', function (e) {
     var loading = false;
 
     function initInfiniteScroll() {
-        var loader = document.querySelector('.sp2-loader');
+        var loader = document.querySelector('.sp-loader, .sp2-loader');
         if (!loader) return;
 
         var stream   = document.querySelector('.sp-date-stream');
         if (!stream) return;
 
-        var symbolEl = loader.querySelector('.sp2-loader__symbol');
+        var symbolEl = loader.querySelector('.sp-loader__symbol, .sp2-loader__symbol');
 
         // Always rotate symbols as idle animation
         var symbolIndex = 0;
@@ -280,7 +280,8 @@ document.addEventListener('click', function (e) {
 
             loading = true;
 
-            fetch('/wp-json/signopeso/v1/stream?page=' + nextPage + '&per_page=' + (loader.dataset.perPage || 10))
+            var excludeId = loader.dataset.exclude || 0;
+            fetch('/wp-json/signopeso/v1/stream?page=' + nextPage + '&per_page=' + (loader.dataset.perPage || 10) + (excludeId ? '&exclude=' + excludeId : ''))
                 .then(function (r) {
                     if (!r.ok) throw new Error('fetch failed');
                     return r.text();

@@ -48,6 +48,10 @@ function sp_register_rest_routes() {
                 'default'           => 10,
                 'sanitize_callback' => 'absint',
             ),
+            'exclude' => array(
+                'default'           => 0,
+                'sanitize_callback' => 'absint',
+            ),
         ),
     ) );
 }
@@ -82,40 +86,44 @@ function sp_handle_subscribe( WP_REST_Request $request ) {
 function sp_handle_stream( WP_REST_Request $request ) {
     $page     = max( 1, $request->get_param( 'page' ) );
     $per_page = min( 20, max( 1, $request->get_param( 'per_page' ) ) );
+    $exclude  = (int) $request->get_param( 'exclude' );
 
-    $query = new WP_Query( array(
+    $query_args = array(
         'post_type'      => 'post',
         'post_status'    => 'publish',
         'posts_per_page' => $per_page,
         'paged'          => $page,
-    ) );
+    );
+
+    // Exclude portada lead post to prevent duplication in infinite scroll.
+    if ( $exclude ) {
+        $query_args['post__not_in'] = array( $exclude ); // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in -- Single portada lead exclusion.
+    }
+
+    $query = new WP_Query( $query_args );
 
     if ( ! $query->have_posts() ) {
-        // Return empty HTML (not JSON) so the JS can detect end-of-stream.
-        header( 'Content-Type: text/html; charset=UTF-8' );
-        echo '';
-        exit;
+        wp_reset_postdata();
+        return new WP_REST_Response( '', 200, array( 'Content-Type' => 'text/html; charset=UTF-8' ) );
     }
 
     ob_start();
 
-    $current_date = '';
+    // Use Y-m-d for grouping (consistent with date-stream block).
+    $current_date_ymd = '';
+    $today            = wp_date( 'Y-m-d' );
+    $yesterday        = wp_date( 'Y-m-d', strtotime( '-1 day' ) );
 
     while ( $query->have_posts() ) {
         $query->the_post();
 
-        // Date header.
         $post_date_ymd = get_the_time( 'Y-m-d' );
-        $post_date     = date_i18n( 'l j \d\e F, Y', get_the_time( 'U' ) );
 
-        if ( $post_date !== $current_date ) {
-            if ( $current_date ) {
+        if ( $post_date_ymd !== $current_date_ymd ) {
+            if ( $current_date_ymd ) {
                 echo '</div><!-- /.sp-date-stream__group -->';
             }
-            $current_date = $post_date;
-
-            $today     = wp_date( 'Y-m-d' );
-            $yesterday = wp_date( 'Y-m-d', strtotime( '-1 day' ) );
+            $current_date_ymd = $post_date_ymd;
 
             if ( $post_date_ymd === $today ) {
                 $relative_label = 'hoy';
@@ -143,7 +151,6 @@ function sp_handle_stream( WP_REST_Request $request ) {
             printf( '<div class="sp-date-stream__group"><h2 class="sp-date-stream__date">%s</h2>', $date_html );
         }
 
-        // Render post card.
         $block_instance = new WP_Block(
             array( 'blockName' => 'sp/post-card' ),
             array( 'postId' => get_the_ID() )
@@ -151,18 +158,14 @@ function sp_handle_stream( WP_REST_Request $request ) {
         echo $block_instance->render(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     }
 
-    if ( $current_date ) {
+    if ( $current_date_ymd ) {
         echo '</div><!-- /.sp-date-stream__group -->';
     }
 
     $html = ob_get_clean();
-
     wp_reset_postdata();
 
-    // Send raw HTML instead of JSON-encoded WP_REST_Response.
-    header( 'Content-Type: text/html; charset=UTF-8' );
-    echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Pre-escaped in render templates.
-    exit;
+    return new WP_REST_Response( $html, 200, array( 'Content-Type' => 'text/html; charset=UTF-8' ) );
 }
 
 /**
@@ -174,36 +177,40 @@ function sp_handle_recirculation( WP_REST_Request $request ) {
     $exclude = (int) $request->get_param( 'exclude' );
     $count   = min( 8, max( 1, (int) $request->get_param( 'count' ) ) );
 
-    // Get random posts, excluding the current one, for variety.
-    $query = new WP_Query( array(
-        'post_type'      => 'post',
-        'post_status'    => 'publish',
-        'posts_per_page' => $count,
-        'post__not_in'   => $exclude ? array( $exclude ) : array(), // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
-        'orderby'        => 'rand',
-    ) );
+    // Cache random post IDs briefly to avoid ORDER BY RAND() on every request.
+    $cache_key = 'sp_recirc_' . $exclude . '_' . $count;
+    $post_ids  = get_transient( $cache_key );
 
-    if ( ! $query->have_posts() ) {
-        header( 'Content-Type: text/html; charset=UTF-8' );
-        echo '';
-        exit;
+    if ( false === $post_ids ) {
+        $query_args = array(
+            'post_type'      => 'post',
+            'post_status'    => 'publish',
+            'posts_per_page' => $count,
+            'orderby'        => 'rand',
+            'fields'         => 'ids',
+        );
+        if ( $exclude ) {
+            $query_args['post__not_in'] = array( $exclude ); // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
+        }
+        $post_ids = get_posts( $query_args );
+        set_transient( $cache_key, $post_ids, 5 * MINUTE_IN_SECONDS );
+    }
+
+    if ( empty( $post_ids ) ) {
+        return new WP_REST_Response( '', 200, array( 'Content-Type' => 'text/html; charset=UTF-8' ) );
     }
 
     ob_start();
 
-    while ( $query->have_posts() ) {
-        $query->the_post();
+    foreach ( $post_ids as $pid ) {
         $block_instance = new WP_Block(
             array( 'blockName' => 'sp/post-card' ),
-            array( 'postId' => get_the_ID() )
+            array( 'postId' => $pid )
         );
         echo $block_instance->render(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     }
 
     $html = ob_get_clean();
-    wp_reset_postdata();
 
-    header( 'Content-Type: text/html; charset=UTF-8' );
-    echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-    exit;
+    return new WP_REST_Response( $html, 200, array( 'Content-Type' => 'text/html; charset=UTF-8' ) );
 }

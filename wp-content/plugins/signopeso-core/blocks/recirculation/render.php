@@ -12,15 +12,20 @@ $popular_ids = array_filter( $popular_ids, function( $id ) use ( $current_id ) {
     return (int) $id !== (int) $current_id;
 } );
 
-// Fill with random recent posts to ensure format mix.
-$exclude = array_merge( array_values( $popular_ids ), array( $current_id ) );
-$random  = get_posts( array(
-    'numberposts' => $count,
-    'post_status' => 'publish',
-    'exclude'     => $exclude, // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
-    'orderby'     => 'rand',
-    'fields'      => 'ids',
-) );
+// Fill with random recent posts to ensure format mix (cached to avoid ORDER BY RAND() per page view).
+$exclude   = array_merge( array_values( $popular_ids ), array( $current_id ) );
+$cache_key = 'sp_recirc_rand_' . $current_id;
+$random    = get_transient( $cache_key );
+if ( false === $random ) {
+    $random = get_posts( array(
+        'numberposts' => $count,
+        'post_status' => 'publish',
+        'exclude'     => $exclude, // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
+        'orderby'     => 'rand',
+        'fields'      => 'ids',
+    ) );
+    set_transient( $cache_key, $random, 5 * MINUTE_IN_SECONDS );
+}
 
 // Interleave popular and random for variety.
 $all_ids = array();
