@@ -414,61 +414,39 @@ body.sp2-menu-open {
 
 /* ==========================================================================
    POST CARDS (sp/post-card block, rendered server-side by plugin)
+   Consistent spacing rhythm: 10 → 12 → 14 → 20px (increasing gaps)
    ========================================================================== */
 
 .sp-post-card {
     font-family: var(--wp--preset--font-family--ui);
-    margin-bottom: 28px;
+    margin-bottom: 36px;
     padding: 0;
     border: none;
+    /* Fade-in for infinite scroll appended cards */
+    animation: sp2-card-in 0.3s ease both;
+}
+
+@keyframes sp2-card-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ---------- Shared elements ---------- */
 
-.sp-post-card__title {
-    font-family: var(--wp--preset--font-family--ui);
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-    margin: 0 0 8px;
-}
-
-.sp-post-card__title a {
-    color: var(--wp--preset--color--secondary);
-    text-decoration: none;
-}
-
-.sp-post-card__title a:hover {
-    color: var(--wp--preset--color--primary);
-}
-
 /* Meta row: pill left, author·time right */
+.sp-post-card__meta,
 .sp-post-card__over {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     flex-wrap: wrap;
 }
 
 /* Category pill — dark bg */
-.sp-post-card__cat {
-    display: inline-block;
-    background: var(--wp--preset--color--secondary);
-    color: #fff !important;
-    padding: 5px 10px;
-    border-radius: 10px;
-    font-family: var(--wp--preset--font-family--ui);
-    font-weight: 800;
-    font-size: 15px;
-    letter-spacing: -0.01em;
-    text-decoration: none;
-    line-height: 1.3;
-}
-
-/* Format badge (alternative to cat pill) */
+.sp-post-card__cat-pill,
+.sp-post-card__cat,
 .sp-post-card__badge {
     display: inline-block;
     background: var(--wp--preset--color--secondary);
@@ -481,17 +459,21 @@ body.sp2-menu-open {
     letter-spacing: -0.01em;
     text-decoration: none;
     line-height: 1.3;
-    margin-bottom: 8px;
+    transition: opacity 0.15s ease;
 }
 
-/* Author & timestamp */
+.sp-post-card__cat-pill:hover,
+.sp-post-card__cat:hover,
+.sp-post-card__badge:hover {
+    opacity: 0.8;
+}
+
+/* Author & timestamp — muted, smaller */
 .sp-post-card__author-time {
-    display: flex;
-    align-items: center;
-    gap: 6px;
     font-family: var(--wp--preset--font-family--ui);
     font-size: 13px;
-    color: var(--wp--preset--color--muted);
+    color: var(--wp--preset--color--text);
+    letter-spacing: -0.01em;
 }
 
 .sp-post-card__time {
@@ -510,24 +492,51 @@ body.sp2-menu-open {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
-/* Excerpt: body font, generous line-height */
+/* Title — generous line-height, smooth hover */
+.sp-post-card__title {
+    font-family: var(--wp--preset--font-family--ui);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin: 0 0 12px;
+}
+
+.sp-post-card__title a {
+    color: var(--wp--preset--color--secondary);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.sp-post-card__title a:hover {
+    color: var(--wp--preset--color--primary);
+}
+
+/* Excerpt — body serif, generous line-height */
 .sp-post-card__excerpt {
     font-family: var(--wp--preset--font-family--body);
     font-size: 17px;
-    line-height: 1.47;
+    line-height: 1.55;
     color: var(--wp--preset--color--secondary);
-    margin: 8px 0;
+    margin: 0 0 14px;
+}
+
+.sp-post-card__excerpt a {
+    color: #0000ff;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
 }
 
 .sp-post-card__teaser {
     font-family: var(--wp--preset--font-family--body);
     font-size: 17px;
-    line-height: 1.47;
+    line-height: 1.55;
     color: var(--wp--preset--color--secondary);
-    margin: 8px 0 0;
+    margin: 0 0 8px;
 }
 
 /* Yellow highlight for <mark> */
@@ -537,35 +546,56 @@ body.sp2-menu-open {
     padding: 2px 4px;
 }
 
-/* Full content (inline expand) — hidden by default */
+/* Full content (inline expand) */
 .sp-post-card__full-content {
     font-family: var(--wp--preset--font-family--body);
     font-size: 17px;
-    line-height: 1.47;
+    line-height: 1.55;
     color: var(--wp--preset--color--secondary);
-    margin: 8px 0;
+    margin: 0 0 14px;
 }
 
 .sp-post-card__full-content[hidden] {
     display: none;
 }
 
+.sp-post-card__full-content a {
+    color: #0000ff;
+    text-decoration: underline;
+}
+
+.sp-post-card__full-content p {
+    margin: 0 0 16px;
+}
+
+.sp-post-card__full-content h2,
+.sp-post-card__full-content h3 {
+    font-family: var(--wp--preset--font-family--ui);
+    font-weight: 700;
+    margin: 24px 0 12px;
+}
+
+.sp-post-card__full-content img {
+    max-width: 100%;
+    height: auto;
+}
+
 /* ---------- Largo card ---------- */
 
 .sp-post-card--largo {
-    margin-bottom: 32px;
+    margin-bottom: 40px;
 }
 
-/* Largo: larger headline */
 .sp-post-card--largo .sp-post-card__title {
     font-size: 25px;
-    line-height: 1.15;
+    line-height: 1.2;
+    margin: 0 0 14px;
 }
 
 /* Largo: full-width featured image */
 .sp-post-card--largo .sp-post-card__image {
     width: 100%;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
 }
 
 .sp-post-card--largo .sp-post-card__image img {
@@ -574,43 +604,7 @@ body.sp2-menu-open {
     display: block;
 }
 
-/* Largo: side-by-side body layout (text + small thumb) */
-.sp-post-card--largo .sp-post-card__body-row {
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-}
-
-.sp-post-card--largo .sp-post-card__text {
-    flex: 1;
-    min-width: 0;
-}
-
-.sp-post-card--largo .sp-post-card__thumb {
-    flex-shrink: 0;
-    width: 140px;
-}
-
-.sp-post-card--largo .sp-post-card__thumb img {
-    width: 100%;
-    height: auto;
-    display: block;
-    aspect-ratio: 3 / 2;
-    object-fit: cover;
-}
-
-/* Largo: excerpt in Noticia Text */
-.sp-post-card--largo .sp-post-card__excerpt {
-    font-family: var(--wp--preset--font-family--body);
-    font-size: 17px;
-    line-height: 1.47;
-}
-
-.sp-post-card__footer {
-    margin-top: 12px;
-}
-
-/* "sigue leyendo →" button — salmon border, 10px radius */
+/* "sigue leyendo →" button */
 .sp-post-card__read {
     display: flex;
     align-items: center;
@@ -627,27 +621,70 @@ body.sp2-menu-open {
     cursor: pointer;
     background: transparent;
     width: 100%;
-    transition: background 0.15s ease, color 0.15s ease;
+    margin-top: 16px;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
 }
 
-.sp-post-card__read:hover,
+.sp-post-card__read:hover {
+    background: var(--wp--preset--color--primary);
+    color: #fff;
+}
+
+.sp-post-card__read:active {
+    transform: scale(0.98);
+}
+
 .sp-post-card__read--expanded {
     background: var(--wp--preset--color--primary);
     color: #fff;
+    border-color: var(--wp--preset--color--primary);
+}
+
+.sp-post-card__read span {
+    margin-left: 4px;
 }
 
 /* ---------- Corto card ---------- */
 
 .sp-post-card--corto {
-    margin-bottom: 24px;
+    margin-bottom: 36px;
 }
 
-/* Corto: image-headline row (121×121 square image + bold headline) */
+/* Corto: image-headline row (121×121 square + bold headline) */
+.sp-post-card--corto .sp-post-card__image-headline {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin: 10px 0 12px;
+}
+
+.sp-post-card--corto .sp-post-card__square-thumb {
+    flex-shrink: 0;
+    width: 121px;
+    height: 121px;
+}
+
+.sp-post-card--corto .sp-post-card__square-thumb img {
+    width: 121px;
+    height: 121px;
+    object-fit: cover;
+    display: block;
+    border: 2px solid var(--wp--preset--color--primary);
+}
+
+.sp-post-card--corto .sp-post-card__title {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+}
+
+/* Legacy corto body-row (from old render) */
 .sp-post-card--corto .sp-post-card__body-row {
     display: flex;
     gap: 12px;
     align-items: flex-start;
-    margin: 8px 0;
+    margin: 10px 0 12px;
 }
 
 .sp-post-card--corto .sp-post-card__thumb {
@@ -669,16 +706,8 @@ body.sp2-menu-open {
     min-width: 0;
 }
 
-.sp-post-card--corto .sp-post-card__title {
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.15;
-    margin: 0;
-}
-
-/* Corto: author·time pinned to bottom */
 .sp-post-card--corto .sp-post-card__footer {
-    margin-top: 8px;
+    margin-top: 0;
 }
 
 /* ---------- Enlace card ---------- */
@@ -686,8 +715,8 @@ body.sp2-menu-open {
 .sp-post-card--enlace {
     background: #f9e9e9;
     border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 28px;
+    padding: 16px;
+    margin-bottom: 36px;
 }
 
 /* Source-URL row: favicon (28px) + arrow + URL in blue */
@@ -1024,6 +1053,83 @@ body.sp2-menu-open {
 }
 
 /* ==========================================================================
+   TRANSITIONS & GRACEFUL STATES
+   ========================================================================== */
+
+/* Global link transition */
+a {
+    transition: color 0.15s ease;
+}
+
+/* Live indicator pulse */
+.sp-post-card__live-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #fc9f9f;
+    animation: sp2-live-pulse 1.5s ease-in-out infinite;
+    margin-right: 4px;
+}
+
+@keyframes sp2-live-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.4; transform: scale(0.8); }
+}
+
+/* Enlace card hover — subtle lift */
+.sp-post-card--enlace {
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.sp-post-card--enlace:hover {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
+}
+
+/* Source card hover */
+.sp-source-card a {
+    transition: opacity 0.15s ease;
+}
+
+.sp-source-card a:hover {
+    opacity: 0.85;
+}
+
+/* Date pill hover */
+.sp-date-stream__date {
+    transition: border-color 0.15s ease;
+}
+
+.sp-date-stream__date:hover {
+    border-color: #fc9f9f;
+}
+
+/* Sticky bar entrance */
+.sp2-bar {
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* Image hover zoom (subtle) */
+.sp-post-card__image img,
+.sp-post-card__square-thumb img,
+.sp-post-card__social-image img {
+    transition: transform 0.3s ease;
+}
+
+.sp-post-card:hover .sp-post-card__image img,
+.sp-post-card--corto:hover .sp-post-card__square-thumb img {
+    transform: scale(1.02);
+}
+
+/* Overflow hidden for zoom effect */
+.sp-post-card__image,
+.sp-post-card__square-thumb,
+.sp-post-card__social-image {
+    overflow: hidden;
+}
+
+/* ==========================================================================
    RESPONSIVE — tablet and up (768px+)
    ========================================================================== */
 
@@ -1043,12 +1149,9 @@ body.sp2-menu-open {
         padding: 0 32px;
     }
 
-    /* Largo: wider thumbnail at tablet */
-    .sp-post-card--largo .sp-post-card__thumb {
-        width: 180px;
-    }
-
     /* Corto: slightly larger image at tablet */
+    .sp-post-card--corto .sp-post-card__square-thumb,
+    .sp-post-card--corto .sp-post-card__square-thumb img,
     .sp-post-card--corto .sp-post-card__thumb,
     .sp-post-card--corto .sp-post-card__thumb img {
         width: 140px;
