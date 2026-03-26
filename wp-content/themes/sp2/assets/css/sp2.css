@@ -1196,6 +1196,112 @@ body.sp2-menu-open {
 }
 
 /* ==========================================================================
+   404 PAGE
+   ========================================================================== */
+
+.sp2-404__title {
+    font-family: var(--wp--preset--font-family--ui);
+    margin-bottom: 12px;
+}
+
+.sp2-404__desc {
+    margin-bottom: 24px;
+    line-height: 1.55;
+}
+
+.sp2-404__search {
+    margin-bottom: 32px;
+}
+
+/* ==========================================================================
+   SEARCH RESULTS
+   ========================================================================== */
+
+.sp-search-header {
+    margin-bottom: 16px;
+}
+
+.sp-search-header__title {
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0 0 8px;
+}
+
+.sp-search-header__query {
+    color: #fc9f9f;
+}
+
+.sp-search-header__sort {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.sp-search-header__sort a {
+    color: #999;
+    text-decoration: none;
+    padding: 4px 0;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.sp-search-header__sort a.is-active {
+    color: #000;
+    border-bottom-color: #fc9f9f;
+}
+
+.sp-search-header__sort a:hover {
+    color: #000;
+}
+
+.sp-search-header__sep {
+    color: #e0e0e0;
+}
+
+.sp-search-header__hint {
+    font-size: 15px;
+    color: #999;
+    margin: 8px 0 0;
+}
+
+.sp-search-header--empty .sp-search-header__title {
+    color: #999;
+}
+
+/* ==========================================================================
+   ARCHIVE (category / tag pages)
+   ========================================================================== */
+
+.sp2-archive__title {
+    font-family: var(--wp--preset--font-family--ui);
+    margin-bottom: 8px;
+}
+
+.sp2-archive__desc {
+    font-family: var(--wp--preset--font-family--body);
+    line-height: 1.55;
+}
+
+/* Recirculation lite (used on 404 fallback) */
+.sp-recirculation-lite {
+    margin-top: 32px;
+}
+
+.sp-recirculation-lite .sp-section-label {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #999;
+    margin-bottom: 16px;
+}
+
+/* ==========================================================================
    RECIRCULATION (sigue explorando)
    ========================================================================== */
 
