@@ -92,13 +92,13 @@ while ( $query->have_posts() ) {
         // Compose the structured date header HTML.
         if ( $relative_label ) {
             $date_html = sprintf(
-                '<span class="sp-date-stream__arrow">&#8595;</span> <span class="sp-date-stream__label">noticias de </span><span class="sp-date-stream__relative">%s</span><span class="sp-date-stream__label">, </span><span class="sp-date-stream__day">%s</span>',
+                '<span class="sp-date-stream__arrow">↓</span>&nbsp;<span class="sp-date-stream__label">noticias de&nbsp;</span><span class="sp-date-stream__relative">%s</span><span class="sp-date-stream__label">,&nbsp;</span><span class="sp-date-stream__day">%s</span>',
                 esc_html( $relative_label ),
                 esc_html( $full_date )
             );
         } else {
             $date_html = sprintf(
-                '<span class="sp-date-stream__arrow">&#8595;</span> <span class="sp-date-stream__label">noticias del </span><span class="sp-date-stream__day">%s</span>',
+                '<span class="sp-date-stream__arrow">↓</span>&nbsp;<span class="sp-date-stream__label">noticias del&nbsp;</span><span class="sp-date-stream__day">%s</span>',
                 esc_html( $full_date )
             );
         }

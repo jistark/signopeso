@@ -719,65 +719,86 @@ body.sp2-menu-open {
     margin-bottom: 36px;
 }
 
-/* Source-URL row: favicon (28px) + arrow + URL in blue */
-.sp-post-card--enlace .sp-post-card__source-row {
+/* Source-URL row: favicon (28px) + ↗ + truncated URL in blue
+   HTML class is .sp-post-card__source-url (container), not __source-row */
+.sp-post-card--enlace .sp-post-card__source-url {
     display: flex;
     align-items: center;
-    gap: 6px;
-    margin-bottom: 8px;
+    gap: 5px;
+    padding: 2.5px 0;
+    margin-bottom: 10px;
 }
 
-.sp-post-card--enlace .sp-post-card__favicon {
+.sp-post-card--enlace .sp-post-card__source-favicon {
     width: 28px;
     height: 28px;
+    border-radius: 4px;
     object-fit: contain;
     flex-shrink: 0;
 }
 
 .sp-post-card--enlace .sp-post-card__source-arrow {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--wp--preset--color--secondary);
+    flex-shrink: 0;
 }
 
-.sp-post-card--enlace .sp-post-card__source-url {
+.sp-post-card--enlace .sp-post-card__source-domain-link {
     font-family: var(--wp--preset--font-family--ui);
     font-size: 10px;
     color: #0000ff;
     text-decoration: none;
-    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    letter-spacing: -0.1px;
+    line-height: 1;
 }
 
-.sp-post-card--enlace .sp-post-card__source-url:hover {
+.sp-post-card--enlace .sp-post-card__source-domain-link:hover {
     text-decoration: underline;
 }
 
-/* Enlace: compact headline */
+/* Enlace: headline (Golos Text Medium 16px) */
 .sp-post-card--enlace .sp-post-card__title {
     font-size: 16px;
     font-weight: 500;
-    color: var(--wp--preset--color--secondary);
+    color: #444;
+    letter-spacing: -0.16px;
+    margin: 0 0 10px;
 }
 
 /* Enlace: social/OG image full-width */
 .sp-post-card--enlace .sp-post-card__social-image {
     width: 100%;
-    margin: 8px 0;
+    margin: 0 0 10px;
+    overflow: hidden;
 }
 
 .sp-post-card--enlace .sp-post-card__social-image img {
     width: 100%;
     height: auto;
     display: block;
-    border-radius: 6px;
+}
+
+/* Enlace: author-time */
+.sp-post-card--enlace .sp-post-card__author-time {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 11px;
+    color: #444;
+    letter-spacing: -0.11px;
 }
 
 /* Enlace: excerpt in Noticia Text 14px */
 .sp-post-card--enlace .sp-post-card__excerpt {
     font-family: var(--wp--preset--font-family--body);
     font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.55;
+    margin: 0;
 }
 
+/* Legacy domain class */
 .sp-post-card--enlace .sp-post-card__domain {
     font-family: var(--wp--preset--font-family--ui);
     font-size: 13px;
@@ -994,13 +1015,26 @@ body.sp2-menu-open {
 .sp2-single__content {
     font-family: var(--wp--preset--font-family--body);
     font-size: 17px;
-    line-height: 1.47;
+    line-height: 1.55;
     color: var(--wp--preset--color--secondary);
 }
 
+.sp2-single__content p {
+    margin: 0 0 18px;
+}
+
+.sp2-single__content h2,
+.sp2-single__content h3 {
+    font-family: var(--wp--preset--font-family--ui);
+    font-weight: 700;
+    margin: 28px 0 14px;
+}
+
 .sp2-single__content a {
-    color: var(--wp--preset--color--link);
+    color: #0000ff;
     text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
 }
 
 .sp2-single__content strong {
@@ -1012,9 +1046,22 @@ body.sp2-menu-open {
     padding: 2px 4px;
 }
 
+.sp2-single__content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.sp2-single__content blockquote {
+    border-left: 3px solid #fc9f9f;
+    margin: 20px 0;
+    padding: 0 0 0 16px;
+    font-style: italic;
+}
+
 .sp2-single__image img {
     width: 100%;
     height: auto;
+    margin-bottom: 14px;
 }
 
 /* ==========================================================================
