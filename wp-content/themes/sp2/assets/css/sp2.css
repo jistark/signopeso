@@ -1163,25 +1163,18 @@ body.sp2-menu-open {
    ========================================================================== */
 
 .sp-recirculation {
-    border-top: 1px solid #e0e0e0;
     padding: 32px 0 0;
-    margin-top: 40px;
+    margin-top: 24px;
 }
 
-.sp-recirculation__inner {
-    max-width: 440px;
-    margin: 0 auto;
-    padding: 0 24px;
+/* Pill heading reuses .sp-date-stream__date styles */
+.sp-recirculation__pill {
+    margin-bottom: 20px;
 }
 
-.sp-recirculation__heading {
-    font-family: var(--wp--preset--font-family--ui);
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #999;
-    margin: 0 0 24px;
+/* Cards container with fade transition for polling */
+.sp-recirculation__cards {
+    transition: opacity 0.3s ease;
 }
 
 /* ==========================================================================
@@ -1415,11 +1408,7 @@ a {
         padding: 48px 32px;
     }
 
-    /* Recirculation matches content width on tablet */
-    .sp-recirculation__inner {
-        max-width: 720px;
-        padding: 0 32px;
-    }
+    /* Recirculation inherits parent container width now */
 
     /* Desktop inline nav in sticky bar */
     .sp2-bar__nav {

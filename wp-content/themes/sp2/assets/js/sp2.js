@@ -296,3 +296,36 @@ document.addEventListener('click', function (e) {
 
     document.addEventListener('DOMContentLoaded', initInfiniteScroll);
 })();
+
+/* ---------- 4. Recirculation polling (fresh cards every 5 min) ---------- */
+document.addEventListener('DOMContentLoaded', function () {
+    var inner = document.querySelector('.sp-recirculation__inner');
+    if (!inner) return;
+
+    var cardsContainer = inner.querySelector('.sp-recirculation__cards');
+    if (!cardsContainer) return;
+
+    setInterval(function () {
+        var exclude = inner.dataset.exclude || '0';
+
+        fetch('/wp-json/signopeso/v1/recirculation?exclude=' + exclude + '&count=4')
+            .then(function (r) {
+                if (!r.ok) throw new Error('fetch failed');
+                return r.text();
+            })
+            .then(function (html) {
+                if (!html.trim()) return;
+
+                // Fade out
+                cardsContainer.style.opacity = '0';
+
+                setTimeout(function () {
+                    cardsContainer.innerHTML = html;
+                    cardsContainer.style.opacity = '1';
+                }, 300);
+            })
+            .catch(function () {
+                // silently fail — keep existing cards
+            });
+    }, 5 * 60 * 1000);
+});

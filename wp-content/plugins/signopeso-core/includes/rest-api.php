@@ -19,6 +19,22 @@ function sp_register_rest_routes() {
         ),
     ) );
 
+    register_rest_route( 'signopeso/v1', '/recirculation', array(
+        'methods'             => 'GET',
+        'callback'            => 'sp_handle_recirculation',
+        'permission_callback' => '__return_true',
+        'args'                => array(
+            'exclude' => array(
+                'default'           => 0,
+                'sanitize_callback' => 'absint',
+            ),
+            'count' => array(
+                'default'           => 4,
+                'sanitize_callback' => 'absint',
+            ),
+        ),
+    ) );
+
     register_rest_route( 'signopeso/v1', '/stream', array(
         'methods'             => 'GET',
         'callback'            => 'sp_handle_stream',
@@ -146,5 +162,48 @@ function sp_handle_stream( WP_REST_Request $request ) {
     // Send raw HTML instead of JSON-encoded WP_REST_Response.
     header( 'Content-Type: text/html; charset=UTF-8' );
     echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Pre-escaped in render templates.
+    exit;
+}
+
+/**
+ * Recirculation polling: return fresh mixed-format post cards as HTML.
+ *
+ * GET /signopeso/v1/recirculation?exclude=31&count=4
+ */
+function sp_handle_recirculation( WP_REST_Request $request ) {
+    $exclude = (int) $request->get_param( 'exclude' );
+    $count   = min( 8, max( 1, (int) $request->get_param( 'count' ) ) );
+
+    // Get random posts, excluding the current one, for variety.
+    $query = new WP_Query( array(
+        'post_type'      => 'post',
+        'post_status'    => 'publish',
+        'posts_per_page' => $count,
+        'post__not_in'   => $exclude ? array( $exclude ) : array(), // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
+        'orderby'        => 'rand',
+    ) );
+
+    if ( ! $query->have_posts() ) {
+        header( 'Content-Type: text/html; charset=UTF-8' );
+        echo '';
+        exit;
+    }
+
+    ob_start();
+
+    while ( $query->have_posts() ) {
+        $query->the_post();
+        $block_instance = new WP_Block(
+            array( 'blockName' => 'sp/post-card' ),
+            array( 'postId' => get_the_ID() )
+        );
+        echo $block_instance->render(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    }
+
+    $html = ob_get_clean();
+    wp_reset_postdata();
+
+    header( 'Content-Type: text/html; charset=UTF-8' );
+    echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     exit;
 }
