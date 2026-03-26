@@ -109,6 +109,28 @@ body.sp2-header--scrolled .sp2-bar {
     display: block;
 }
 
+/* Push sticky bar below WP admin bar when logged in */
+body.admin-bar .sp2-bar {
+    top: 32px;
+}
+
+@media screen and (max-width: 782px) {
+    body.admin-bar .sp2-bar {
+        top: 46px; /* WP admin bar is taller on mobile */
+    }
+}
+
+/* Also push the menu overlay below admin bar */
+body.admin-bar .sp2-menu {
+    top: 32px;
+}
+
+@media screen and (max-width: 782px) {
+    body.admin-bar .sp2-menu {
+        top: 46px;
+    }
+}
+
 /* Inner container: boxes the logo + nav + hamburger to content width */
 .sp2-bar__inner {
     display: flex;
