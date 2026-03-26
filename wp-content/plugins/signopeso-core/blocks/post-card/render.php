@@ -72,7 +72,7 @@ elseif ( 'enlace' === $formato ) :
     $has_source    = ! empty( $source );
     $domain        = $has_source ? $source['domain'] : '';
     $source_url    = $has_source ? $source['url_utm'] : '';
-    $favicon_url   = $domain ? 'https://www.google.com/s2/favicons?domain=' . rawurlencode( $domain ) . '&sz=56' : '';
+    $favicon_url   = $domain ? sp_get_domain_icon_url( $domain ) : '';
     $display_url   = $has_source ? preg_replace( '#^https?://#', '', $source['url'] ) : '';
     $og_image_url  = '';
     if ( $has_source && ! empty( $source['image_id'] ) ) {

@@ -153,6 +153,11 @@ function sp_do_fetch_og_data( $post_id ) {
         }
     }
 
+    // Sideload favicon/touch-icon for the domain (once, then reuse).
+    if ( $domain ) {
+        sp_ensure_domain_icon( $domain, $html );
+    }
+
     update_post_meta( $post_id, '_sp_source_og_status', 'fetched' );
 }
 add_action( 'sp_fetch_og_data', 'sp_do_fetch_og_data' );
@@ -239,6 +244,30 @@ function sp_parse_og_tags( $html ) {
         $og['author'] = $og['cms_author'] ?? $og['twitter_creator'] ?? '';
     }
 
+    // Extract touch-icon / favicon URLs (priority: apple-touch-icon > icon > shortcut icon).
+    $og['icons'] = array();
+
+    // apple-touch-icon (preferred — highest resolution, square PNG).
+    if ( preg_match_all( '/<link[^>]+rel=["\']apple-touch-icon["\'][^>]+href=["\']([^"\']+)["\']/', $html, $matches ) ) {
+        $og['icons'] = array_merge( $og['icons'], $matches[1] );
+    }
+    if ( preg_match_all( '/<link[^>]+href=["\']([^"\']+)["\'][^>]+rel=["\']apple-touch-icon["\']/', $html, $matches ) ) {
+        $og['icons'] = array_merge( $og['icons'], $matches[1] );
+    }
+
+    // apple-touch-icon-precomposed.
+    if ( preg_match_all( '/<link[^>]+rel=["\']apple-touch-icon-precomposed["\'][^>]+href=["\']([^"\']+)["\']/', $html, $matches ) ) {
+        $og['icons'] = array_merge( $og['icons'], $matches[1] );
+    }
+
+    // icon (generic).
+    if ( preg_match_all( '/<link[^>]+rel=["\']icon["\'][^>]+href=["\']([^"\']+)["\']/', $html, $matches ) ) {
+        $og['icons'] = array_merge( $og['icons'], $matches[1] );
+    }
+
+    // Deduplicate.
+    $og['icons'] = array_unique( $og['icons'] );
+
     return $og;
 }
 
@@ -308,6 +337,129 @@ function sp_sideload_og_image( $image_url, $post_id ) {
     update_post_meta( $att_id, '_wp_attachment_image_alt', get_the_title( $post_id ) );
 
     return $att_id;
+}
+
+/**
+ * Ensure a domain's icon is in the media library. Downloads once, reuses forever.
+ *
+ * Priority: apple-touch-icon from HTML → /apple-touch-icon.png → Google favicon API.
+ * Stored in option `sp_domain_icons` as { domain: attachment_id }.
+ *
+ * @param string $domain  Domain (e.g., "expansion.mx").
+ * @param string $html    Page HTML (to parse touch-icon links from).
+ * @return int|false       Attachment ID or false.
+ */
+function sp_ensure_domain_icon( $domain, $html = '' ) {
+    if ( ! $domain ) {
+        return false;
+    }
+
+    // Check if already sideloaded.
+    $icons = get_option( 'sp_domain_icons', array() );
+    if ( ! empty( $icons[ $domain ] ) ) {
+        // Verify attachment still exists.
+        if ( get_post( $icons[ $domain ] ) ) {
+            return (int) $icons[ $domain ];
+        }
+        // Attachment was deleted — re-fetch.
+        unset( $icons[ $domain ] );
+    }
+
+    require_once ABSPATH . 'wp-admin/includes/media.php';
+    require_once ABSPATH . 'wp-admin/includes/file.php';
+    require_once ABSPATH . 'wp-admin/includes/image.php';
+
+    // Parse icons from HTML if available.
+    $icon_urls = array();
+    if ( $html ) {
+        $og = sp_parse_og_tags( $html );
+        $icon_urls = $og['icons'] ?? array();
+    }
+
+    // Resolve relative URLs.
+    $base = 'https://' . $domain;
+    foreach ( $icon_urls as &$icon_url ) {
+        if ( strpos( $icon_url, '//' ) === false ) {
+            $icon_url = $base . ( strpos( $icon_url, '/' ) === 0 ? '' : '/' ) . $icon_url;
+        } elseif ( strpos( $icon_url, '//' ) === 0 ) {
+            $icon_url = 'https:' . $icon_url;
+        }
+    }
+    unset( $icon_url );
+
+    // Add well-known fallbacks.
+    $icon_urls[] = $base . '/apple-touch-icon.png';
+    $icon_urls[] = $base . '/favicon-32x32.png';
+    $icon_urls[] = 'https://www.google.com/s2/favicons?domain=' . rawurlencode( $domain ) . '&sz=128';
+
+    // Try each URL until one works.
+    $domain_slug = sanitize_file_name( str_replace( '.', '-', $domain ) );
+
+    foreach ( $icon_urls as $try_url ) {
+        $tmp = download_url( $try_url, 10 );
+        if ( is_wp_error( $tmp ) ) {
+            continue;
+        }
+
+        // Verify it's actually an image.
+        $mime = mime_content_type( $tmp );
+        if ( strpos( $mime, 'image/' ) !== 0 ) {
+            @unlink( $tmp );
+            continue;
+        }
+
+        $ext_map = array(
+            'image/png'                => 'png',
+            'image/jpeg'               => 'jpg',
+            'image/x-icon'             => 'png', // convert ico → save as png
+            'image/vnd.microsoft.icon'  => 'png',
+            'image/svg+xml'            => 'svg',
+            'image/webp'               => 'webp',
+        );
+        $ext = $ext_map[ $mime ] ?? 'png';
+
+        $file_array = array(
+            'name'     => 'favicon-' . $domain_slug . '.' . $ext,
+            'tmp_name' => $tmp,
+        );
+
+        $att_id = media_handle_sideload( $file_array, 0, 'Favicon: ' . $domain );
+        if ( is_wp_error( $att_id ) ) {
+            @unlink( $tmp );
+            continue;
+        }
+
+        // Store mapping.
+        $icons[ $domain ] = $att_id;
+        update_option( 'sp_domain_icons', $icons, false );
+
+        return $att_id;
+    }
+
+    return false;
+}
+
+/**
+ * Get the local favicon URL for a domain. Returns media library URL or Google fallback.
+ *
+ * @param string $domain Domain (e.g., "expansion.mx").
+ * @return string Image URL.
+ */
+function sp_get_domain_icon_url( $domain ) {
+    if ( ! $domain ) {
+        return '';
+    }
+
+    $icons = get_option( 'sp_domain_icons', array() );
+    if ( ! empty( $icons[ $domain ] ) ) {
+        $url = wp_get_attachment_url( $icons[ $domain ] );
+        if ( $url ) {
+            return $url;
+        }
+    }
+
+    // Fallback to Google if not sideloaded yet.
+    return 'https://www.google.com/s2/favicons?domain=' . rawurlencode( $domain ) . '&sz=56';
 }
 
 /**
