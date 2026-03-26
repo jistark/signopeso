@@ -1,16 +1,76 @@
-<!-- wp:group {"className":"sp-footer","style":{"spacing":{"padding":{"top":"20px","bottom":"20px","left":"24px","right":"24px"}},"border":{"top":{"color":"var(--wp--preset--color--primary)","width":"3px"}}},"layout":{"type":"constrained","contentSize":"720px"}} -->
-<div class="wp-block-group sp-footer" style="border-top-color:var(--wp--preset--color--primary);border-top-width:3px;padding-top:20px;padding-right:24px;padding-bottom:20px;padding-left:24px">
+<!-- wp:group {"className":"sp-footer","style":{"border":{"top":{"color":"var(--wp--preset--color--primary)","width":"3px"}}},"backgroundColor":"secondary","layout":{"type":"constrained","contentSize":"1100px"}} -->
+<div class="wp-block-group sp-footer has-secondary-background-color has-background" style="border-top-color:var(--wp--preset--color--primary);border-top-width:3px">
 
-    <!-- wp:group {"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap","verticalAlignment":"center"}} -->
-    <div class="wp-block-group">
+    <!-- wp:group {"className":"sp-footer__inner","style":{"spacing":{"padding":{"top":"48px","bottom":"32px","left":"24px","right":"24px"}}}} -->
+    <div class="wp-block-group sp-footer__inner" style="padding-top:48px;padding-right:24px;padding-bottom:32px;padding-left:24px">
 
-        <!-- wp:paragraph {"style":{"typography":{"fontWeight":"900","fontSize":"1.25rem","letterSpacing":"-0.5px"}},"fontFamily":"heading"} -->
-        <p style="font-size:1.25rem;font-weight:900;letter-spacing:-0.5px"><span style="color:var(--wp--preset--color--primary)">#</span><span style="color:var(--wp--preset--color--secondary)">$</span></p>
-        <!-- /wp:paragraph -->
+        <!-- wp:group {"className":"sp-footer__top","layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap","verticalAlignment":"top"},"style":{"spacing":{"blockGap":"40px"},"border":{"bottom":{"color":"#333333","width":"1px"}},"spacing":{"padding":{"bottom":"24px"}}}} -->
+        <div class="wp-block-group sp-footer__top" style="border-bottom-color:#333;border-bottom-width:1px;padding-bottom:24px">
 
-        <!-- wp:paragraph {"style":{"typography":{"fontSize":"0.7rem"}},"textColor":"muted","fontFamily":"meta"} -->
-        <p class="has-muted-color has-text-color" style="font-size:0.7rem"><a href="/acerca">Acerca</a> · <a href="/publicidad">Publicidad</a> · <a href="/feed/">RSS</a> · CC BY-NC-SA</p>
-        <!-- /wp:paragraph -->
+            <!-- wp:group {"className":"sp-footer__brand","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"12px"}}} -->
+            <div class="wp-block-group sp-footer__brand">
+                <!-- wp:paragraph {"className":"sp-footer__logo","style":{"typography":{"fontSize":"2rem","fontWeight":"700","letterSpacing":"-1px"}},"fontFamily":"heading"} -->
+                <p class="sp-footer__logo" style="font-size:2rem;font-weight:700;letter-spacing:-1px"><span style="color:var(--wp--preset--color--primary)">#</span><span style="color:var(--wp--preset--color--surface)">$</span></p>
+                <!-- /wp:paragraph -->
+
+                <!-- wp:paragraph {"className":"sp-footer__tagline","style":{"typography":{"fontSize":"0.75rem"}},"textColor":"muted"} -->
+                <p class="sp-footer__tagline has-muted-color has-text-color" style="font-size:0.75rem">Economía + tecnología, corto y digerible, para el resto de nosotros.</p>
+                <!-- /wp:paragraph -->
+            </div>
+            <!-- /wp:group -->
+
+            <!-- wp:group {"className":"sp-footer__links-grid","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"top"},"style":{"spacing":{"blockGap":"64px"}}} -->
+            <div class="wp-block-group sp-footer__links-grid">
+
+                <!-- wp:group {"className":"sp-footer__col"} -->
+                <div class="wp-block-group sp-footer__col">
+                    <!-- wp:heading {"level":5,"className":"sp-section-label","style":{"typography":{"fontSize":"0.85rem"}},"textColor":"muted"} -->
+                    <h5 class="wp-block-heading sp-section-label has-muted-color has-text-color" style="font-size:0.85rem">secciones</h5>
+                    <!-- /wp:heading -->
+                    <!-- wp:paragraph {"style":{"typography":{"fontSize":"0.85rem","lineHeight":"2"}},"textColor":"surface"} -->
+                    <p class="has-surface-color has-text-color" style="font-size:0.85rem;line-height:2"><a href="/tecnologia">Tecnología</a><br><a href="/economia">Economía</a><br><a href="/videojuegos">Videojuegos</a><br><a href="/apps">Apps</a><br><a href="/telcos">Telcos</a></p>
+                    <!-- /wp:paragraph -->
+                </div>
+                <!-- /wp:group -->
+
+                <!-- wp:group {"className":"sp-footer__col"} -->
+                <div class="wp-block-group sp-footer__col">
+                    <!-- wp:heading {"level":5,"className":"sp-section-label","style":{"typography":{"fontSize":"0.85rem"}},"textColor":"muted"} -->
+                    <h5 class="wp-block-heading sp-section-label has-muted-color has-text-color" style="font-size:0.85rem">#$p</h5>
+                    <!-- /wp:heading -->
+                    <!-- wp:paragraph {"style":{"typography":{"fontSize":"0.85rem","lineHeight":"2"}},"textColor":"surface"} -->
+                    <p class="has-surface-color has-text-color" style="font-size:0.85rem;line-height:2"><a href="/acerca">Acerca</a><br><a href="/publicidad">Publicidad</a><br><a href="/archivos">Archivos</a><br><a href="/tips">Enviar un dato</a><br><a href="/feed/">RSS</a></p>
+                    <!-- /wp:paragraph -->
+                </div>
+                <!-- /wp:group -->
+
+            </div>
+            <!-- /wp:group -->
+
+            <!-- wp:group {"className":"sp-footer__nl","style":{"color":{"background":"var(--wp--preset--color--highlight)"},"spacing":{"padding":{"top":"14px","bottom":"14px","left":"18px","right":"18px"}}}} -->
+            <div class="wp-block-group sp-footer__nl" style="background-color:var(--wp--preset--color--highlight);padding:14px 18px">
+                <!-- wp:paragraph {"className":"sp-footer__nl-text","style":{"typography":{"fontSize":"0.9rem","fontWeight":"700"}},"fontFamily":"heading","textColor":"secondary"} -->
+                <p class="sp-footer__nl-text has-secondary-color has-text-color" style="font-size:0.9rem;font-weight:700">Recibe #$P directo en tu inbox, gratis.</p>
+                <!-- /wp:paragraph -->
+                <!-- wp:paragraph {"style":{"typography":{"fontSize":"0.7rem"}}} -->
+                <p style="font-size:0.7rem"><a href="/newsletter" style="background:var(--wp--preset--color--secondary);color:var(--wp--preset--color--surface);padding:8px 14px;text-decoration:none;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Suscríbete →</a></p>
+                <!-- /wp:paragraph -->
+            </div>
+            <!-- /wp:group -->
+
+        </div>
+        <!-- /wp:group -->
+
+        <!-- wp:group {"className":"sp-footer__bottom","layout":{"type":"flex","justifyContent":"space-between"},"style":{"spacing":{"padding":{"top":"16px"}},"border":{"top":{"color":"rgba(255,255,255,0.1)","width":"1px"}}}} -->
+        <div class="wp-block-group sp-footer__bottom" style="padding-top:16px;border-top-color:rgba(255,255,255,0.1);border-top-width:1px">
+            <!-- wp:paragraph {"style":{"typography":{"fontSize":"0.65rem"}},"textColor":"muted","fontFamily":"meta"} -->
+            <p class="has-muted-color has-text-color" style="font-size:0.65rem">© 2026 SignoPeso · <a href="#">CC BY-NC-SA</a></p>
+            <!-- /wp:paragraph -->
+            <!-- wp:paragraph {"style":{"typography":{"fontSize":"0.65rem"}},"textColor":"muted","fontFamily":"meta"} -->
+            <p class="has-muted-color has-text-color" style="font-size:0.65rem">Santiago, Chile</p>
+            <!-- /wp:paragraph -->
+        </div>
+        <!-- /wp:group -->
 
     </div>
     <!-- /wp:group -->

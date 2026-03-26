@@ -53,7 +53,7 @@ function sp_render_source_meta_box( $post ) {
  * Save source URL and schedule OG fetch.
  */
 function sp_save_source_url( $post_id ) {
-    if ( ! isset( $_POST['sp_source_nonce'] ) || ! wp_verify_nonce( $_POST['sp_source_nonce'], 'sp_source_save' ) ) {
+    if ( ! isset( $_POST['sp_source_nonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['sp_source_nonce'] ) ), 'sp_source_save' ) ) {
         return;
     }
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -63,7 +63,7 @@ function sp_save_source_url( $post_id ) {
         return;
     }
 
-    $new_url = isset( $_POST['sp_source_url'] ) ? esc_url_raw( $_POST['sp_source_url'] ) : '';
+    $new_url = isset( $_POST['sp_source_url'] ) ? esc_url_raw( wp_unslash( $_POST['sp_source_url'] ) ) : '';
     $old_url = get_post_meta( $post_id, '_sp_source_url', true );
     $refresh = ! empty( $_POST['sp_source_refresh'] );
 
@@ -85,6 +85,28 @@ function sp_save_source_url( $post_id ) {
     }
 }
 add_action( 'save_post', 'sp_save_source_url' );
+
+/**
+ * Auto-fetch OG data when a post has _sp_source_url but no OG data yet.
+ * Catches posts created programmatically (e.g., sp-chop pipeline) that
+ * bypass the meta box save_post hook.
+ */
+function sp_maybe_auto_fetch_og( $post_id, $post, $update ) {
+    if ( 'post' !== $post->post_type || 'publish' !== $post->post_status ) {
+        return;
+    }
+
+    $url    = get_post_meta( $post_id, '_sp_source_url', true );
+    $status = get_post_meta( $post_id, '_sp_source_og_status', true );
+
+    // Has URL but no OG status = never fetched. Do it now.
+    if ( $url && ! $status ) {
+        update_post_meta( $post_id, '_sp_source_og_status', 'pending' );
+        // Fetch immediately (synchronous) since cron may not run on WP.com.
+        sp_do_fetch_og_data( $post_id );
+    }
+}
+add_action( 'save_post', 'sp_maybe_auto_fetch_og', 20, 3 );
 
 /**
  * Async OG data fetch handler.
@@ -115,17 +137,25 @@ function sp_do_fetch_og_data( $post_id ) {
     update_post_meta( $post_id, '_sp_source_og_title', sanitize_text_field( $og['title'] ?? '' ) );
     update_post_meta( $post_id, '_sp_source_og_desc', sanitize_text_field( $og['description'] ?? '' ) );
     update_post_meta( $post_id, '_sp_source_og_domain', sanitize_text_field( $domain ) );
+    update_post_meta( $post_id, '_sp_source_og_author', sanitize_text_field( $og['author'] ?? '' ) );
+    update_post_meta( $post_id, '_sp_source_og_site_name', sanitize_text_field( $og['site_name'] ?? $domain ) );
 
-    // Sideload image if available.
-    if ( ! empty( $og['image'] ) ) {
-        require_once ABSPATH . 'wp-admin/includes/media.php';
-        require_once ABSPATH . 'wp-admin/includes/file.php';
-        require_once ABSPATH . 'wp-admin/includes/image.php';
-
-        $image_id = media_sideload_image( $og['image'], $post_id, '', 'id' );
-        if ( ! is_wp_error( $image_id ) ) {
-            update_post_meta( $post_id, '_sp_source_og_image_id', $image_id );
+    // Sideload best available image, renamed to post slug for SEO.
+    $image_url = $og['image'] ?? '';
+    if ( $image_url ) {
+        $sideloaded_id = sp_sideload_og_image( $image_url, $post_id );
+        if ( $sideloaded_id ) {
+            update_post_meta( $post_id, '_sp_source_og_image_id', $sideloaded_id );
+            // Also set as featured image if post has none.
+            if ( ! has_post_thumbnail( $post_id ) ) {
+                set_post_thumbnail( $post_id, $sideloaded_id );
+            }
         }
+    }
+
+    // Sideload favicon/touch-icon for the domain (once, then reuse).
+    if ( $domain ) {
+        sp_ensure_domain_icon( $domain, $html );
     }
 
     update_post_meta( $post_id, '_sp_source_og_status', 'fetched' );
@@ -138,18 +168,69 @@ add_action( 'sp_fetch_og_data', 'sp_do_fetch_og_data' );
 function sp_parse_og_tags( $html ) {
     $og = array();
 
-    $tags = array(
+    // OG property tags.
+    $property_tags = array(
         'title'       => 'og:title',
         'description' => 'og:description',
         'image'       => 'og:image',
         'site_name'   => 'og:site_name',
+        'author'      => 'article:author',
     );
 
-    foreach ( $tags as $key => $property ) {
+    foreach ( $property_tags as $key => $property ) {
         if ( preg_match( '/<meta[^>]+property=["\']' . preg_quote( $property, '/' ) . '["\'][^>]+content=["\']([^"\']*)["\']/', $html, $match ) ) {
             $og[ $key ] = $match[1];
         } elseif ( preg_match( '/<meta[^>]+content=["\']([^"\']*)["\'][^>]+property=["\']' . preg_quote( $property, '/' ) . '["\']/', $html, $match ) ) {
             $og[ $key ] = $match[1];
+        }
+    }
+
+    // Name-based meta tags (twitter, author, etc.).
+    $name_tags = array(
+        'twitter_creator' => 'twitter:creator',
+        'twitter_site'    => 'twitter:site',
+        'cms_author'      => 'author',
+    );
+
+    foreach ( $name_tags as $key => $name ) {
+        if ( preg_match( '/<meta[^>]+name=["\']' . preg_quote( $name, '/' ) . '["\'][^>]+content=["\']([^"\']*)["\']/', $html, $match ) ) {
+            $og[ $key ] = $match[1];
+        } elseif ( preg_match( '/<meta[^>]+content=["\']([^"\']*)["\'][^>]+name=["\']' . preg_quote( $name, '/' ) . '["\']/', $html, $match ) ) {
+            $og[ $key ] = $match[1];
+        }
+    }
+
+    // og:image:secure_url takes priority over og:image.
+    if ( preg_match( '/<meta[^>]+property=["\']og:image:secure_url["\'][^>]+content=["\']([^"\']*)["\']/', $html, $match ) ) {
+        $og['image'] = $match[1];
+    } elseif ( preg_match( '/<meta[^>]+content=["\']([^"\']*)["\'][^>]+property=["\']og:image:secure_url["\']/', $html, $match ) ) {
+        $og['image'] = $match[1];
+    }
+
+    // Try ld+json schema for image if no OG image found.
+    if ( empty( $og['image'] ) && preg_match( '/<script[^>]+type=["\']application\/ld\+json["\'][^>]*>(.*?)<\/script>/si', $html, $json_match ) ) {
+        $schema = json_decode( $json_match[1], true );
+        if ( $schema ) {
+            // Handle @graph arrays (common in Yoast, RankMath).
+            $items = isset( $schema['@graph'] ) ? $schema['@graph'] : array( $schema );
+            foreach ( $items as $item ) {
+                if ( ! empty( $item['image'] ) ) {
+                    $img = $item['image'];
+                    if ( is_string( $img ) ) {
+                        $og['image'] = $img;
+                    } elseif ( is_array( $img ) && ! empty( $img['url'] ) ) {
+                        $og['image'] = $img['url'];
+                    } elseif ( is_array( $img ) && isset( $img[0] ) ) {
+                        $first = is_string( $img[0] ) ? $img[0] : ( $img[0]['url'] ?? '' );
+                        if ( $first ) {
+                            $og['image'] = $first;
+                        }
+                    }
+                    if ( ! empty( $og['image'] ) ) {
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -158,7 +239,242 @@ function sp_parse_og_tags( $html ) {
         $og['title'] = trim( $match[1] );
     }
 
+    // Resolve author: article:author → meta[name=author] → twitter:creator.
+    if ( empty( $og['author'] ) ) {
+        $og['author'] = $og['cms_author'] ?? $og['twitter_creator'] ?? '';
+    }
+
+    // Extract touch-icon / favicon URLs (priority: apple-touch-icon > icon > shortcut icon).
+    $og['icons'] = array();
+
+    // apple-touch-icon (preferred — highest resolution, square PNG).
+    if ( preg_match_all( '/<link[^>]+rel=["\']apple-touch-icon["\'][^>]+href=["\']([^"\']+)["\']/', $html, $matches ) ) {
+        $og['icons'] = array_merge( $og['icons'], $matches[1] );
+    }
+    if ( preg_match_all( '/<link[^>]+href=["\']([^"\']+)["\'][^>]+rel=["\']apple-touch-icon["\']/', $html, $matches ) ) {
+        $og['icons'] = array_merge( $og['icons'], $matches[1] );
+    }
+
+    // apple-touch-icon-precomposed.
+    if ( preg_match_all( '/<link[^>]+rel=["\']apple-touch-icon-precomposed["\'][^>]+href=["\']([^"\']+)["\']/', $html, $matches ) ) {
+        $og['icons'] = array_merge( $og['icons'], $matches[1] );
+    }
+
+    // icon (generic).
+    if ( preg_match_all( '/<link[^>]+rel=["\']icon["\'][^>]+href=["\']([^"\']+)["\']/', $html, $matches ) ) {
+        $og['icons'] = array_merge( $og['icons'], $matches[1] );
+    }
+
+    // Deduplicate.
+    $og['icons'] = array_unique( $og['icons'] );
+
     return $og;
+}
+
+/**
+ * Sideload an OG image into the media library, renamed to the post slug.
+ *
+ * Downloads at max resolution, renames file to {post-slug}.{ext} for SEO,
+ * and inserts into the media library attached to the post.
+ *
+ * @param string $image_url Remote image URL.
+ * @param int    $post_id   Post to attach to.
+ * @return int|false Attachment ID on success, false on failure.
+ */
+function sp_sideload_og_image( $image_url, $post_id ) {
+    if ( ! $image_url || ! $post_id ) {
+        return false;
+    }
+
+    require_once ABSPATH . 'wp-admin/includes/media.php';
+    require_once ABSPATH . 'wp-admin/includes/file.php';
+    require_once ABSPATH . 'wp-admin/includes/image.php';
+
+    // Download to temp file.
+    $tmp = download_url( $image_url, 30 );
+    if ( is_wp_error( $tmp ) ) {
+        return false;
+    }
+
+    // Determine extension from URL or mime type.
+    $url_path = wp_parse_url( $image_url, PHP_URL_PATH );
+    $ext      = $url_path ? strtolower( pathinfo( $url_path, PATHINFO_EXTENSION ) ) : '';
+
+    // Clean up query-string extensions like "image.jpg?w=1200".
+    $ext = preg_replace( '/[^a-z].*$/', '', $ext );
+
+    // Fallback: detect from downloaded file.
+    if ( ! in_array( $ext, array( 'jpg', 'jpeg', 'png', 'webp', 'gif', 'avif' ), true ) ) {
+        $mime = mime_content_type( $tmp );
+        $mime_map = array(
+            'image/jpeg' => 'jpg',
+            'image/png'  => 'png',
+            'image/webp' => 'webp',
+            'image/gif'  => 'gif',
+            'image/avif' => 'avif',
+        );
+        $ext = $mime_map[ $mime ] ?? 'jpg';
+    }
+
+    // Rename to post slug for SEO.
+    $post_obj = get_post( $post_id );
+    $slug     = $post_obj ? sanitize_file_name( $post_obj->post_name ) : 'source-image';
+
+    $file_array = array(
+        'name'     => $slug . '.' . $ext,
+        'tmp_name' => $tmp,
+    );
+
+    // Insert into media library.
+    $att_id = media_handle_sideload( $file_array, $post_id, '' );
+
+    if ( is_wp_error( $att_id ) ) {
+        @unlink( $tmp ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+        return false;
+    }
+
+    // Set SEO-friendly alt text (post title).
+    update_post_meta( $att_id, '_wp_attachment_image_alt', get_the_title( $post_id ) );
+
+    return $att_id;
+}
+
+/**
+ * Ensure a domain's icon is in the media library. Downloads once, reuses forever.
+ *
+ * Priority: apple-touch-icon from HTML → /apple-touch-icon.png → Google favicon API.
+ * Stored in option `sp_domain_icons` as { domain: attachment_id }.
+ *
+ * @param string $domain  Domain (e.g., "expansion.mx").
+ * @param string $html    Page HTML (to parse touch-icon links from).
+ * @return int|false       Attachment ID or false.
+ */
+function sp_ensure_domain_icon( $domain, $html = '' ) {
+    if ( ! $domain ) {
+        return false;
+    }
+
+    // Check if already sideloaded.
+    $icons = get_option( 'sp_domain_icons', array() );
+    if ( ! empty( $icons[ $domain ] ) ) {
+        // Verify attachment still exists.
+        if ( get_post( $icons[ $domain ] ) ) {
+            return (int) $icons[ $domain ];
+        }
+        // Attachment was deleted — re-fetch.
+        unset( $icons[ $domain ] );
+    }
+
+    require_once ABSPATH . 'wp-admin/includes/media.php';
+    require_once ABSPATH . 'wp-admin/includes/file.php';
+    require_once ABSPATH . 'wp-admin/includes/image.php';
+
+    // Parse icons from HTML if available.
+    $icon_urls = array();
+    if ( $html ) {
+        $og = sp_parse_og_tags( $html );
+        $icon_urls = $og['icons'] ?? array();
+    }
+
+    // Resolve relative URLs.
+    $base = 'https://' . $domain;
+    foreach ( $icon_urls as &$icon_url ) {
+        if ( strpos( $icon_url, '//' ) === false ) {
+            $icon_url = $base . ( strpos( $icon_url, '/' ) === 0 ? '' : '/' ) . $icon_url;
+        } elseif ( strpos( $icon_url, '//' ) === 0 ) {
+            $icon_url = 'https:' . $icon_url;
+        }
+    }
+    unset( $icon_url );
+
+    // Add well-known fallbacks.
+    $icon_urls[] = $base . '/apple-touch-icon.png';
+    $icon_urls[] = $base . '/favicon-32x32.png';
+    $icon_urls[] = 'https://www.google.com/s2/favicons?domain=' . rawurlencode( $domain ) . '&sz=128';
+
+    // Try each URL until one works.
+    $domain_slug = sanitize_file_name( str_replace( '.', '-', $domain ) );
+
+    foreach ( $icon_urls as $try_url ) {
+        $tmp = download_url( $try_url, 10 );
+        if ( is_wp_error( $tmp ) ) {
+            continue;
+        }
+
+        // Verify it's actually an image.
+        $mime = mime_content_type( $tmp );
+        if ( strpos( $mime, 'image/' ) !== 0 ) {
+            @unlink( $tmp );
+            continue;
+        }
+
+        $ext_map = array(
+            'image/png'                => 'png',
+            'image/jpeg'               => 'jpg',
+            'image/x-icon'             => 'png', // convert ico → save as png
+            'image/vnd.microsoft.icon'  => 'png',
+            'image/svg+xml'            => 'svg',
+            'image/webp'               => 'webp',
+        );
+        $ext = $ext_map[ $mime ] ?? 'png';
+
+        $file_array = array(
+            'name'     => 'favicon-' . $domain_slug . '.' . $ext,
+            'tmp_name' => $tmp,
+        );
+
+        $att_id = media_handle_sideload( $file_array, 0, 'Favicon: ' . $domain );
+        if ( is_wp_error( $att_id ) ) {
+            @unlink( $tmp );
+            continue;
+        }
+
+        // Store mapping.
+        $icons[ $domain ] = $att_id;
+        update_option( 'sp_domain_icons', $icons, false );
+
+        return $att_id;
+    }
+
+    return false;
+}
+
+/**
+ * Get the local favicon URL for a domain. Returns media library URL or Google fallback.
+ *
+ * @param string $domain Domain (e.g., "expansion.mx").
+ * @return string Image URL.
+ */
+function sp_get_domain_icon_url( $domain ) {
+    if ( ! $domain ) {
+        return '';
+    }
+
+    $icons = get_option( 'sp_domain_icons', array() );
+    if ( ! empty( $icons[ $domain ] ) ) {
+        $url = wp_get_attachment_url( $icons[ $domain ] );
+        if ( $url ) {
+            return $url;
+        }
+    }
+
+    // Fallback to Google if not sideloaded yet.
+    return 'https://www.google.com/s2/favicons?domain=' . rawurlencode( $domain ) . '&sz=56';
+}
+
+/**
+ * Check if a post's source OG image is high resolution (width >= 600px).
+ *
+ * @param int $post_id Post ID.
+ * @return bool True if image width >= 600px.
+ */
+function sp_source_card_is_highres( $post_id ) {
+    $image_id = get_post_meta( $post_id, '_sp_source_og_image_id', true );
+    if ( ! $image_id ) {
+        return false;
+    }
+    $meta = wp_get_attachment_metadata( $image_id );
+    return $meta && isset( $meta['width'] ) && $meta['width'] >= 600;
 }
 
 /**
@@ -170,14 +486,24 @@ function sp_get_source_data( $post_id ) {
         return null;
     }
 
+    $domain = get_post_meta( $post_id, '_sp_source_og_domain', true );
+
+    // Auto-derive domain from URL if not stored yet.
+    if ( ! $domain ) {
+        $parsed = wp_parse_url( $url );
+        $domain = isset( $parsed['host'] ) ? preg_replace( '/^www\./', '', $parsed['host'] ) : '';
+    }
+
     return array(
-        'url'      => $url,
-        'title'    => get_post_meta( $post_id, '_sp_source_og_title', true ),
-        'desc'     => get_post_meta( $post_id, '_sp_source_og_desc', true ),
-        'image_id' => get_post_meta( $post_id, '_sp_source_og_image_id', true ),
-        'domain'   => get_post_meta( $post_id, '_sp_source_og_domain', true ),
-        'status'   => get_post_meta( $post_id, '_sp_source_og_status', true ),
-        'url_utm'  => add_query_arg( array(
+        'url'       => $url,
+        'title'     => get_post_meta( $post_id, '_sp_source_og_title', true ),
+        'desc'      => get_post_meta( $post_id, '_sp_source_og_desc', true ),
+        'image_id'  => get_post_meta( $post_id, '_sp_source_og_image_id', true ),
+        'domain'    => $domain,
+        'author'    => get_post_meta( $post_id, '_sp_source_og_author', true ),
+        'site_name' => get_post_meta( $post_id, '_sp_source_og_site_name', true ) ?: $domain,
+        'status'    => get_post_meta( $post_id, '_sp_source_og_status', true ),
+        'url_utm'   => add_query_arg( array(
             'utm_source' => 'signopeso',
             'utm_medium' => 'referral',
         ), $url ),

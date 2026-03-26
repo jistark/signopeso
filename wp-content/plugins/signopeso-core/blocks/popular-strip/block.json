@@ -1,0 +1,22 @@
+{
+    "apiVersion": 3,
+    "name": "sp/popular-strip",
+    "title": "Popular Strip",
+    "category": "signopeso",
+    "description": "Horizontal popular posts divider with salmón-numbered rankings.",
+    "textdomain": "signopeso",
+    "attributes": {
+        "count": {
+            "type": "number",
+            "default": 5
+        },
+        "period": {
+            "type": "string",
+            "default": "7"
+        }
+    },
+    "supports": {
+        "html": false
+    },
+    "render": "file:./render.php"
+}

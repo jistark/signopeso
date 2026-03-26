@@ -22,7 +22,7 @@
             "defaultFontSizes": false,
             "fontFamilies": [
                 {
-                    "fontFamily": "\"Lora\", Georgia, \"Times New Roman\", serif",
+                    "fontFamily": "\"Newsreader\", Georgia, \"Times New Roman\", serif",
                     "slug": "heading",
                     "name": "Heading"
                 },
@@ -32,7 +32,7 @@
                     "name": "Body"
                 },
                 {
-                    "fontFamily": "\"JetBrains Mono\", \"SF Mono\", Monaco, \"Cascadia Code\", Consolas, \"Courier New\", monospace",
+                    "fontFamily": "\"Datatype\", \"Space Mono\", Monaco, \"Cascadia Code\", Consolas, \"Courier New\", monospace",
                     "slug": "meta",
                     "name": "Meta"
                 }
@@ -94,7 +94,7 @@
     "templateParts": [
         { "name": "header", "title": "Header", "area": "header" },
         { "name": "footer", "title": "Footer", "area": "footer" },
-        { "name": "sidebar", "title": "Sidebar" }
+        { "name": "sidebar", "title": "Sidebar", "area": "uncategorized" }
     ],
     "customTemplates": [
         { "name": "archive-all", "title": "Full Archive", "postTypes": ["page"] }

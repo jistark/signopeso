@@ -3,30 +3,34 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$years = array();
-$posts = get_posts( array(
-    'post_type'      => 'post',
-    'post_status'    => 'publish',
-    'posts_per_page' => -1,
-    'orderby'        => 'date',
-    'order'          => 'DESC',
-    'fields'         => 'ids',
-) );
+$years = get_transient( 'sp_full_archive' );
+if ( false === $years ) {
+    $years = array();
+    $posts = get_posts( array(
+        'post_type'      => 'post',
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+        'orderby'        => 'date',
+        'order'          => 'DESC',
+        'fields'         => 'ids',
+    ) );
 
-foreach ( $posts as $pid ) {
-    $year  = get_the_date( 'Y', $pid );
-    $month = get_the_date( 'F', $pid );
-    $years[ $year ][ $month ][] = $pid;
+    foreach ( $posts as $pid ) {
+        $year  = get_the_date( 'Y', $pid );
+        $month = get_the_date( 'F', $pid );
+        $years[ $year ][ $month ][] = $pid;
+    }
+    set_transient( 'sp_full_archive', $years, HOUR_IN_SECONDS );
 }
 
-$current_year = date( 'Y' );
+$current_year = gmdate( 'Y' );
 ?>
 
 <div class="sp-full-archive">
     <?php foreach ( $years as $year => $months ) :
         $open = ( $year === $current_year ) ? 'open' : '';
     ?>
-        <details class="sp-full-archive__year" <?php echo $open; ?>>
+        <details class="sp-full-archive__year" <?php echo esc_attr( $open ); ?>>
             <summary class="sp-full-archive__year-heading"><?php echo esc_html( $year ); ?></summary>
             <?php foreach ( $months as $month => $pids ) : ?>
                 <div class="sp-full-archive__month">

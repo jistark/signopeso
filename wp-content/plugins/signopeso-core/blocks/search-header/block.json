@@ -1,0 +1,12 @@
+{
+    "apiVersion": 3,
+    "name": "sp/search-header",
+    "title": "Search Header",
+    "category": "signopeso",
+    "description": "Search results header with count, query echo, and sort toggle.",
+    "textdomain": "signopeso-core",
+    "supports": {
+        "html": false
+    },
+    "render": "file:./render.php"
+}
