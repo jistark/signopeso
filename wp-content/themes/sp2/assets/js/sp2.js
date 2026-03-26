@@ -101,13 +101,26 @@ document.addEventListener('DOMContentLoaded', function () {
 /* ---------- 1. Header scroll observer ---------- */
 document.addEventListener('DOMContentLoaded', function () {
     var headerTop = document.querySelector('.sp2-header__top');
-    if (!headerTop) return;
 
-    var observer = new IntersectionObserver(function (entries) {
-        document.body.classList.toggle('sp2-header--scrolled', !entries[0].isIntersecting);
-    }, { threshold: 0 });
+    if (headerTop) {
+        // IntersectionObserver (preferred)
+        var observer = new IntersectionObserver(function (entries) {
+            document.body.classList.toggle('sp2-header--scrolled', !entries[0].isIntersecting);
+        }, { threshold: 0 });
+        observer.observe(headerTop);
+    }
 
-    observer.observe(headerTop);
+    // Fallback: scroll-based detection (catches cases where observer misses)
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+            var threshold = headerTop ? headerTop.offsetHeight : 200;
+            document.body.classList.toggle('sp2-header--scrolled', window.scrollY > threshold);
+            ticking = false;
+        });
+    }, { passive: true });
 });
 
 /* ---------- 2. Custom menu open/close ---------- */
