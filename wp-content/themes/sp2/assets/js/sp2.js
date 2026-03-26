@@ -200,36 +200,28 @@ document.addEventListener('click', function (e) {
     }
 });
 
-/* ---------- 3. Infinite scroll ---------- */
+/* ---------- 3. Infinite scroll + currency symbol loader ---------- */
 (function () {
-    var SYMBOLS       = ['$', '€', '£', '¥', '₱', '₿', '₩', '₹'];
-    var symbolIndex   = 0;
-    var symbolInterval = null;
-    var loading       = false;
-
-    function startSymbolRotation(el) {
-        symbolIndex    = 0;
-        symbolInterval = setInterval(function () {
-            symbolIndex   = (symbolIndex + 1) % SYMBOLS.length;
-            el.textContent = SYMBOLS[symbolIndex];
-        }, 400);
-    }
-
-    function stopSymbolRotation() {
-        if (symbolInterval) {
-            clearInterval(symbolInterval);
-            symbolInterval = null;
-        }
-    }
+    var SYMBOLS = ['$', '¥', '€', '£', '₱', '₿', '₩', '₹'];
+    var loading = false;
 
     function initInfiniteScroll() {
-        var loader  = document.querySelector('.sp2-loader');
+        var loader = document.querySelector('.sp2-loader');
         if (!loader) return;
 
         var stream   = document.querySelector('.sp-date-stream');
         if (!stream) return;
 
         var symbolEl = loader.querySelector('.sp2-loader__symbol');
+
+        // Always rotate symbols as idle animation
+        var symbolIndex = 0;
+        if (symbolEl) {
+            setInterval(function () {
+                symbolIndex = (symbolIndex + 1) % SYMBOLS.length;
+                symbolEl.textContent = SYMBOLS[symbolIndex];
+            }, 500);
+        }
 
         var observer = new IntersectionObserver(function (entries) {
             if (!entries[0].isIntersecting || loading) return;
@@ -242,15 +234,11 @@ document.addEventListener('click', function (e) {
                 return;
             }
 
-            var perPage = loader.dataset.perPage || 10;
+            loading = true;
 
-            loading        = true;
-            loader.hidden  = false;
-            if (symbolEl) startSymbolRotation(symbolEl);
-
-            fetch('/wp-json/signopeso/v1/stream?page=' + nextPage + '&per_page=' + perPage)
+            fetch('/wp-json/signopeso/v1/stream?page=' + nextPage + '&per_page=' + (loader.dataset.perPage || 10))
                 .then(function (r) {
-                    if (!r.ok) throw new Error('Network response was not ok');
+                    if (!r.ok) throw new Error('fetch failed');
                     return r.text();
                 })
                 .then(function (html) {
@@ -258,22 +246,16 @@ document.addEventListener('click', function (e) {
                         loader.style.display = 'none';
                         return;
                     }
-
-                    // Insert rendered HTML before the loader element.
                     var temp = document.createElement('div');
                     temp.innerHTML = html;
                     while (temp.firstChild) {
                         stream.insertBefore(temp.firstChild, loader);
                     }
-
                     loader.dataset.nextPage = nextPage + 1;
                     loading = false;
-                    stopSymbolRotation();
-                    if (symbolEl) symbolEl.textContent = SYMBOLS[0];
                 })
                 .catch(function () {
                     loading = false;
-                    stopSymbolRotation();
                     loader.style.display = 'none';
                 });
         }, { rootMargin: '200px' });

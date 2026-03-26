@@ -1172,12 +1172,17 @@ body.sp2-menu-open {
    FOOTER
    ========================================================================== */
 
+/* Footer wraps full-width dark bg, content boxed to match river */
 .sp2-footer {
     background: #1a1a1a;
     color: #fff;
-    padding: 40px 24px;
-    max-width: 100%;
     font-family: var(--wp--preset--font-family--ui);
+}
+
+.sp2-footer__inner {
+    max-width: 440px;
+    margin: 0 auto;
+    padding: 40px 24px;
 }
 
 .sp2-footer__motto {
@@ -1371,5 +1376,11 @@ a {
     .sp-post-card--corto .sp-post-card__thumb img {
         width: 140px;
         height: 140px;
+    }
+
+    /* Footer inner boxed to content width */
+    .sp2-footer__inner {
+        max-width: 720px;
+        padding: 48px 32px;
     }
 }
