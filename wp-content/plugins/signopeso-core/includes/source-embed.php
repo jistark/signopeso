@@ -140,15 +140,16 @@ function sp_do_fetch_og_data( $post_id ) {
     update_post_meta( $post_id, '_sp_source_og_author', sanitize_text_field( $og['author'] ?? '' ) );
     update_post_meta( $post_id, '_sp_source_og_site_name', sanitize_text_field( $og['site_name'] ?? $domain ) );
 
-    // Sideload image if available.
-    if ( ! empty( $og['image'] ) ) {
-        require_once ABSPATH . 'wp-admin/includes/media.php';
-        require_once ABSPATH . 'wp-admin/includes/file.php';
-        require_once ABSPATH . 'wp-admin/includes/image.php';
-
-        $image_id = media_sideload_image( $og['image'], $post_id, '', 'id' );
-        if ( ! is_wp_error( $image_id ) ) {
-            update_post_meta( $post_id, '_sp_source_og_image_id', $image_id );
+    // Sideload best available image, renamed to post slug for SEO.
+    $image_url = $og['image'] ?? '';
+    if ( $image_url ) {
+        $sideloaded_id = sp_sideload_og_image( $image_url, $post_id );
+        if ( $sideloaded_id ) {
+            update_post_meta( $post_id, '_sp_source_og_image_id', $sideloaded_id );
+            // Also set as featured image if post has none.
+            if ( ! has_post_thumbnail( $post_id ) ) {
+                set_post_thumbnail( $post_id, $sideloaded_id );
+            }
         }
     }
 
@@ -194,6 +195,40 @@ function sp_parse_og_tags( $html ) {
         }
     }
 
+    // og:image:secure_url takes priority over og:image.
+    if ( preg_match( '/<meta[^>]+property=["\']og:image:secure_url["\'][^>]+content=["\']([^"\']*)["\']/', $html, $match ) ) {
+        $og['image'] = $match[1];
+    } elseif ( preg_match( '/<meta[^>]+content=["\']([^"\']*)["\'][^>]+property=["\']og:image:secure_url["\']/', $html, $match ) ) {
+        $og['image'] = $match[1];
+    }
+
+    // Try ld+json schema for image if no OG image found.
+    if ( empty( $og['image'] ) && preg_match( '/<script[^>]+type=["\']application\/ld\+json["\'][^>]*>(.*?)<\/script>/si', $html, $json_match ) ) {
+        $schema = json_decode( $json_match[1], true );
+        if ( $schema ) {
+            // Handle @graph arrays (common in Yoast, RankMath).
+            $items = isset( $schema['@graph'] ) ? $schema['@graph'] : array( $schema );
+            foreach ( $items as $item ) {
+                if ( ! empty( $item['image'] ) ) {
+                    $img = $item['image'];
+                    if ( is_string( $img ) ) {
+                        $og['image'] = $img;
+                    } elseif ( is_array( $img ) && ! empty( $img['url'] ) ) {
+                        $og['image'] = $img['url'];
+                    } elseif ( is_array( $img ) && isset( $img[0] ) ) {
+                        $first = is_string( $img[0] ) ? $img[0] : ( $img[0]['url'] ?? '' );
+                        if ( $first ) {
+                            $og['image'] = $first;
+                        }
+                    }
+                    if ( ! empty( $og['image'] ) ) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     // Fallback to <title> tag if no og:title.
     if ( empty( $og['title'] ) && preg_match( '/<title[^>]*>([^<]+)<\/title>/', $html, $match ) ) {
         $og['title'] = trim( $match[1] );
@@ -205,6 +240,74 @@ function sp_parse_og_tags( $html ) {
     }
 
     return $og;
+}
+
+/**
+ * Sideload an OG image into the media library, renamed to the post slug.
+ *
+ * Downloads at max resolution, renames file to {post-slug}.{ext} for SEO,
+ * and inserts into the media library attached to the post.
+ *
+ * @param string $image_url Remote image URL.
+ * @param int    $post_id   Post to attach to.
+ * @return int|false Attachment ID on success, false on failure.
+ */
+function sp_sideload_og_image( $image_url, $post_id ) {
+    if ( ! $image_url || ! $post_id ) {
+        return false;
+    }
+
+    require_once ABSPATH . 'wp-admin/includes/media.php';
+    require_once ABSPATH . 'wp-admin/includes/file.php';
+    require_once ABSPATH . 'wp-admin/includes/image.php';
+
+    // Download to temp file.
+    $tmp = download_url( $image_url, 30 );
+    if ( is_wp_error( $tmp ) ) {
+        return false;
+    }
+
+    // Determine extension from URL or mime type.
+    $url_path = wp_parse_url( $image_url, PHP_URL_PATH );
+    $ext      = $url_path ? strtolower( pathinfo( $url_path, PATHINFO_EXTENSION ) ) : '';
+
+    // Clean up query-string extensions like "image.jpg?w=1200".
+    $ext = preg_replace( '/[^a-z].*$/', '', $ext );
+
+    // Fallback: detect from downloaded file.
+    if ( ! in_array( $ext, array( 'jpg', 'jpeg', 'png', 'webp', 'gif', 'avif' ), true ) ) {
+        $mime = mime_content_type( $tmp );
+        $mime_map = array(
+            'image/jpeg' => 'jpg',
+            'image/png'  => 'png',
+            'image/webp' => 'webp',
+            'image/gif'  => 'gif',
+            'image/avif' => 'avif',
+        );
+        $ext = $mime_map[ $mime ] ?? 'jpg';
+    }
+
+    // Rename to post slug for SEO.
+    $post_obj = get_post( $post_id );
+    $slug     = $post_obj ? sanitize_file_name( $post_obj->post_name ) : 'source-image';
+
+    $file_array = array(
+        'name'     => $slug . '.' . $ext,
+        'tmp_name' => $tmp,
+    );
+
+    // Insert into media library.
+    $att_id = media_handle_sideload( $file_array, $post_id, '' );
+
+    if ( is_wp_error( $att_id ) ) {
+        @unlink( $tmp ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+        return false;
+    }
+
+    // Set SEO-friendly alt text (post title).
+    update_post_meta( $att_id, '_wp_attachment_image_alt', get_the_title( $post_id ) );
+
+    return $att_id;
 }
 
 /**
