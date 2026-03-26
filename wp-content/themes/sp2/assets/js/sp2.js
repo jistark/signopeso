@@ -21,11 +21,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Build ticker items (5 slots — static placeholders, can be API-fed later)
     var items = [
-        'cdmx, <strong>' + days[now.getDay()] + ' ' + now.getDate() + ' de ' + months[now.getMonth()] + ' de ' + now.getFullYear() + '</strong>',
-        '$1 usd = <strong>$17.57 mxn</strong>',
-        '€1 eur = <strong>$19.12 mxn</strong>',
-        'cdmx <strong>22°c</strong> parcialmente nublado',
-        'última actualización: <strong>' + pad(now.getHours()) + ':' + pad(now.getMinutes()) + '</strong>, ' + pad(now.getDate()) + '/' + pad(now.getMonth() + 1),
+        'cdmx, <strong>' + days[now.getDay()] + ' ' + now.getDate() + ' de ' + months[now.getMonth()] + '</strong>',
+        '💵 $1 usd = <strong>$17.57 mxn</strong>',
+        '💶 €1 eur = <strong>$19.12 mxn</strong>',
+        '⛅ <strong>22</strong>°c, parcialmente nublado',
+        'actualizado: <strong>' + pad(now.getHours()) + ':' + pad(now.getMinutes()) + '</strong>, ' + pad(now.getDate()) + '/' + pad(now.getMonth() + 1),
     ];
 
     // Render items + clone first for seamless loop

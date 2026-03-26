@@ -75,6 +75,8 @@ a:hover { color: var(--wp--preset--color--primary); }
     height: 18px;
     line-height: 18px;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .sp2-marquee strong {
