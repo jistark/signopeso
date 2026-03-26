@@ -1,8 +1,9 @@
 /* ==========================================================================
    SP2 — SignoPeso v2 Theme JavaScript
    1. Header scroll observer (compact bar toggle)
-   2. "Sigue leyendo" inline post expand
-   3. Infinite scroll with animated loader
+   2. Custom menu open/close
+   3. "Sigue leyendo" inline post expand
+   4. Infinite scroll with animated loader
    ========================================================================== */
 
 /* ---------- 1. Header scroll observer ---------- */
@@ -15,6 +16,52 @@ document.addEventListener('DOMContentLoaded', function () {
     }, { threshold: 0 });
 
     observer.observe(headerTop);
+});
+
+/* ---------- 2. Custom menu open/close ---------- */
+document.addEventListener('DOMContentLoaded', function () {
+    var menu      = document.querySelector('.sp2-menu');
+    var toggleBtn = document.querySelector('.sp2-bar__toggle');
+    var closeBtn  = document.querySelector('.sp2-menu__close');
+
+    if (!menu || !toggleBtn) return;
+
+    function openMenu() {
+        menu.classList.add('is-open');
+        menu.setAttribute('aria-hidden', 'false');
+        toggleBtn.setAttribute('aria-expanded', 'true');
+        document.body.classList.add('sp2-menu-open');
+    }
+
+    function closeMenu() {
+        menu.classList.remove('is-open');
+        menu.setAttribute('aria-hidden', 'true');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('sp2-menu-open');
+    }
+
+    toggleBtn.addEventListener('click', function () {
+        var isOpen = menu.classList.contains('is-open');
+        isOpen ? closeMenu() : openMenu();
+    });
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeMenu);
+    }
+
+    // Close on Escape key
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && menu.classList.contains('is-open')) {
+            closeMenu();
+        }
+    });
+
+    // Close when clicking a menu link (navigate)
+    menu.addEventListener('click', function (e) {
+        if (e.target.closest('a[href]') && !e.target.closest('a[href="#"]')) {
+            closeMenu();
+        }
+    });
 });
 
 /* ---------- 2. "Sigue leyendo" inline post expand ---------- */

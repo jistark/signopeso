@@ -20,35 +20,63 @@
 </div>
 <!-- /wp:group -->
 
-<!-- wp:group {"className":"sp2-header__bar","style":{"spacing":{"padding":{"top":"14px","bottom":"14px","left":"21px","right":"24px"}},"border":{"bottom":{"color":"var(--wp--preset--color--border)","width":"1px"}}},"layout":{"type":"flex","justifyContent":"space-between","verticalAlignment":"center"}} -->
-<div class="wp-block-group sp2-header__bar" style="padding-top:14px;padding-right:24px;padding-bottom:14px;padding-left:21px;border-bottom-color:var(--wp--preset--color--border);border-bottom-width:1px">
-
-    <!-- wp:paragraph {"className":"sp2-header__wordmark-small has-logo-font-family","style":{"typography":{"fontSize":"1rem","fontWeight":"400","lineHeight":"1"}}} -->
-    <p class="sp2-header__wordmark-small has-logo-font-family" style="font-size:1rem;font-weight:400;line-height:1"><a href="/" style="text-decoration:none;color:inherit">SIGNOPE<span style="color:var(--wp--preset--color--primary)">$</span>0</a></p>
-    <!-- /wp:paragraph -->
-
-    <!-- wp:navigation {"className":"sp2-header__hamburger","overlayMenu":"always","icon":"menu","style":{"typography":{"fontSize":"0"}}} -->
-
-        <!-- wp:navigation-submenu {"label":"todas las categorías","url":"#","className":"sp2-menu__section"} -->
-            <!-- wp:navigation-link {"label":"tecnología","url":"/tecnologia/"} /-->
-            <!-- wp:navigation-link {"label":"finanzas personales","url":"/finanzas-personales/"} /-->
-            <!-- wp:navigation-link {"label":"empresas","url":"/empresas/"} /-->
-            <!-- wp:navigation-link {"label":"viajar","url":"/viajar/"} /-->
-            <!-- wp:navigation-link {"label":"autos","url":"/autos/"} /-->
-            <!-- wp:navigation-link {"label":"mundo","url":"/mundo/"} /-->
-            <!-- wp:navigation-link {"label":"otros giros","url":"/otros-giros/"} /-->
-        <!-- /wp:navigation-submenu -->
-
-        <!-- wp:navigation-link {"label":"suscríbete al newsletter","url":"/newsletter/","className":"sp2-menu__newsletter"} /-->
-
-        <!-- wp:navigation-submenu {"label":"sobre signopeso","url":"#","className":"sp2-menu__section"} -->
-            <!-- wp:navigation-link {"label":"somos signopeso","url":"/acerca/"} /-->
-            <!-- wp:navigation-link {"label":"publicidad","url":"/publicidad/"} /-->
-            <!-- wp:navigation-link {"label":"enviar una noticia","url":"/tips/"} /-->
-            <!-- wp:navigation-link {"label":"feed rss","url":"/feed/"} /-->
-        <!-- /wp:navigation-submenu -->
-
-    <!-- /wp:navigation -->
-
+<!-- wp:html -->
+<div class="sp2-bar">
+    <a href="/" class="sp2-bar__logo">SIGNOPE<span>$</span>0</a>
+    <button class="sp2-bar__toggle" aria-label="Abrir menú" aria-expanded="false">
+        <span class="sp2-bar__hamburger"></span>
+    </button>
 </div>
-<!-- /wp:group -->
+
+<div class="sp2-menu" aria-hidden="true">
+    <div class="sp2-menu__header">
+        <a href="/" class="sp2-bar__logo">SIGNOPE<span>$</span>0</a>
+        <button class="sp2-menu__close" aria-label="Cerrar menú">✕</button>
+    </div>
+
+    <nav class="sp2-menu__nav">
+        <div class="sp2-menu__section">
+            <div class="sp2-menu__head">
+                <span>todas las categorías</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+            <ul class="sp2-menu__items">
+                <li><a href="/tecnologia/">tecnología <span class="sp2-menu__arrow">→</span></a></li>
+                <li><a href="/finanzas-personales/">finanzas personales <span class="sp2-menu__arrow">→</span></a></li>
+                <li><a href="/empresas/">empresas <span class="sp2-menu__arrow">→</span></a></li>
+                <li><a href="/viajar/">viajar <span class="sp2-menu__arrow">→</span></a></li>
+                <li><a href="/autos/">autos <span class="sp2-menu__arrow">→</span></a></li>
+                <li><a href="/mundo/">mundo <span class="sp2-menu__arrow">→</span></a></li>
+                <li><a href="/otros-giros/">otros giros <span class="sp2-menu__arrow">→</span></a></li>
+            </ul>
+        </div>
+
+        <a href="/newsletter/" class="sp2-menu__newsletter">
+            <span>suscríbete al newsletter</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2 4 12 13 22 4"/></svg>
+        </a>
+
+        <div class="sp2-menu__section">
+            <div class="sp2-menu__head">
+                <span>sobre signopeso</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+            <ul class="sp2-menu__items">
+                <li><a href="/acerca/">somos signopeso <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></a></li>
+                <li><a href="/publicidad/">publicidad <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></a></li>
+                <li><a href="/tips/">enviar una noticia <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg></a></li>
+                <li><a href="/feed/">feed rss <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="sp2-menu__footer">
+        <p class="sp2-menu__motto">economía + tecnología, corta y digerible, para el resto de nosotros.</p>
+        <div class="sp2-menu__legal">
+            <p>(cc) 2026, <strong>signopeso</strong>. algunos derechos reservados bajo una <a href="https://creativecommons.org/licenses/by-nc/4.0/">licencia creative commons atribución/reconocimiento-nocomercial 4.0 internacional</a>.</p>
+            <p>todas las marcas y logotipos mencionados o utilizados en este sitio web son propiedad de sus titulares, y su uso tiene únicamente fines de referencia y/o identificación.</p>
+            <p><a href="/aviso-de-privacidad">aviso de privacidad (méxico) →</a><br><a href="/terminos-de-uso">términos de uso →</a></p>
+        </div>
+    </div>
+</div>
+<!-- /wp:html -->
