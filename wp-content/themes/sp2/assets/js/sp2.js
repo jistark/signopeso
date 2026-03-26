@@ -7,28 +7,62 @@
    4. Infinite scroll with animated loader
    ========================================================================== */
 
-/* ---------- 0. Elevator marquee ---------- */
+/* ---------- 0. Elevator ticker ---------- */
 document.addEventListener('DOMContentLoaded', function () {
-    var dateEl = document.querySelector('.sp2-marquee__date');
-    var fxEl = document.querySelector('.sp2-marquee__fx');
-    if (!dateEl) return;
+    var track = document.getElementById('sp2-ticker');
+    if (!track) return;
 
-    // Format today's date in Spanish
     var days = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
     var months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
                   'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
     var now = new Date();
-    var dayName = days[now.getDay()];
-    var day = now.getDate();
-    var month = months[now.getMonth()];
-    var year = now.getFullYear();
 
-    dateEl.innerHTML = 'cdmx, <strong>' + dayName + ' ' + day + ' de ' + month + ' de ' + year + '</strong>';
+    function pad(n) { return n < 10 ? '0' + n : n; }
 
-    // FX rate placeholder (could be fetched from an API)
-    if (fxEl) {
-        fxEl.innerHTML = '$1 USD = <strong>$17.57 MXN</strong>';
-    }
+    // Build ticker items
+    var items = [
+        'cdmx, <strong>' + days[now.getDay()] + ' ' + now.getDate() + ' de ' + months[now.getMonth()] + ' de ' + now.getFullYear() + '</strong>',
+        '<strong>' + pad(now.getHours()) + ':' + pad(now.getMinutes()) + '</strong> hora cdmx',
+        '$1 usd = <strong>$17.57 mxn</strong>',
+    ];
+
+    // Render items + clone first for seamless loop
+    items.forEach(function (html) {
+        var span = document.createElement('span');
+        span.className = 'sp2-marquee__item';
+        span.innerHTML = html;
+        track.appendChild(span);
+    });
+    // Clone first item at end for seamless wrap
+    var first = track.children[0].cloneNode(true);
+    track.appendChild(first);
+
+    var index = 0;
+    var total = items.length;
+
+    setInterval(function () {
+        index++;
+        track.style.transition = 'transform 0.4s ease';
+        track.style.transform = 'translateY(-' + (index * 18) + 'px)';
+
+        // When we reach the clone, snap back invisibly
+        if (index >= total) {
+            setTimeout(function () {
+                track.style.transition = 'none';
+                track.style.transform = 'translateY(0)';
+                index = 0;
+            }, 420);
+        }
+    }, 3000);
+
+    // Update time every minute
+    setInterval(function () {
+        var n = new Date();
+        var timeItem = track.children[1];
+        if (timeItem) {
+            timeItem.innerHTML = '<strong>' + pad(n.getHours()) + ':' + pad(n.getMinutes()) + '</strong> hora cdmx';
+        }
+    }, 60000);
 });
 
 /* ---------- 1. Header scroll observer ---------- */

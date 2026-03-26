@@ -54,12 +54,12 @@ a:hover { color: var(--wp--preset--color--primary); }
 }
 
 /* Elevator marquee: date + FX rate, vertical rotation */
-/* Elevator marquee: one line at a time, ticker-tape style */
+/* Elevator marquee: vertical ticker, one line visible, JS-driven */
 .sp2-marquee {
     text-align: center;
     padding: 0 0 16px;
     overflow: hidden;
-    height: 18px; /* exactly one line visible */
+    height: 18px;
     font-family: var(--wp--preset--font-family--ui);
     font-size: 13px;
     color: #444;
@@ -67,8 +67,7 @@ a:hover { color: var(--wp--preset--color--primary); }
 }
 
 .sp2-marquee__track {
-    display: block;
-    animation: sp2-elevator 5s ease-in-out infinite;
+    transition: transform 0.4s ease;
 }
 
 .sp2-marquee__item {
@@ -78,16 +77,9 @@ a:hover { color: var(--wp--preset--color--primary); }
     white-space: nowrap;
 }
 
-.sp2-marquee__date strong,
-.sp2-marquee__fx strong {
+.sp2-marquee strong {
     color: #fc9f9f;
     font-weight: 700;
-}
-
-@keyframes sp2-elevator {
-    0%, 38%   { transform: translateY(0); }
-    45%, 88%  { transform: translateY(-18px); }
-    95%, 100% { transform: translateY(0); }
 }
 
 /* -----------------------------------------------------------------------
