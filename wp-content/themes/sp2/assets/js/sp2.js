@@ -19,13 +19,35 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function pad(n) { return n < 10 ? '0' + n : n; }
 
-    // Build ticker items (5 slots — static placeholders, can be API-fed later)
+    // Read server-provided data (from wp_localize_script), fallback to placeholders
+    var t = window.sp2Ticker || {};
+    var fx = t.fx || {};
+    var weather = t.weather || {};
+    var lastUpdate = t.lastUpdate ? new Date(t.lastUpdate * 1000) : now;
+
+    // Format last update as relative or absolute
+    var diffMin = Math.floor((now.getTime() - lastUpdate.getTime()) / 60000);
+    var lastUpdateStr;
+    if (diffMin < 60) {
+        lastUpdateStr = 'hace <strong>' + Math.max(1, diffMin) + 'min</strong>';
+    } else if (diffMin < 1440) {
+        lastUpdateStr = 'hace <strong>' + Math.floor(diffMin / 60) + 'h</strong>';
+    } else {
+        lastUpdateStr = '<strong>' + pad(lastUpdate.getHours()) + ':' + pad(lastUpdate.getMinutes()) + '</strong>, ' + pad(lastUpdate.getDate()) + '/' + pad(lastUpdate.getMonth() + 1);
+    }
+
+    var usd = fx.usd || '—';
+    var eur = fx.eur || '—';
+    var temp = weather.temp || '—';
+    var condition = weather.condition || '';
+    var emoji = weather.emoji || '🌡';
+
     var items = [
         'cdmx, <strong>' + days[now.getDay()] + ' ' + now.getDate() + ' de ' + months[now.getMonth()] + '</strong>',
-        '💵 $1 usd = <strong>$17.57 mxn</strong>',
-        '💶 €1 eur = <strong>$19.12 mxn</strong>',
-        '⛅ <strong>22</strong>°c, parcialmente nublado',
-        'actualizado: <strong>' + pad(now.getHours()) + ':' + pad(now.getMinutes()) + '</strong>, ' + pad(now.getDate()) + '/' + pad(now.getMonth() + 1),
+        '💵 $1 usd = <strong>$' + usd + ' mxn</strong>',
+        '💶 €1 eur = <strong>$' + eur + ' mxn</strong>',
+        emoji + ' <strong>' + temp + '</strong>°c' + (condition ? ', ' + condition : ''),
+        'actualizado: ' + lastUpdateStr,
     ];
 
     // Render items + clone first for seamless loop
@@ -57,12 +79,21 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }, 3000);
 
-    // Update "última actualización" every minute
+    // Update "actualizado" item every minute (relative time drifts as user stays on page)
     setInterval(function () {
         var n = new Date();
-        var lastUpdateItem = track.children[4]; // index 4 = última actualización
+        var diff = Math.floor((n.getTime() - lastUpdate.getTime()) / 60000);
+        var str;
+        if (diff < 60) {
+            str = 'hace <strong>' + Math.max(1, diff) + 'min</strong>';
+        } else if (diff < 1440) {
+            str = 'hace <strong>' + Math.floor(diff / 60) + 'h</strong>';
+        } else {
+            str = '<strong>' + pad(lastUpdate.getHours()) + ':' + pad(lastUpdate.getMinutes()) + '</strong>, ' + pad(lastUpdate.getDate()) + '/' + pad(lastUpdate.getMonth() + 1);
+        }
+        var lastUpdateItem = track.children[4]; // index 4 = actualizado
         if (lastUpdateItem) {
-            lastUpdateItem.innerHTML = 'última actualización: <strong>' + pad(n.getHours()) + ':' + pad(n.getMinutes()) + '</strong>, ' + pad(n.getDate()) + '/' + pad(n.getMonth() + 1);
+            lastUpdateItem.innerHTML = 'actualizado: ' + str;
         }
     }, 60000);
 });

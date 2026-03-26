@@ -1159,6 +1159,32 @@ body.sp2-menu-open {
 }
 
 /* ==========================================================================
+   RECIRCULATION (sigue explorando)
+   ========================================================================== */
+
+.sp-recirculation {
+    border-top: 1px solid #e0e0e0;
+    padding: 32px 0 0;
+    margin-top: 40px;
+}
+
+.sp-recirculation__inner {
+    max-width: 440px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.sp-recirculation__heading {
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #999;
+    margin: 0 0 24px;
+}
+
+/* ==========================================================================
    AD SLOTS
    ========================================================================== */
 
@@ -1351,6 +1377,11 @@ a {
     overflow: hidden;
 }
 
+/* Desktop nav — hidden on mobile */
+.sp2-bar__nav {
+    display: none;
+}
+
 /* ==========================================================================
    RESPONSIVE — tablet and up (768px+)
    ========================================================================== */
@@ -1382,5 +1413,30 @@ a {
     .sp2-footer__inner {
         max-width: 720px;
         padding: 48px 32px;
+    }
+
+    /* Recirculation matches content width on tablet */
+    .sp-recirculation__inner {
+        max-width: 720px;
+        padding: 0 32px;
+    }
+
+    /* Desktop inline nav in sticky bar */
+    .sp2-bar__nav {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .sp2-bar__nav a {
+        font-family: var(--wp--preset--font-family--ui);
+        font-size: 13px;
+        color: #444;
+        text-decoration: none;
+        transition: color 0.15s ease;
+    }
+
+    .sp2-bar__nav a:hover {
+        color: #fc9f9f;
     }
 }

@@ -19,7 +19,7 @@ if ( count( $popular_ids ) < $count ) {
     $recent  = get_posts( array(
         'numberposts'  => $count - count( $popular_ids ),
         'post_status'  => 'publish',
-        'exclude'      => $exclude,
+        'exclude'      => $exclude, // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude -- Small array (max 5 IDs).
         'orderby'      => 'date',
         'order'        => 'DESC',
         'fields'       => 'ids',
@@ -34,7 +34,7 @@ if ( empty( $popular_ids ) ) {
 
 <section class="sp-recirculation">
     <div class="sp-recirculation__inner">
-        <h2 class="sp-recirculation__heading">Sigue Explorando</h2>
+        <h2 class="sp-recirculation__heading">sigue explorando</h2>
 
         <?php
         // Render each post through the actual sp/post-card block.
@@ -50,7 +50,7 @@ if ( empty( $popular_ids ) ) {
                 ),
                 array( 'postId' => $pid )
             );
-            echo $card_block->render();
+            echo $card_block->render(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Block render output is pre-escaped.
         endforeach;
         ?>
     </div>

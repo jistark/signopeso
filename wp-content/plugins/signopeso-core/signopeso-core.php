@@ -4,9 +4,11 @@
  * Description: Core functionality for SignoPeso ($P) — post formats, source embeds, newsletter, ads, and custom blocks.
  * Version: 1.0.0
  * Author: JI Stark
- * Text Domain: signopeso
+ * Text Domain: signopeso-core
  * Requires at least: 6.0
  * Requires PHP: 8.0
+ * License: GPL-2.0-or-later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -27,6 +29,7 @@ require_once SP_PLUGIN_DIR . 'includes/rest-api.php';
 require_once SP_PLUGIN_DIR . 'includes/newsletter/settings.php';
 require_once SP_PLUGIN_DIR . 'includes/newsletter/cron.php';
 require_once SP_PLUGIN_DIR . 'includes/portada.php';
+require_once SP_PLUGIN_DIR . 'includes/ticker-data.php';
 
 /**
  * Register all SignoPeso blocks.

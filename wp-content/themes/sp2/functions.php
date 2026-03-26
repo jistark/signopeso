@@ -53,5 +53,10 @@ function sp2_enqueue_scripts() {
         '2.0.0',
         true
     );
+
+    // Pass ticker data to JS (from plugin's ticker-data.php)
+    if ( function_exists( 'sp_get_ticker_data' ) ) {
+        wp_localize_script( 'sp2-scripts', 'sp2Ticker', sp_get_ticker_data() );
+    }
 }
 add_action( 'wp_enqueue_scripts', 'sp2_enqueue_scripts' );
