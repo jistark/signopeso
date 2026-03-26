@@ -1,10 +1,35 @@
 /* ==========================================================================
    SP2 — SignoPeso v2 Theme JavaScript
+   0. Elevator marquee (date + FX rate)
    1. Header scroll observer (compact bar toggle)
    2. Custom menu open/close
    3. "Sigue leyendo" inline post expand
    4. Infinite scroll with animated loader
    ========================================================================== */
+
+/* ---------- 0. Elevator marquee ---------- */
+document.addEventListener('DOMContentLoaded', function () {
+    var dateEl = document.querySelector('.sp2-marquee__date');
+    var fxEl = document.querySelector('.sp2-marquee__fx');
+    if (!dateEl) return;
+
+    // Format today's date in Spanish
+    var days = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+    var months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+                  'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+    var now = new Date();
+    var dayName = days[now.getDay()];
+    var day = now.getDate();
+    var month = months[now.getMonth()];
+    var year = now.getFullYear();
+
+    dateEl.innerHTML = 'cdmx, <strong>' + dayName + ' ' + day + ' de ' + month + ' de ' + year + '</strong>';
+
+    // FX rate placeholder (could be fetched from an API)
+    if (fxEl) {
+        fxEl.innerHTML = '$1 USD = <strong>$17.57 MXN</strong>';
+    }
+});
 
 /* ---------- 1. Header scroll observer ---------- */
 document.addEventListener('DOMContentLoaded', function () {

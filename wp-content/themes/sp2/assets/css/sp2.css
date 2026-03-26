@@ -53,6 +53,43 @@ a:hover { color: var(--wp--preset--color--primary); }
     text-transform: lowercase;
 }
 
+/* Elevator marquee: date + FX rate, vertical rotation */
+/* Elevator marquee: one line at a time, ticker-tape style */
+.sp2-marquee {
+    text-align: center;
+    padding: 0 0 16px;
+    overflow: hidden;
+    height: 18px; /* exactly one line visible */
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 13px;
+    color: #444;
+    position: relative;
+}
+
+.sp2-marquee__track {
+    display: block;
+    animation: sp2-elevator 5s ease-in-out infinite;
+}
+
+.sp2-marquee__item {
+    display: block;
+    height: 18px;
+    line-height: 18px;
+    white-space: nowrap;
+}
+
+.sp2-marquee__date strong,
+.sp2-marquee__fx strong {
+    color: #fc9f9f;
+    font-weight: 700;
+}
+
+@keyframes sp2-elevator {
+    0%, 38%   { transform: translateY(0); }
+    45%, 88%  { transform: translateY(-18px); }
+    95%, 100% { transform: translateY(0); }
+}
+
 /* -----------------------------------------------------------------------
    Compact bar (custom HTML — not WP block)
    ----------------------------------------------------------------------- */
@@ -939,7 +976,7 @@ body.sp2-menu-open {
 .sp-date-stream {
     max-width: 440px;
     margin: 0 auto;
-    padding: 0 24px;
+    /* padding handled by parent WP group in template */
 }
 
 .sp-date-stream__group {
@@ -1059,7 +1096,7 @@ body.sp2-menu-open {
 .sp2-single {
     max-width: 440px;
     margin: 0 auto;
-    padding: 0 24px;
+    /* padding handled by WP group in template */
 }
 
 .sp2-single__category a {
@@ -1142,24 +1179,100 @@ body.sp2-menu-open {
    ========================================================================== */
 
 .sp2-footer {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 40px 24px;
     max-width: 100%;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    font-family: var(--wp--preset--font-family--ui);
 }
 
 .sp2-footer__motto {
-    font-style: italic;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    line-height: 1.15;
+    color: #fc9f9f;
+    font-style: normal;
+    margin: 0 0 32px;
+}
+
+/* Two-column link grid */
+.sp2-footer__columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.sp2-footer__col-head {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #999;
+    margin: 0 0 12px;
+}
+
+.sp2-footer__col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sp2-footer__col li {
+    margin-bottom: 8px;
+}
+
+.sp2-footer__col a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 1.8;
+    transition: color 0.15s ease;
+}
+
+.sp2-footer__col a:hover {
+    color: #fc9f9f;
+}
+
+/* Legal text */
+.sp2-footer__legal {
+    font-size: 12px;
+    color: #999;
+    line-height: 1.5;
+    border-top: 1px solid #333;
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
+
+.sp2-footer__legal p {
+    margin: 0 0 12px;
 }
 
 .sp2-footer__legal a {
-    color: var(--wp--preset--color--link);
+    color: #999;
     text-decoration: underline;
 }
 
-/* Wordmark inside footer */
-.sp2-footer .sp2-header__wordmark,
-.sp2-footer .sp2-header__wordmark-small {
-    font-family: "Lexend Peta", Impact, "Arial Black", sans-serif !important;
+.sp2-footer__legal a:hover {
+    color: #fc9f9f;
+}
+
+/* Back to top */
+.sp2-footer__top {
+    display: inline-block;
+    font-size: 13px;
+    color: #fc9f9f;
+    text-decoration: none;
+    border: 1px solid #fc9f9f;
+    border-radius: 10px;
+    padding: 6px 14px;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.sp2-footer__top:hover {
+    background: #fc9f9f;
+    color: #1a1a1a;
 }
 
 /* ==========================================================================
@@ -1247,7 +1360,6 @@ a {
 
     .sp2-single {
         max-width: 720px;
-        padding: 0 32px;
     }
 
     .sp-portada {
@@ -1256,7 +1368,6 @@ a {
 
     .sp-date-stream {
         max-width: 720px;
-        padding: 0 32px;
     }
 
     /* Corto: slightly larger image at tablet */
