@@ -34,38 +34,42 @@
         <button class="sp2-menu__close" aria-label="Cerrar menú">✕</button>
     </div>
 
+    <form class="sp2-menu__search" action="/" method="get" role="search">
+        <input type="search" name="s" placeholder="buscar en signopeso..." aria-label="Buscar" class="sp2-menu__search-input">
+    </form>
+
     <nav class="sp2-menu__nav">
-        <div class="sp2-menu__section">
-            <div class="sp2-menu__head">
+        <div class="sp2-menu__section is-collapsed" data-accordion>
+            <button class="sp2-menu__head" type="button" aria-expanded="false">
                 <span>todas las categorías</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </div>
+                <svg class="sp2-menu__chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
             <ul class="sp2-menu__items">
-                <li><a href="/tecnologia/">tecnología <span class="sp2-menu__arrow">→</span></a></li>
-                <li><a href="/finanzas-personales/">finanzas personales <span class="sp2-menu__arrow">→</span></a></li>
-                <li><a href="/empresas/">empresas <span class="sp2-menu__arrow">→</span></a></li>
-                <li><a href="/viajar/">viajar <span class="sp2-menu__arrow">→</span></a></li>
-                <li><a href="/autos/">autos <span class="sp2-menu__arrow">→</span></a></li>
-                <li><a href="/mundo/">mundo <span class="sp2-menu__arrow">→</span></a></li>
-                <li><a href="/otros-giros/">otros giros <span class="sp2-menu__arrow">→</span></a></li>
+                <li><a href="/tecnologia/">tecnología <span class="sp2-menu__icon">→</span></a></li>
+                <li><a href="/finanzas-personales/">finanzas personales <span class="sp2-menu__icon">→</span></a></li>
+                <li><a href="/empresas/">empresas <span class="sp2-menu__icon">→</span></a></li>
+                <li><a href="/viajar/">viajar <span class="sp2-menu__icon">→</span></a></li>
+                <li><a href="/autos/">autos <span class="sp2-menu__icon">→</span></a></li>
+                <li><a href="/mundo/">mundo <span class="sp2-menu__icon">→</span></a></li>
+                <li><a href="/otros-giros/">otros giros <span class="sp2-menu__icon">→</span></a></li>
             </ul>
         </div>
 
         <a href="/newsletter/" class="sp2-menu__newsletter">
             <span>suscríbete al newsletter</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2 4 12 13 22 4"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2 4 12 13 22 4"/></svg>
         </a>
 
-        <div class="sp2-menu__section">
-            <div class="sp2-menu__head">
+        <div class="sp2-menu__section is-collapsed" data-accordion>
+            <button class="sp2-menu__head" type="button" aria-expanded="false">
                 <span>sobre signopeso</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </div>
+                <svg class="sp2-menu__chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
             <ul class="sp2-menu__items">
-                <li><a href="/acerca/">somos signopeso <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></a></li>
-                <li><a href="/publicidad/">publicidad <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></a></li>
-                <li><a href="/tips/">enviar una noticia <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg></a></li>
-                <li><a href="/feed/">feed rss <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg></a></li>
+                <li><a href="/acerca/">somos signopeso <svg class="sp2-menu__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></a></li>
+                <li><a href="/publicidad/">publicidad <svg class="sp2-menu__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></a></li>
+                <li><a href="/tips/">enviar una noticia <svg class="sp2-menu__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg></a></li>
+                <li><a href="/feed/">feed rss <svg class="sp2-menu__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg></a></li>
             </ul>
         </div>
     </nav>

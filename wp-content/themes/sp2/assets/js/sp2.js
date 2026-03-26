@@ -62,6 +62,22 @@ document.addEventListener('DOMContentLoaded', function () {
             closeMenu();
         }
     });
+
+    // Accordion toggle for menu sections
+    menu.querySelectorAll('.sp2-menu__head[type="button"]').forEach(function (head) {
+        head.addEventListener('click', function () {
+            var section = head.closest('.sp2-menu__section');
+            var isCollapsed = section.classList.contains('is-collapsed');
+
+            if (isCollapsed) {
+                section.classList.remove('is-collapsed');
+                head.setAttribute('aria-expanded', 'true');
+            } else {
+                section.classList.add('is-collapsed');
+                head.setAttribute('aria-expanded', 'false');
+            }
+        });
+    });
 });
 
 /* ---------- 2. "Sigue leyendo" inline post expand ---------- */

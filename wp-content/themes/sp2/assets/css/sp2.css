@@ -150,12 +150,12 @@ body.sp2-header--scrolled .sp2-bar {
     transform: translateY(0);
 }
 
-/* Menu header: logo + close */
+/* Menu header: logo + close — aligned with sticky bar position */
 .sp2-menu__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 0;
+    padding: 14px 0;
 }
 
 .sp2-menu__close {
@@ -172,12 +172,19 @@ body.sp2-header--scrolled .sp2-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    font-family: var(--wp--preset--font-family--ui);
     font-size: 20px;
     font-weight: 400;
     letter-spacing: -0.2px;
     color: #000;
     line-height: 30px;
     padding: 8px 0;
+    /* Reset button styles */
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
 }
 
 .sp2-menu__head svg {
@@ -192,6 +199,7 @@ body.sp2-header--scrolled .sp2-bar {
     padding: 0;
 }
 
+/* Sub-items */
 .sp2-menu__items li a {
     display: flex;
     justify-content: space-between;
@@ -203,44 +211,99 @@ body.sp2-header--scrolled .sp2-bar {
     text-decoration: none;
     line-height: 30px;
     padding: 1px 0;
+    transition: text-decoration 0.1s ease;
 }
 
 .sp2-menu__items li a:hover {
-    color: #fc9f9f;
+    text-decoration: underline;
+    text-underline-offset: 3px;
 }
 
-.sp2-menu__items li a svg {
+/* Icons in sub-items: #444 */
+.sp2-menu__icon {
     flex-shrink: 0;
-    color: #0000ff;
-}
-
-.sp2-menu__arrow {
+    color: #444;
     font-size: 14px;
 }
 
-/* Newsletter — yellow band */
+.sp2-menu__items li a svg.sp2-menu__icon {
+    color: #444;
+    stroke: #444;
+}
+
+/* Chevron rotation for accordion */
+.sp2-menu__chevron {
+    transition: transform 0.2s ease;
+}
+
+.sp2-menu__head[aria-expanded="false"] .sp2-menu__chevron {
+    transform: rotate(-90deg);
+}
+
+/* Accordion: hide items when collapsed */
+.sp2-menu__section .sp2-menu__items {
+    overflow: hidden;
+    transition: max-height 0.25s ease, opacity 0.2s ease;
+    max-height: 300px;
+    opacity: 1;
+}
+
+.sp2-menu__section.is-collapsed .sp2-menu__items {
+    max-height: 0;
+    opacity: 0;
+}
+
+/* Search field */
+.sp2-menu__search {
+    margin: 8px 0 16px;
+}
+
+.sp2-menu__search-input {
+    width: 100%;
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 14px;
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.6);
+    color: #000;
+    outline: none;
+    transition: border-color 0.15s ease;
+}
+
+.sp2-menu__search-input:focus {
+    border-color: #fc9f9f;
+}
+
+.sp2-menu__search-input::placeholder {
+    color: #999;
+}
+
+/* Newsletter — yellow band, aligned with accordion heads */
 .sp2-menu__newsletter {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: #f2ff00;
-    padding: 0 10px;
-    margin: 8px 0;
+    padding: 8px 0;
+    margin: 12px 0;
     font-size: 20px;
     font-weight: 400;
     letter-spacing: -0.2px;
     color: #000;
     text-decoration: none;
     line-height: 30px;
+    transition: opacity 0.15s ease;
 }
 
 .sp2-menu__newsletter:hover {
     color: #000;
-    opacity: 0.8;
+    opacity: 0.85;
 }
 
 .sp2-menu__newsletter svg {
     flex-shrink: 0;
+    color: #444;
 }
 
 /* Menu footer: motto + legal */
@@ -255,7 +318,7 @@ body.sp2-header--scrolled .sp2-bar {
     letter-spacing: -0.3px;
     line-height: 1.15;
     color: #fc9f9f;
-    font-style: italic;
+    font-style: normal;
     margin: 0 0 32px;
 }
 
