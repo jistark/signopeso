@@ -90,25 +90,33 @@ a:hover { color: var(--wp--preset--color--primary); }
    Compact bar (custom HTML — not WP block)
    ----------------------------------------------------------------------- */
 
+/* Sticky bar: fixed full-width, content boxed to 720px via inner flex */
 .sp2-bar {
     display: none;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 24px 14px 21px;
-    border-bottom: 1px solid var(--wp--preset--color--border);
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 100;
+    border-bottom: 1px solid var(--wp--preset--color--border);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     transition: transform 0.25s ease;
 }
 
 body.sp2-header--scrolled .sp2-bar {
+    display: block;
+}
+
+/* Inner container: boxes the logo + nav + hamburger to content width */
+.sp2-bar__inner {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 14px 24px;
 }
 
 .sp2-bar__logo {
@@ -389,7 +397,7 @@ body.sp2-menu-open {
 
 .sp-portada {
     padding: 0 24px 24px;
-    max-width: 440px;
+    max-width: 720px;
     margin: 0 auto;
 }
 
@@ -977,9 +985,8 @@ body.sp2-menu-open {
    ========================================================================== */
 
 .sp-date-stream {
-    max-width: 440px;
+    max-width: 720px;
     margin: 0 auto;
-    /* padding handled by parent WP group in template */
 }
 
 .sp-date-stream__group {
@@ -1097,9 +1104,8 @@ body.sp2-menu-open {
    ========================================================================== */
 
 .sp2-single {
-    max-width: 440px;
+    max-width: 720px;
     margin: 0 auto;
-    /* padding handled by WP group in template */
 }
 
 .sp2-single__category a {
