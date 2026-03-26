@@ -70,8 +70,8 @@ if ( 'corto' === $formato ) :
 // =====================================================================
 elseif ( 'enlace' === $formato ) :
     $has_source    = ! empty( $source );
-    $source_url    = $has_source ? $source['url_utm'] : '';
     $domain        = $has_source ? $source['domain'] : '';
+    $source_url    = $has_source ? $source['url_utm'] : '';
     $favicon_url   = $domain ? 'https://www.google.com/s2/favicons?domain=' . rawurlencode( $domain ) . '&sz=56' : '';
     $display_url   = $has_source ? preg_replace( '#^https?://#', '', $source['url'] ) : '';
     $og_image_url  = '';
@@ -81,15 +81,20 @@ elseif ( 'enlace' === $formato ) :
             $og_image_url = $img_data[0];
         }
     }
-    $excerpt = wp_trim_words( get_the_excerpt( $post_id ), 40, '…' );
+    // Use featured image as fallback if no OG image sideloaded.
+    if ( ! $og_image_url ) {
+        $og_image_url = get_the_post_thumbnail_url( $post_id, 'medium' ) ?: '';
+    }
+    // Source author (from OG data, not WP user) for display credit.
+    $source_author = $has_source && ! empty( $source['author'] ) ? $source['author'] : '';
+    $source_site   = $has_source && ! empty( $source['site_name'] ) ? $source['site_name'] : $domain;
+    $excerpt       = wp_trim_words( get_the_excerpt( $post_id ), 40, '…' );
 ?>
 <article class="sp-post-card sp-post-card--enlace" data-post-id="<?php echo esc_attr( $post_id ); ?>" data-permalink="<?php echo esc_url( $permalink ); ?>">
-    <?php if ( $has_source && $domain ) : ?>
+    <?php if ( $domain ) : ?>
         <div class="sp-post-card__source-url">
-            <?php if ( $favicon_url ) : ?>
-                <img class="sp-post-card__source-favicon" src="<?php echo esc_url( $favicon_url ); ?>" alt="" width="28" height="28">
-            <?php endif; ?>
-            <span class="sp-post-card__source-arrow">&#8599;</span>
+            <img class="sp-post-card__source-favicon" src="<?php echo esc_url( $favicon_url ); ?>" alt="" width="28" height="28">
+            <span class="sp-post-card__source-arrow">↗</span>
             <a class="sp-post-card__source-domain-link" href="<?php echo esc_url( $source_url ); ?>" target="_blank" rel="noopener"><?php echo esc_html( $display_url ); ?></a>
         </div>
     <?php endif; ?>
@@ -101,7 +106,13 @@ elseif ( 'enlace' === $formato ) :
             <img src="<?php echo esc_url( $og_image_url ); ?>" alt="" loading="lazy">
         </div>
     <?php endif; ?>
-    <span class="sp-post-card__author-time"><?php echo esc_html( $author ); ?>, <?php echo esc_html( $relative_time ); ?></span>
+    <span class="sp-post-card__author-time">
+        <?php if ( $source_author ) : ?>
+            <?php echo esc_html( $source_author ); ?>, <?php echo esc_html( $source_site ); ?> · <?php echo esc_html( $relative_time ); ?>
+        <?php else : ?>
+            <?php echo esc_html( $source_site ?: $author ); ?>, <?php echo esc_html( $relative_time ); ?>
+        <?php endif; ?>
+    </span>
     <?php if ( $excerpt ) : ?>
         <div class="sp-post-card__excerpt"><?php echo esc_html( $excerpt ); ?></div>
     <?php endif; ?>

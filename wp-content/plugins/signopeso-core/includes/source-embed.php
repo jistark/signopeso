@@ -53,7 +53,7 @@ function sp_render_source_meta_box( $post ) {
  * Save source URL and schedule OG fetch.
  */
 function sp_save_source_url( $post_id ) {
-    if ( ! isset( $_POST['sp_source_nonce'] ) || ! wp_verify_nonce( $_POST['sp_source_nonce'], 'sp_source_save' ) ) {
+    if ( ! isset( $_POST['sp_source_nonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['sp_source_nonce'] ) ), 'sp_source_save' ) ) {
         return;
     }
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -63,7 +63,7 @@ function sp_save_source_url( $post_id ) {
         return;
     }
 
-    $new_url = isset( $_POST['sp_source_url'] ) ? esc_url_raw( $_POST['sp_source_url'] ) : '';
+    $new_url = isset( $_POST['sp_source_url'] ) ? esc_url_raw( wp_unslash( $_POST['sp_source_url'] ) ) : '';
     $old_url = get_post_meta( $post_id, '_sp_source_url', true );
     $refresh = ! empty( $_POST['sp_source_refresh'] );
 
@@ -85,6 +85,28 @@ function sp_save_source_url( $post_id ) {
     }
 }
 add_action( 'save_post', 'sp_save_source_url' );
+
+/**
+ * Auto-fetch OG data when a post has _sp_source_url but no OG data yet.
+ * Catches posts created programmatically (e.g., sp-chop pipeline) that
+ * bypass the meta box save_post hook.
+ */
+function sp_maybe_auto_fetch_og( $post_id, $post, $update ) {
+    if ( 'post' !== $post->post_type || 'publish' !== $post->post_status ) {
+        return;
+    }
+
+    $url    = get_post_meta( $post_id, '_sp_source_url', true );
+    $status = get_post_meta( $post_id, '_sp_source_og_status', true );
+
+    // Has URL but no OG status = never fetched. Do it now.
+    if ( $url && ! $status ) {
+        update_post_meta( $post_id, '_sp_source_og_status', 'pending' );
+        // Fetch immediately (synchronous) since cron may not run on WP.com.
+        sp_do_fetch_og_data( $post_id );
+    }
+}
+add_action( 'save_post', 'sp_maybe_auto_fetch_og', 20, 3 );
 
 /**
  * Async OG data fetch handler.
@@ -115,6 +137,8 @@ function sp_do_fetch_og_data( $post_id ) {
     update_post_meta( $post_id, '_sp_source_og_title', sanitize_text_field( $og['title'] ?? '' ) );
     update_post_meta( $post_id, '_sp_source_og_desc', sanitize_text_field( $og['description'] ?? '' ) );
     update_post_meta( $post_id, '_sp_source_og_domain', sanitize_text_field( $domain ) );
+    update_post_meta( $post_id, '_sp_source_og_author', sanitize_text_field( $og['author'] ?? '' ) );
+    update_post_meta( $post_id, '_sp_source_og_site_name', sanitize_text_field( $og['site_name'] ?? $domain ) );
 
     // Sideload image if available.
     if ( ! empty( $og['image'] ) ) {
@@ -138,14 +162,16 @@ add_action( 'sp_fetch_og_data', 'sp_do_fetch_og_data' );
 function sp_parse_og_tags( $html ) {
     $og = array();
 
-    $tags = array(
+    // OG property tags.
+    $property_tags = array(
         'title'       => 'og:title',
         'description' => 'og:description',
         'image'       => 'og:image',
         'site_name'   => 'og:site_name',
+        'author'      => 'article:author',
     );
 
-    foreach ( $tags as $key => $property ) {
+    foreach ( $property_tags as $key => $property ) {
         if ( preg_match( '/<meta[^>]+property=["\']' . preg_quote( $property, '/' ) . '["\'][^>]+content=["\']([^"\']*)["\']/', $html, $match ) ) {
             $og[ $key ] = $match[1];
         } elseif ( preg_match( '/<meta[^>]+content=["\']([^"\']*)["\'][^>]+property=["\']' . preg_quote( $property, '/' ) . '["\']/', $html, $match ) ) {
@@ -153,9 +179,29 @@ function sp_parse_og_tags( $html ) {
         }
     }
 
+    // Name-based meta tags (twitter, author, etc.).
+    $name_tags = array(
+        'twitter_creator' => 'twitter:creator',
+        'twitter_site'    => 'twitter:site',
+        'cms_author'      => 'author',
+    );
+
+    foreach ( $name_tags as $key => $name ) {
+        if ( preg_match( '/<meta[^>]+name=["\']' . preg_quote( $name, '/' ) . '["\'][^>]+content=["\']([^"\']*)["\']/', $html, $match ) ) {
+            $og[ $key ] = $match[1];
+        } elseif ( preg_match( '/<meta[^>]+content=["\']([^"\']*)["\'][^>]+name=["\']' . preg_quote( $name, '/' ) . '["\']/', $html, $match ) ) {
+            $og[ $key ] = $match[1];
+        }
+    }
+
     // Fallback to <title> tag if no og:title.
     if ( empty( $og['title'] ) && preg_match( '/<title[^>]*>([^<]+)<\/title>/', $html, $match ) ) {
         $og['title'] = trim( $match[1] );
+    }
+
+    // Resolve author: article:author → meta[name=author] → twitter:creator.
+    if ( empty( $og['author'] ) ) {
+        $og['author'] = $og['cms_author'] ?? $og['twitter_creator'] ?? '';
     }
 
     return $og;
@@ -185,14 +231,24 @@ function sp_get_source_data( $post_id ) {
         return null;
     }
 
+    $domain = get_post_meta( $post_id, '_sp_source_og_domain', true );
+
+    // Auto-derive domain from URL if not stored yet.
+    if ( ! $domain ) {
+        $parsed = wp_parse_url( $url );
+        $domain = isset( $parsed['host'] ) ? preg_replace( '/^www\./', '', $parsed['host'] ) : '';
+    }
+
     return array(
-        'url'      => $url,
-        'title'    => get_post_meta( $post_id, '_sp_source_og_title', true ),
-        'desc'     => get_post_meta( $post_id, '_sp_source_og_desc', true ),
-        'image_id' => get_post_meta( $post_id, '_sp_source_og_image_id', true ),
-        'domain'   => get_post_meta( $post_id, '_sp_source_og_domain', true ),
-        'status'   => get_post_meta( $post_id, '_sp_source_og_status', true ),
-        'url_utm'  => add_query_arg( array(
+        'url'       => $url,
+        'title'     => get_post_meta( $post_id, '_sp_source_og_title', true ),
+        'desc'      => get_post_meta( $post_id, '_sp_source_og_desc', true ),
+        'image_id'  => get_post_meta( $post_id, '_sp_source_og_image_id', true ),
+        'domain'    => $domain,
+        'author'    => get_post_meta( $post_id, '_sp_source_og_author', true ),
+        'site_name' => get_post_meta( $post_id, '_sp_source_og_site_name', true ) ?: $domain,
+        'status'    => get_post_meta( $post_id, '_sp_source_og_status', true ),
+        'url_utm'   => add_query_arg( array(
             'utm_source' => 'signopeso',
             'utm_medium' => 'referral',
         ), $url ),
