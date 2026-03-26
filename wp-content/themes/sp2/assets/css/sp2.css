@@ -182,25 +182,20 @@ body.sp2-header--scrolled .sp2-bar {
     transform: translateY(0);
 }
 
+/* Content wrapper: boxes everything to match article width */
+.sp2-menu__content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px 40px;
+}
+
 /* Menu header: logo + close — matches sticky bar padding exactly */
 .sp2-menu__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 24px 14px 21px; /* same as .sp2-bar */
-    max-width: 720px;
-    margin: 0 auto;
-}
-
-/* Menu nav + footer: boxed on desktop */
-.sp2-menu__nav,
-.sp2-menu__search,
-.sp2-menu__footer {
-    max-width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 24px;
-    padding-right: 24px;
+    padding: 14px 0;
+    margin: 0 -3px; /* nudge to align with bar's 21px vs content's 24px */
 }
 
 .sp2-menu__close {
