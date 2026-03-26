@@ -18,7 +18,7 @@ $query_args = array(
 if ( $inherit_query ) {
     $queried = get_queried_object();
     if ( $queried instanceof WP_Term ) {
-        $query_args['tax_query'] = array(
+        $query_args['tax_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Archive taxonomy filter, paginated.
             array(
                 'taxonomy' => $queried->taxonomy,
                 'terms'    => $queried->term_id,
@@ -44,7 +44,7 @@ if ( $inherit_query ) {
 // Exclude portada lead post if set (merge with any existing exclusions).
 if ( ! empty( $GLOBALS['sp_portada_lead_id'] ) ) {
     $existing = $query_args['post__not_in'] ?? array();
-    $query_args['post__not_in'] = array_unique( array_merge( $existing, array( (int) $GLOBALS['sp_portada_lead_id'] ) ) );
+    $query_args['post__not_in'] = array_unique( array_merge( $existing, array( (int) $GLOBALS['sp_portada_lead_id'] ) ) ); // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in -- Single portada lead exclusion.
 }
 
 $query = new WP_Query( $query_args );
@@ -54,24 +54,56 @@ if ( ! $query->have_posts() ) {
     return;
 }
 
-$current_date = '';
+// Track current date using Y-m-d for relative comparison and full string for grouping.
+$current_date_ymd     = '';
+$current_date_display = '';
+
+$today     = wp_date( 'Y-m-d' );
+$yesterday = wp_date( 'Y-m-d', strtotime( '-1 day' ) );
 
 echo '<div class="sp-date-stream">';
 
 while ( $query->have_posts() ) {
     $query->the_post();
 
-    // Date header.
-    $post_date = date_i18n( 'l j \d\e F, Y', get_the_time( 'U' ) );
-    if ( $post_date !== $current_date ) {
-        if ( $current_date ) {
+    // Build Y-m-d key for grouping and relative comparison.
+    $post_date_ymd = get_the_time( 'Y-m-d' );
+
+    if ( $post_date_ymd !== $current_date_ymd ) {
+        // Close previous group.
+        if ( $current_date_ymd ) {
             echo '</div><!-- /.sp-date-stream__group -->';
         }
-        $current_date = $post_date;
-        printf(
-            '<div class="sp-date-stream__group"><h2 class="sp-date-stream__date"><span class="sp-section-label sp-section-label--sal">%s</span></h2>',
-            esc_html( mb_strtolower( ucfirst( $post_date ) ) )
-        );
+
+        $current_date_ymd     = $post_date_ymd;
+        $current_date_display = $post_date_ymd; // Kept for legacy compat; grouping is by Y-m-d.
+
+        $full_date = mb_strtolower( date_i18n( 'l j \d\e F', get_the_time( 'U' ) ) );
+
+        // Build relative label.
+        if ( $post_date_ymd === $today ) {
+            $relative_label = 'hoy';
+        } elseif ( $post_date_ymd === $yesterday ) {
+            $relative_label = 'ayer';
+        } else {
+            $relative_label = '';
+        }
+
+        // Compose the structured date header HTML.
+        if ( $relative_label ) {
+            $date_html = sprintf(
+                '<span class="sp-date-stream__arrow">&#8595;</span> <span class="sp-date-stream__label">noticias de </span><span class="sp-date-stream__relative">%s</span><span class="sp-date-stream__label">, </span><span class="sp-date-stream__day">%s</span>',
+                esc_html( $relative_label ),
+                esc_html( $full_date )
+            );
+        } else {
+            $date_html = sprintf(
+                '<span class="sp-date-stream__arrow">&#8595;</span> <span class="sp-date-stream__label">noticias del </span><span class="sp-date-stream__day">%s</span>',
+                esc_html( $full_date )
+            );
+        }
+
+        printf( '<div class="sp-date-stream__group"><h2 class="sp-date-stream__date">%s</h2>', $date_html ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All parts escaped above.
     }
 
     // Render post card.
@@ -83,19 +115,23 @@ while ( $query->have_posts() ) {
 }
 
 // Close last group.
-if ( $current_date ) {
+if ( $current_date_ymd ) {
     echo '</div><!-- /.sp-date-stream__group -->';
 }
 
-// Pagination.
+// Infinite scroll loader (replaces pagination).
 $total_pages = $query->max_num_pages;
-if ( $total_pages > 1 ) {
-    echo '<nav class="sp-date-stream__pagination">';
-    echo paginate_links( array( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-        'total'   => $total_pages,
-        'current' => $paged,
-    ) );
-    echo '</nav>';
+if ( $total_pages > 1 && $paged < $total_pages ) {
+    printf(
+        '<div class="sp2-loader" data-next-page="%d" data-max-pages="%d" data-per-page="%d">
+            <div class="sp2-loader__circle">
+                <span class="sp2-loader__symbol">$</span>
+            </div>
+        </div>',
+        $paged + 1,
+        $total_pages,
+        $posts_per_page
+    );
 }
 
 echo '</div><!-- /.sp-date-stream -->';

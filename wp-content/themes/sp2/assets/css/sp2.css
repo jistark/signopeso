@@ -1,0 +1,926 @@
+/* ==========================================================================
+   SP2 — SignoPeso v2 Theme Stylesheet
+   Design system: Figma "Signopeso Mobile" section
+   Fonts: Golos Text (ui) · Noticia Text (body) · Lexend Peta (logo)
+   ========================================================================== */
+
+/* ---------- Global ---------- */
+
+body {
+    text-transform: lowercase;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a { color: var(--wp--preset--color--link); }
+a:hover { color: var(--wp--preset--color--primary); }
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
+
+.sp2-header {
+    position: relative;
+}
+
+/* Top section: ad + brand + date — scrolls away naturally */
+.sp2-header__top {
+    text-align: center;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.sp2-header__ad {
+    margin-bottom: 17px;
+}
+
+.sp2-header__brand {
+    padding-bottom: 20px;
+}
+
+/* Wordmarks — always Lexend Peta */
+.sp2-header__wordmark,
+.sp2-header__wordmark-small {
+    font-family: "Lexend Peta", Impact, "Arial Black", sans-serif !important;
+}
+
+.sp2-header__wordmark a,
+.sp2-header__wordmark-small a {
+    text-transform: uppercase;
+}
+
+.sp2-header__date {
+    text-transform: lowercase;
+}
+
+/* -----------------------------------------------------------------------
+   Compact bar (logo + hamburger) — hidden by default, sticky on scroll
+   ----------------------------------------------------------------------- */
+
+/* Use high specificity + !important to defeat WP's is-layout-flex display */
+.sp2-header__bar,
+.wp-site-blocks .sp2-header__bar,
+.is-layout-flex.sp2-header__bar {
+    display: none !important;
+}
+
+body.sp2-header--scrolled .sp2-header__bar,
+body.sp2-header--scrolled .wp-site-blocks .sp2-header__bar,
+body.sp2-header--scrolled .is-layout-flex.sp2-header__bar {
+    display: flex !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* -----------------------------------------------------------------------
+   Navigation overlay (hamburger open state)
+   ----------------------------------------------------------------------- */
+
+/* Force the overlay to break out of the sticky bar and cover the full viewport */
+.sp2-header__hamburger .wp-block-navigation__responsive-container.is-menu-open {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: none !important;
+    max-height: none !important;
+    background: linear-gradient(180deg, rgba(255,228,228,0.95) 0%, rgba(255,255,255,0.95) 72%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 60px 24px 40px;
+    z-index: 9999;
+    overflow-y: auto;
+}
+
+/* All nav items use the ui font family */
+.sp2-header__hamburger .wp-block-navigation__responsive-container .wp-block-navigation-item {
+    font-family: var(--wp--preset--font-family--ui);
+}
+
+/* Section heads: "todas las categorías", "sobre signopeso" */
+.sp2-header__hamburger .wp-block-navigation-submenu > .wp-block-navigation-item__content {
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: -0.2px;
+    color: #000;
+}
+
+/* Sub-items — category links, about links */
+.sp2-header__hamburger .wp-block-navigation-submenu .wp-block-navigation-item__content {
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -0.14px;
+    color: #0000ff;
+    text-decoration: none;
+    line-height: 30px;
+}
+
+/* Submenus always fully expanded — never collapsed */
+.sp2-header__hamburger .wp-block-navigation-submenu__toggle + ul,
+.sp2-header__hamburger .wp-block-navigation-submenu .wp-block-navigation__submenu-container {
+    display: block !important;
+}
+
+/* Newsletter item — yellow highlight, section-head size */
+.sp2-menu__newsletter .wp-block-navigation-item__content {
+    background: #f2ff00;
+    padding: 0 10px;
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 20px !important;
+    font-weight: 400;
+    letter-spacing: -0.2px;
+    color: #000 !important;
+    display: block;
+}
+
+/* Close button */
+.sp2-header__hamburger .wp-block-navigation__responsive-container-close {
+    color: var(--wp--preset--color--secondary);
+}
+
+/* ==========================================================================
+   PORTADA (sp/portada block)
+   ========================================================================== */
+
+.sp-portada {
+    padding: 0 24px 24px;
+    max-width: 440px;
+    margin: 0 auto;
+}
+
+/* --- Lead --- */
+
+.sp-portada-lead {
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.sp-portada-lead__img img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.sp-portada-lead__over {
+    margin-top: 12px;
+}
+
+.sp-portada-lead__author {
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 13px;
+    color: var(--wp--preset--color--text);
+}
+
+.sp-portada-lead__time {
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 13px;
+    color: var(--wp--preset--color--text);
+}
+
+.sp-portada-lead__cat-badge {
+    display: inline-block;
+    background: var(--wp--preset--color--secondary);
+    color: #fff !important;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-family: var(--wp--preset--font-family--ui);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    margin-bottom: 8px;
+}
+
+.sp-portada-lead__title {
+    font-family: var(--wp--preset--font-family--ui);
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--wp--preset--color--secondary);
+    margin: 8px 0;
+}
+
+.sp-portada-lead__title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.sp-portada-lead__deck {
+    font-family: var(--wp--preset--font-family--body);
+    font-size: 17px;
+    line-height: 1.47;
+    color: var(--wp--preset--color--secondary);
+}
+
+/* --- "También Hoy" section --- */
+
+.sp-portada-sec {
+    margin-top: 20px;
+}
+
+.sp-portada-sec__label {
+    margin-bottom: 12px;
+}
+
+.sp-portada-sec__item {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--wp--preset--color--border);
+}
+
+.sp-portada-sec__item:last-child {
+    border-bottom: none;
+}
+
+.sp-portada-sec__cat-pill {
+    font-family: var(--wp--preset--font-family--ui);
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: -0.01em;
+    color: var(--wp--preset--color--text);
+}
+
+.sp-portada-sec__time {
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 11px;
+    color: var(--wp--preset--color--muted);
+}
+
+.sp-portada-sec__title {
+    font-family: var(--wp--preset--font-family--ui);
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    margin: 4px 0 0;
+}
+
+.sp-portada-sec__title a {
+    color: var(--wp--preset--color--secondary);
+    text-decoration: none;
+}
+
+.sp-portada-sec__title a:hover {
+    color: var(--wp--preset--color--primary);
+}
+
+.sp-portada-sec__source {
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 11px;
+    color: var(--wp--preset--color--muted);
+}
+
+/* ==========================================================================
+   POST CARDS (sp/post-card block, rendered server-side by plugin)
+   ========================================================================== */
+
+.sp-post-card {
+    font-family: var(--wp--preset--font-family--ui);
+    margin-bottom: 28px;
+    padding: 0;
+    border: none;
+}
+
+/* ---------- Shared elements ---------- */
+
+.sp-post-card__title {
+    font-family: var(--wp--preset--font-family--ui);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin: 0 0 8px;
+}
+
+.sp-post-card__title a {
+    color: var(--wp--preset--color--secondary);
+    text-decoration: none;
+}
+
+.sp-post-card__title a:hover {
+    color: var(--wp--preset--color--primary);
+}
+
+/* Meta row: pill left, author·time right */
+.sp-post-card__over {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+/* Category pill — dark bg */
+.sp-post-card__cat {
+    display: inline-block;
+    background: var(--wp--preset--color--secondary);
+    color: #fff !important;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-family: var(--wp--preset--font-family--ui);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    line-height: 1.3;
+}
+
+/* Format badge (alternative to cat pill) */
+.sp-post-card__badge {
+    display: inline-block;
+    background: var(--wp--preset--color--secondary);
+    color: #fff !important;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-family: var(--wp--preset--font-family--ui);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    line-height: 1.3;
+    margin-bottom: 8px;
+}
+
+/* Author & timestamp */
+.sp-post-card__author-time {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 13px;
+    color: var(--wp--preset--color--muted);
+}
+
+.sp-post-card__time {
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 13px;
+    color: var(--wp--preset--color--text);
+}
+
+.sp-post-card__author {
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 13px;
+    color: var(--wp--preset--color--text);
+}
+
+.sp-post-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+/* Excerpt: body font, generous line-height */
+.sp-post-card__excerpt {
+    font-family: var(--wp--preset--font-family--body);
+    font-size: 17px;
+    line-height: 1.47;
+    color: var(--wp--preset--color--secondary);
+    margin: 8px 0;
+}
+
+.sp-post-card__teaser {
+    font-family: var(--wp--preset--font-family--body);
+    font-size: 17px;
+    line-height: 1.47;
+    color: var(--wp--preset--color--secondary);
+    margin: 8px 0 0;
+}
+
+/* Yellow highlight for <mark> */
+.sp-post-card__excerpt mark,
+.sp-post-card__teaser mark {
+    background: var(--wp--preset--color--highlight);
+    padding: 2px 4px;
+}
+
+/* Full content (inline expand) — hidden by default */
+.sp-post-card__full-content {
+    font-family: var(--wp--preset--font-family--body);
+    font-size: 17px;
+    line-height: 1.47;
+    color: var(--wp--preset--color--secondary);
+    margin: 8px 0;
+}
+
+.sp-post-card__full-content[hidden] {
+    display: none;
+}
+
+/* ---------- Largo card ---------- */
+
+.sp-post-card--largo {
+    margin-bottom: 32px;
+}
+
+/* Largo: larger headline */
+.sp-post-card--largo .sp-post-card__title {
+    font-size: 25px;
+    line-height: 1.15;
+}
+
+/* Largo: full-width featured image */
+.sp-post-card--largo .sp-post-card__image {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.sp-post-card--largo .sp-post-card__image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Largo: side-by-side body layout (text + small thumb) */
+.sp-post-card--largo .sp-post-card__body-row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.sp-post-card--largo .sp-post-card__text {
+    flex: 1;
+    min-width: 0;
+}
+
+.sp-post-card--largo .sp-post-card__thumb {
+    flex-shrink: 0;
+    width: 140px;
+}
+
+.sp-post-card--largo .sp-post-card__thumb img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+}
+
+/* Largo: excerpt in Noticia Text */
+.sp-post-card--largo .sp-post-card__excerpt {
+    font-family: var(--wp--preset--font-family--body);
+    font-size: 17px;
+    line-height: 1.47;
+}
+
+.sp-post-card__footer {
+    margin-top: 12px;
+}
+
+/* "sigue leyendo →" button — salmon border, 10px radius */
+.sp-post-card__read {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 39px;
+    border: 1px solid var(--wp--preset--color--primary);
+    border-radius: 10px;
+    font-family: var(--wp--preset--font-family--ui);
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--wp--preset--color--primary);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    background: transparent;
+    width: 100%;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.sp-post-card__read:hover,
+.sp-post-card__read--expanded {
+    background: var(--wp--preset--color--primary);
+    color: #fff;
+}
+
+/* ---------- Corto card ---------- */
+
+.sp-post-card--corto {
+    margin-bottom: 24px;
+}
+
+/* Corto: image-headline row (121×121 square image + bold headline) */
+.sp-post-card--corto .sp-post-card__body-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin: 8px 0;
+}
+
+.sp-post-card--corto .sp-post-card__thumb {
+    flex-shrink: 0;
+    width: 121px;
+    height: 121px;
+}
+
+.sp-post-card--corto .sp-post-card__thumb img {
+    width: 121px;
+    height: 121px;
+    object-fit: cover;
+    display: block;
+    border: 2px solid var(--wp--preset--color--primary);
+}
+
+.sp-post-card--corto .sp-post-card__text {
+    flex: 1;
+    min-width: 0;
+}
+
+.sp-post-card--corto .sp-post-card__title {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.15;
+    margin: 0;
+}
+
+/* Corto: author·time pinned to bottom */
+.sp-post-card--corto .sp-post-card__footer {
+    margin-top: 8px;
+}
+
+/* ---------- Enlace card ---------- */
+
+.sp-post-card--enlace {
+    background: #f9e9e9;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 28px;
+}
+
+/* Source-URL row: favicon (28px) + arrow + URL in blue */
+.sp-post-card--enlace .sp-post-card__source-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.sp-post-card--enlace .sp-post-card__favicon {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.sp-post-card--enlace .sp-post-card__source-arrow {
+    font-size: 14px;
+    color: var(--wp--preset--color--secondary);
+}
+
+.sp-post-card--enlace .sp-post-card__source-url {
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 10px;
+    color: #0000ff;
+    text-decoration: none;
+    word-break: break-all;
+}
+
+.sp-post-card--enlace .sp-post-card__source-url:hover {
+    text-decoration: underline;
+}
+
+/* Enlace: compact headline */
+.sp-post-card--enlace .sp-post-card__title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--wp--preset--color--secondary);
+}
+
+/* Enlace: social/OG image full-width */
+.sp-post-card--enlace .sp-post-card__social-image {
+    width: 100%;
+    margin: 8px 0;
+}
+
+.sp-post-card--enlace .sp-post-card__social-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 6px;
+}
+
+/* Enlace: excerpt in Noticia Text 14px */
+.sp-post-card--enlace .sp-post-card__excerpt {
+    font-family: var(--wp--preset--font-family--body);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.sp-post-card--enlace .sp-post-card__domain {
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 13px;
+    color: #0000ff;
+}
+
+/* ---------- Source link (↗) ---------- */
+
+.sp-source-link {
+    margin: 4px 0;
+}
+
+.sp-source-link a {
+    color: #0000ff;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+/* ---------- Source card (embedded in enlace) ---------- */
+
+.sp-source-card {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 8px;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+.sp-source-card a {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    text-decoration: none;
+    color: inherit;
+}
+
+.sp-source-card__thumb {
+    flex-shrink: 0;
+    width: 80px;
+}
+
+.sp-source-card__thumb img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.sp-source-card__body {
+    flex: 1;
+    min-width: 0;
+}
+
+.sp-source-card__og-title {
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--wp--preset--color--text);
+    line-height: 1.3;
+}
+
+.sp-source-card__domain {
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 11px;
+    color: var(--wp--preset--color--muted);
+    margin-top: 4px;
+}
+
+/* ==========================================================================
+   DATE STREAM (sp/date-stream block)
+   ========================================================================== */
+
+.sp-date-stream {
+    max-width: 440px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.sp-date-stream__group {
+    margin-bottom: 8px;
+}
+
+/* Date separator pill */
+.sp-date-stream__date {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #444;
+    border-radius: 10px;
+    padding: 5px 14px;
+    margin: 24px 0 16px;
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: #444;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Arrow inside pill */
+.sp-date-stream__arrow {
+    font-weight: 700;
+}
+
+/* Relative label ("hoy", "ayer") + day name — salmon accent */
+.sp-date-stream__relative,
+.sp-date-stream__day {
+    font-weight: 700;
+    color: #fc9f9f;
+}
+
+/* Section label (used outside pill context) */
+.sp-section-label {
+    font-family: var(--wp--preset--font-family--ui);
+    font-variant: normal;
+    text-transform: lowercase;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+}
+
+.sp-section-label--sal {
+    color: var(--wp--preset--color--text);
+}
+
+/* Pagination */
+.sp-date-stream__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 32px 0;
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 15px;
+}
+
+.sp-date-stream__pagination a {
+    color: var(--wp--preset--color--link);
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid var(--wp--preset--color--border);
+    border-radius: 10px;
+}
+
+.sp-date-stream__pagination a:hover {
+    border-color: var(--wp--preset--color--primary);
+    color: var(--wp--preset--color--primary);
+}
+
+/* ==========================================================================
+   INFINITE SCROLL LOADER
+   ========================================================================== */
+
+.sp2-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 0;
+}
+
+.sp2-loader[hidden] {
+    display: none;
+}
+
+.sp2-loader__circle {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(252, 159, 159, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sp2-loader__symbol {
+    font-family: "Lexend Peta", sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    color: #fc9f9f;
+    animation: sp2-pulse 0.4s ease-in-out infinite;
+}
+
+@keyframes sp2-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }
+}
+
+/* ==========================================================================
+   SINGLE POST
+   ========================================================================== */
+
+.sp2-single {
+    max-width: 440px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.sp2-single__category a {
+    display: inline-block;
+    background: var(--wp--preset--color--secondary);
+    color: #fff !important;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-family: var(--wp--preset--font-family--ui);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+}
+
+.sp2-single__content {
+    font-family: var(--wp--preset--font-family--body);
+    font-size: 17px;
+    line-height: 1.47;
+    color: var(--wp--preset--color--secondary);
+}
+
+.sp2-single__content a {
+    color: var(--wp--preset--color--link);
+    text-decoration: underline;
+}
+
+.sp2-single__content strong {
+    font-weight: 700;
+}
+
+.sp2-single__content mark {
+    background: var(--wp--preset--color--highlight);
+    padding: 2px 4px;
+}
+
+.sp2-single__image img {
+    width: 100%;
+    height: auto;
+}
+
+/* ==========================================================================
+   AD SLOTS
+   ========================================================================== */
+
+.sp-ad-slot__disclaimer {
+    font-family: var(--wp--preset--font-family--ui);
+    font-size: 9px;
+    color: var(--wp--preset--color--secondary);
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+
+.sp2-footer {
+    max-width: 100%;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.sp2-footer__motto {
+    font-style: italic;
+}
+
+.sp2-footer__legal a {
+    color: var(--wp--preset--color--link);
+    text-decoration: underline;
+}
+
+/* Wordmark inside footer */
+.sp2-footer .sp2-header__wordmark,
+.sp2-footer .sp2-header__wordmark-small {
+    font-family: "Lexend Peta", Impact, "Arial Black", sans-serif !important;
+}
+
+/* ==========================================================================
+   RESPONSIVE — tablet and up (768px+)
+   ========================================================================== */
+
+@media (min-width: 768px) {
+
+    .sp2-single {
+        max-width: 720px;
+        padding: 0 32px;
+    }
+
+    .sp-portada {
+        max-width: 720px;
+    }
+
+    .sp-date-stream {
+        max-width: 720px;
+        padding: 0 32px;
+    }
+
+    /* Largo: wider thumbnail at tablet */
+    .sp-post-card--largo .sp-post-card__thumb {
+        width: 180px;
+    }
+
+    /* Corto: slightly larger image at tablet */
+    .sp-post-card--corto .sp-post-card__thumb,
+    .sp-post-card--corto .sp-post-card__thumb img {
+        width: 140px;
+        height: 140px;
+    }
+}
